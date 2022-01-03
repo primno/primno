@@ -17,6 +17,9 @@ export {
 
 export * from './typing';
 
+// For @primno/cli
+export { Configuration } from "./core/configuration";
+
 export {
     MnDomain,
     //MnConfig

@@ -6,8 +6,10 @@
   "version": "0.2.0",
   "main": "dist/primno.cjs.js",
   "module": "dist/primno.esm.js",
-  "browser": "dist/primno-d365.js",
   "types": "dist/primno.d.ts",
+  "dist": {
+    "d365-esm": "dist/primno-d365.esm.js"
+  },
   "files": [
     "dist"
   ],

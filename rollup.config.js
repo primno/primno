@@ -54,6 +54,6 @@ export default [
         input: 'src/primno-d365.ts',
         plugins: pluginsD365,
         external,
-        output: { format: 'umd', file: pkg.browser, name: pkg.name, sourcemap },
+        output: { format: 'esm', file: pkg.dist['d365-esm'], sourcemap },
     }
 ];
