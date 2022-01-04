@@ -1,11 +1,11 @@
-﻿import { notifyCriticalError, MaybePromise } from "../utils";
-import { Configuration, DefaultConfiguration, loadConfiguration } from "./configuration";
+﻿import { notifyCriticalError, MaybePromise, isNullOrUndefined } from "../utils";
+import { Configuration } from "./configuration";
 import { CanBePromise, ExternalArgs, MnEvent, PrimaryArgument } from "../typing";
 import { ContextInitializer } from "./context";
 import { EventEnv, initEventTypes } from "./events";
 
 export class Primno {
-    private _config: Configuration = new DefaultConfiguration();
+    private _config: Configuration;
     private _eventEnv: EventEnv = new EventEnv();
     private _contextInitializer?: ContextInitializer;
 
@@ -13,23 +13,13 @@ export class Primno {
         return this._contextInitializer as ContextInitializer;
     }
 
-    // eslint-disable-next-line @typescript-eslint/no-empty-function
-    private constructor() {}
+    public constructor(config: Configuration) {
+        if (isNullOrUndefined(config)) {
+            throw new Error("Primno configuration must be set");
+        }
+        
+        this._config = config;
 
-    /**
-     * Create an new instance of Primno
-     */
-    public static async new(): Promise<Primno> {
-        const primno = new Primno();
-        await primno.init();
-        return primno;
-    }
-
-    /**
-     * Initialize Primno
-     */
-    private async init() {
-        this._config = await loadConfiguration();
         initEventTypes(this._eventEnv.eventTypeRegister, this);
         this._contextInitializer = new ContextInitializer(this._config, this._eventEnv);
     }

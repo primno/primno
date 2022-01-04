@@ -1,23 +1,33 @@
 // Entry point for D365
 
 import { Primno } from "./core/primno";
+import { Configuration } from "./core/configuration";
 import { CanBePromise, EventTypes, PrimaryArgument } from "./typing";
-import { isNullOrUndefined, MaybePromise } from "./utils";
+import { isNullOrUndefined, notifyCriticalError } from "./utils";
 
-let primno: CanBePromise<Primno>;
+let primno: Primno | undefined;
+let config: Configuration;
 
-function getPrimno(): CanBePromise<Primno> {
-    if (isNullOrUndefined(primno) == false) {
-        return primno;
+function getPrimno(): Primno | undefined {
+    if (isNullOrUndefined(primno)) {
+        try {
+            primno = new Primno(config);
+        }
+        catch (except: any) {
+            notifyCriticalError("Primno can't be started", except.message);
+        }
     }
 
-    // TODO: Make a tool for assignation when the promise can be resolved ? Can be usefull in ContextInitializer too
-    return (async () => {
-        // HACK: Tip to allow returning a primno pending initialization
-        // if more than one dataverse event occurs while Primno is not initialized. 
-        primno = Primno.new();
-        return primno = await primno;
-    })();
+    return primno;
+}
+
+//TODO: Initialize instead ?
+/**
+ * Define the Primno configuration. Must be set before any event call.
+ * @param cfg Primno configuration
+ */
+export function setConfig(cfg: Configuration) {
+    config = cfg;
 }
 
 /**
@@ -29,9 +39,7 @@ function getPrimno(): CanBePromise<Primno> {
  * @returns 
  */
 export function onEvent(eventTypeName: string, controlName: string | undefined, primaryControl: PrimaryArgument, ...args: unknown[]): CanBePromise<unknown> {
-    return new MaybePromise(() => getPrimno())
-    .then((primno) => primno.triggerEvent({type: eventTypeName, targetName: controlName}, primaryControl, ...args))
-    .done();
+    return getPrimno()?.triggerEvent({type: eventTypeName, targetName: controlName}, primaryControl, ...args);
 }
 
 /**

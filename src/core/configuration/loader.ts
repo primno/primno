@@ -8,6 +8,7 @@ import { Configuration } from "./configuration";
  * 1/ Cache.
  * 2/ Js file in dom.
  * 2/ configuration d365 entity
+ * @deprecated Use setConfig instead.
  */
 export async function loadConfiguration(): Promise<Configuration> {
     const configAdapter = new XrmConfigAdapter();

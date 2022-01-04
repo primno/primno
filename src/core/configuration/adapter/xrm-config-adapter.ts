@@ -1,6 +1,5 @@
 import { Configuration } from "..";
-import { ImportResolverConfig } from "../../module/import-module-resolver";
-import { ModuleResolverTypes } from "../configuration";
+import { ModuleResolverConfig, ModuleResolverTypes } from "../configuration";
 import { ConfigAdapter } from "./config-adapter";
 
 const configEntityName = "mn_configuration";
@@ -19,7 +18,7 @@ export class XrmConfigAdapter implements ConfigAdapter {
 
         const configs: Configuration[] = result.entities.map(cfg => {
             return {
-                moduleResolverConfig: <ImportResolverConfig>{
+                moduleResolverConfig: <ModuleResolverConfig>{
                     type: moduleResolverTypeMap.get(cfg["mn_moduleresolvertype"]),
                     format: cfg["mn_moduleresolverformat"]
                 }

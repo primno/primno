@@ -1,9 +1,8 @@
-﻿import { ImportResolverConfig } from "../module/import-module-resolver";
-import { Configuration } from "./configuration";
+﻿import { Configuration, ModuleResolverConfig } from "./configuration";
 
 /** Default configuration */
 export class DefaultConfiguration implements Configuration {
-    public moduleResolverConfig: ImportResolverConfig = {
+    public moduleResolverConfig: ModuleResolverConfig = {
         type: "import",
         format: "mn_/js/{entityName}-domain.js"
     };
