@@ -12,9 +12,8 @@ export class ImportModuleResolver implements ModuleResolver {
     private getWebResourceUri(config: ModuleResolverConfig, entityName: string): string{
         const baseUrl = Xrm.Utility.getGlobalContext().getClientUrl();
 
-        // TODO: Sécuriser
-        let uri = config.format.replace("{webResourceBaseUrl}", `${baseUrl}/WebResources/`);
-        uri = config.format.replace("{entityName}", entityName);
+        let uri = config.uriTemplate.replace("{webResourceBaseUrl}", `${baseUrl}/WebResources/`);
+        uri = uri.replace("{entityName}", entityName);
         
         return uri;
     }

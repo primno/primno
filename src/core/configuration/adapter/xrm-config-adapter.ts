@@ -20,7 +20,7 @@ export class XrmConfigAdapter implements ConfigAdapter {
             return {
                 moduleResolverConfig: <ModuleResolverConfig>{
                     type: moduleResolverTypeMap.get(cfg["mn_moduleresolvertype"]),
-                    format: cfg["mn_moduleresolverformat"]
+                    uriTemplate: cfg["mn_moduleresolverformat"]
                 }
             }
         });

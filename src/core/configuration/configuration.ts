@@ -2,7 +2,7 @@ export type ModuleResolverTypes = "import";
 
 export interface ModuleResolverConfig {
     type: ModuleResolverTypes;
-    format: string;
+    uriTemplate: string;
 }
 
 /** Framework configuration */

@@ -4,6 +4,6 @@
 export class DefaultConfiguration implements Configuration {
     public moduleResolverConfig: ModuleResolverConfig = {
         type: "import",
-        format: "mn_/js/{entityName}-domain.js"
+        uriTemplate: "mn_/js/{entityName}-domain.js"
     };
 }
