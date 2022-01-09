@@ -5,7 +5,7 @@ import { EventEnv } from "../events/event-env";
 import { ModuleLoader } from "../module/module-loader";
 
 /**
- * Defined all the actions could be done in the context of the execution of the event from dataverse.
+ * Define all actions that could be done in the context of the execution (provided by dataverse).
  * The context is defined by the control type.
  */
 export class Context implements MnContext {
@@ -40,7 +40,6 @@ export class Context implements MnContext {
             this.components.forEach(component => component.onInit(this, extArgs));
         }
         catch (except: any) {
-            console.error(except);
             throw new Error(`Initialization error - ${except.message}. Exception: ${except.name}. Stack trace: ${except.stack}`);
         }
     }
@@ -53,7 +52,7 @@ export class Context implements MnContext {
         try {
             // Indicate search specifications (entityName, formId, formName, gridName, gridId, that kind of thing) 
             // Call a ComponentHelper which will take care of obtaining the concerned module and domain(s) in order to obtain the components
-            const controlScope = new ControlScope(extArgs.primaryArgument);
+            const controlScope = await ControlScope.new(extArgs.primaryArgument);
             const moduleBrowser = await this.moduleLoader.getByScope(controlScope);
             const domains = moduleBrowser.domainRegister.getDomains(controlScope);
             this.components = domains.flatMap(d => d.components);

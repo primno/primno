@@ -3,22 +3,30 @@ import { getAppId, getControlType, getEntityName, getFormContext } from "../../.
 import { ScopeBase } from "./scope-base";
 
 export class ControlScope extends ScopeBase {
-    constructor(control: PrimaryArgument) {
+    private constructor(control: PrimaryArgument) {
         const entityName = getEntityName(control);
         super(entityName);
+    }
 
-        this.app = {
-            id: getAppId()
+    public static async new(control: PrimaryArgument): Promise<ControlScope> {
+        const controlScope = new ControlScope(control);
+
+        // Initialize
+        
+        controlScope.app = {
+            id: await getAppId()
         };
 
         if (getControlType(control) == ControlType.form) {
             const formCtx = getFormContext(control as Xrm.Events.EventContext);
             const currentForm = formCtx?.ui.formSelector.getCurrentItem();
 
-            this.form = {
+            controlScope.form = {
                 id: currentForm?.getId() as string,
                 name: currentForm?.getLabel() as string
             };
         }
+
+        return controlScope;
     }
 }

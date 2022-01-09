@@ -35,9 +35,15 @@ export function getControlType(context: any): ControlType | undefined {
  * Gets the id of the application.
  * @returns 
  */
-export function getAppId(): string {
-    const appUrl = Xrm.Utility.getGlobalContext().getCurrentAppUrl();
-    return appUrl.split("?")[1].split("=")[1];
+export async function getAppId(): Promise<string> {
+    const globalContext = Xrm.Utility.getGlobalContext();
+
+    const appProperties = await globalContext.getCurrentAppProperties();
+    if (isNullOrUndefined(appProperties.appId)) {
+        throw new Error("AppId not found");
+    }
+
+    return appProperties.appId;
 }
 
 /**
