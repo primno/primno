@@ -242,33 +242,3 @@ export class StageSelectedEventType extends FormEventType {
         formCtx.data.process.removeOnStageSelected(this.callBack.bind(this, controlName));
     }
 }
-
-export class IframeLoadedEventType extends FormEventType {
-    constructor() {
-        super(EventTypes.IframeLoaded, true, false);
-    }
-
-    public subscribe(primaryControl: PrimaryArgument, controlName?: string): void {
-        const formCtx = getFormContext(primaryControl as Xrm.Events.EventContext) as Xrm.FormContext;
-        const iframeControl = formCtx.getControl<Xrm.Controls.IframeControl>(controlName as string);
-        
-        if (isNullOrUndefined(iframeControl.getObject)) {
-            throw new Error(`Control ${controlName} is not iframe`);
-        }
-
-        const iframeHtmlElem = iframeControl.getObject();
-        iframeHtmlElem.addEventListener("load", () => this.callBack.bind(this, controlName));
-    }
-
-    public unsubscribe(primaryControl: PrimaryArgument, controlName?: string): void {
-        const formCtx = getFormContext(primaryControl as Xrm.Events.EventContext) as Xrm.FormContext;
-        const iframeControl = formCtx.getControl<Xrm.Controls.IframeControl>(controlName as string);
-        
-        if (isNullOrUndefined(iframeControl.getObject)) {
-            throw new Error(`Control ${controlName} is not iframe`);
-        }
-
-        const iframeHtmlElem = iframeControl.getObject();
-        iframeHtmlElem.removeEventListener("load", () => this.callBack.bind(this, controlName));
-    }
-}
