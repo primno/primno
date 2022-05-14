@@ -20,9 +20,9 @@ export class EventRegister {
 
     public exist(event: ComponentEvent): boolean {
         return (this.events.some(e => e.component == event.component &&
-            e.eventHandler == event.eventHandler &&
-            e.targetName == event.targetName &&
-            e.type == event.type));
+            e.eventHandler === event.eventHandler &&
+            e.targetName === event.targetName &&
+            e.type === event.type));
     }
 
     public removeEvent(event: ComponentEvent): void {
@@ -34,9 +34,9 @@ export class EventRegister {
     public printEvents(): void {
         console.info("--- Features ---");
 
-        for (const event of this.events.sort(c => <any>c.targetName)) {
+        for (const event of this.events) {
             let controlName = event.targetName;
-            if (event.targetName === null)
+            if (!event.targetName)
                 controlName = "NC";
 
             console.info(`[${controlName}] | ${event.type} => ${event.component.name}`);
