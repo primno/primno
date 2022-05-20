@@ -33,7 +33,7 @@ export class ContextInitializer {
 
         const context = this.contexts[controlType];
 
-        if (isNullOrUndefined(context) == false) {
+        if (!isNullOrUndefined(context)) {
             return context;
         }
 

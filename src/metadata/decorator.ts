@@ -1,20 +1,23 @@
 ﻿import { DomainBase } from "../domain";
 import { Scope } from "../typing";
+import { setMetadata } from "../utils/metadata";
 
 export enum DecoratorTypes {
     Domain = "Domain"
 }
 
+export interface DomainMetadata {
+    scope: Scope;
+}
+
 /**
  * Domain decorator. Indicates the scope of usage.
  * The domain describes a set of functionalities and their context of use.
- * @param entityName
- * @param formName
+ * @param scope
  */
 export function MnDomain<T extends { new (...args: unknown[]): DomainBase}>(scope: Scope) {
     return function (constructor: T): void {
-        Reflect.set(constructor, DecoratorTypes.Domain, true);
-        Reflect.set(constructor, "scope", scope);
+        setMetadata<DomainMetadata>(DecoratorTypes.Domain, { scope }, constructor);
     };
 }
 

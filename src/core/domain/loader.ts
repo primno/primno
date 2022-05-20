@@ -1,5 +1,6 @@
 ﻿import { Domain, Module } from "../../typing";
 import { DecoratorTypes } from "../../metadata";
+import { hasMetadata } from "../../utils/metadata";
 
 // TODO: Review
 
@@ -13,14 +14,14 @@ export type DomainType = { new(): Domain };
  * @param esm ECMAScript module
  */
 export function findDomains(esm: Module): DomainType[] {
-    const domains = [];
+    const domainTypes: DomainType[] = [];
 
     for (const propName in esm) {
-        const domain = esm[propName];
-        if (Reflect.get(domain, DecoratorTypes.Domain) === true) {
-            domains.push(domain);
+        const domainType = esm[propName];
+        if (hasMetadata(DecoratorTypes.Domain, domainType)) {
+            domainTypes.push(domainType);
         }
     }
 
-    return domains;
+    return domainTypes;
 }

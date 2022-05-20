@@ -58,7 +58,7 @@ export function onFormLoad(control: Xrm.Events.EventContext, ...args: unknown[])
  * @param args 
  * @returns 
  */
-// TODO: Renommer en onCommandInvoke ou similaire
+// TODO: Rename to onCommandInvoke ?
 export function onButtonPress(
     commandId: string,
     control: PrimaryArgument,

@@ -1,5 +1,7 @@
 import { notifyCriticalError } from "./error";
 
+// TODO: Use @rollup/plugin-strip to remove debug and assert in production
+
 /**
  * Show a debug message
  * @param message Message
