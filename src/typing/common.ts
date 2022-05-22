@@ -17,4 +17,4 @@ export type RecursivePartial<T> = {
     T[P];
 };
 
-export type CanBePromise<T> = T | PromiseLike<T>;
+export type CanBePromise<T> = T | Promise<T>;

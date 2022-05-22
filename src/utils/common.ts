@@ -50,8 +50,8 @@ export function mergeDeep(target: Record<string, unknown>, ...sources: unknown[]
  * @param object 
  * @returns 
  */
-export function isPromise(object: any): object is PromiseLike<any> {
-    return isNullOrUndefined(object?.then) == false;
+export function isPromise(object: any): object is Promise<any> {
+    return !isNullOrUndefined(object?.then) && !isNullOrUndefined(object?.catch);
 }
 
 /**

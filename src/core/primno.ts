@@ -31,16 +31,14 @@ export class Primno {
      * @param args Additional optional arguments that will be passed to the event handler. 
      */
     public triggerEvent(event: MnEvent, primaryEventArg: PrimaryArgument, ...args: unknown[]): CanBePromise<unknown> {
-        try {
-            const extArgs: ExternalArgs = { primaryArgument: primaryEventArg, args: args };
+        const extArgs: ExternalArgs = { primaryArgument: primaryEventArg, args: args };
 
-            return new MaybePromise(() => this.contextInitializer.getContext(extArgs))
+        return MaybePromise.new(() => this.contextInitializer.getContext(extArgs))
             .then((context) => context.triggerEvent(event, extArgs))
+            .catch((except) => {
+                console.error(except);
+                notifyCriticalError(`An error was occured on ${event.type} event`, `${except.message}. Stack trace: ${except.stack}`);
+            })
             .done();
-        }
-        catch (except: any) {
-            console.error(except);
-            notifyCriticalError(`An error was occured on ${event.type} event`, `${except.message}. Stack trace: ${except.stack}`);
-        }
     }
 }

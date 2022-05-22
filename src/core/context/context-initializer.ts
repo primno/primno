@@ -38,9 +38,7 @@ export class ContextInitializer {
         return (async () => {
             // HACK : Attempt to return a promise during initialization if another call to the same context occurs during asynchronous init. 
             this.contexts[controlType] = Context.new(extArgs, this.eventEnv, this.moduleRegister);
-            this.contexts[controlType] = await this.contexts[controlType];
-
-            return this.contexts[controlType];
+            return this.contexts[controlType] = await this.contexts[controlType];
         })();
     }
 }
