@@ -14,8 +14,6 @@
     "dist"
   ],
   "devDependencies": {
-    "@babel/preset-env": "^7.18.0",
-    "@rollup/plugin-babel": "^5.3.1",
     "@rollup/plugin-node-resolve": "^13.0.6",
     "@rollup/plugin-typescript": "^8.3.0",
     "@types/chai": "^4.2.22",
@@ -45,8 +43,7 @@
   "scripts": {
     "build": "tsc --build",
     "lint": "eslint . --ext .ts",
-    "bundle:dev": "npm run build & rollup -c",
-    "bundle:prod": "npm run build & rollup -c --environment NODE_ENV:production",
+    "bundle": "npm run build & rollup -c",
     "watch": "rollup -c -w",
     "test": "nyc mocha -a -r ts-node/register test/**/*.spec.ts"
   },
@@ -58,9 +55,6 @@
     "feature"
   ],
   "license": "MIT",
-  "browserslist": [
-    "> 5%"
-  ],
   "eslintIgnore": [
     "build",
     "dist",
