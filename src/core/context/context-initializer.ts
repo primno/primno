@@ -31,21 +31,16 @@ export class ContextInitializer {
             throw new Error("Unknow event type flow");
         }
 
-        const context = this.contexts[controlType];
-
-        if (!isNullOrUndefined(context)) {
-            return context;
+        if (!isNullOrUndefined(this.contexts[controlType])) {
+            return this.contexts[controlType];
         }
 
         return (async () => {
-            // TODO: Improve with utils
             // HACK : Attempt to return a promise during initialization if another call to the same context occurs during asynchronous init. 
-            const context = Context.new(extArgs, this.eventEnv, this.moduleRegister);
-            this.contexts[controlType] = context;
+            this.contexts[controlType] = Context.new(extArgs, this.eventEnv, this.moduleRegister);
+            this.contexts[controlType] = await this.contexts[controlType];
 
-            this.contexts[controlType] = await context;
-
-            return context;
+            return this.contexts[controlType];
         })();
     }
 }
