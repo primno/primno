@@ -102,15 +102,14 @@ export class LookupTagClickEventType extends FormEventType {
     }
 
     public subscribe(primaryControl: PrimaryArgument, controlName?: string): void {
-        // HACK: addOnLookupTagClick est absent de type/xrm. Passage en any pour le moment.
         const formCtx = getFormContext(primaryControl as Xrm.Events.EventContext) as Xrm.FormContext;
-        const control = formCtx.getControl<Xrm.Controls.LookupControl>(controlName as string) as any;
+        const control = formCtx.getControl<Xrm.Controls.LookupControl>(controlName as string);
         control.addOnLookupTagClick(this.callBack.bind(this, controlName));
     }
 
     public unsubscribe(primaryControl: PrimaryArgument, controlName?: string): void {
         const formCtx = getFormContext(primaryControl as Xrm.Events.EventContext) as Xrm.FormContext;
-        const control = formCtx.getControl<Xrm.Controls.LookupControl>(controlName as string) as any;
+        const control = formCtx.getControl<Xrm.Controls.LookupControl>(controlName as string);
         control.removeOnLookupTagClick(this.callBack.bind(this, controlName));
     }
 }
