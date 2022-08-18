@@ -1,9 +1,15 @@
-export type ModuleResolverTypes = "import";
+export type ModuleResolverTypes = "import" | "embedded";
 
-export interface ModuleResolverConfig {
-    type: ModuleResolverTypes;
-    uriTemplate: string;
+export interface ImportModuleResolverConfig {
+    type: "import",
+    uri: string;
 }
+
+export interface EmbeddedModuleResolverConfig {
+    type: "embedded"
+}
+
+export type ModuleResolverConfig = ImportModuleResolverConfig | EmbeddedModuleResolverConfig;
 
 /** Framework configuration */
 export interface Configuration {

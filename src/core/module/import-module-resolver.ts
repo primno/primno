@@ -1,36 +1,22 @@
-import { ModuleResolverConfig } from "../configuration";
+import { ImportModuleResolverConfig } from "../configuration";
 import { isNullOrUndefined } from "../../utils";
 import { ModuleResolver } from "./module-resolver";
 import { Module } from "../../typing";
 
 export class ImportModuleResolver implements ModuleResolver {
-    /**
-     * 
-     * @param config Gets the webressource url from the configuration data. 
-     * @param formCtx 
-     */
-    private getWebResourceUri(config: ModuleResolverConfig, entityName: string): string{
-        const baseUrl = Xrm.Utility.getGlobalContext().getClientUrl();
+    constructor(private config: ImportModuleResolverConfig) {}
 
-        let uri = config.uriTemplate.replace("{webResourceBaseUrl}", `${baseUrl}/WebResources/`);
-        uri = uri.replace("{entityName}", entityName);
-        
-        return uri;
-    }
-
-    public async resolve(config: ModuleResolverConfig, entityName: string): Promise<Module> {
-        const webResourceUri = this.getWebResourceUri(config, entityName);
-        
+    public async resolve(): Promise<Module> {
         try {
-            const esm = await import(webResourceUri);
+            const esm = await import(this.config.uri);
 
             if (isNullOrUndefined(esm)) {
-                throw new Error(`Unable to import from ${webResourceUri} uri.`);
+                throw new Error(`Unable to import module from ${this.config.uri} uri.`);
             }
 
             return esm;
         } catch (except) {
-            throw new Error(`Web resource ${webResourceUri} can't be loaded.`);
+            throw new Error(`Web resource ${this.config.uri} can't be loaded.`);
         }
     }
 }

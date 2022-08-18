@@ -1,7 +1,7 @@
-import { Module, Scope } from "../../typing";
-import { debug, isNullOrUndefined } from "../../utils";
-import { ModuleResolverConfig } from "../configuration";
+import { Module } from "../../typing";
+import { debug } from "../../utils";
 import { DomainLoader } from "../domain/domain-loader";
+import { InitializeOptions } from "../primno";
 import { ModuleResolver } from "./module-resolver";
 import { buildModuleResolver } from "./module-resolver-factory";
 
@@ -18,22 +18,22 @@ export class ModuleBrowser {
 }
 
 export class ModuleLoader {
-    private modules: Record<string, ModuleBrowser> = {};
+    private module?: ModuleBrowser;
     private moduleResolver: ModuleResolver;
 
-    public constructor(private config: ModuleResolverConfig) {
-        this.moduleResolver = buildModuleResolver(config.type);
+    public constructor(primnoInit: InitializeOptions) {
+        this.moduleResolver = buildModuleResolver(primnoInit);
     }
 
-    public async getByScope(scope: Scope): Promise<ModuleBrowser> {
-        if (isNullOrUndefined(this.modules[scope.entityName]) == false) {
-            return this.modules[scope.entityName];
+    public async get(): Promise<ModuleBrowser> {
+        if (this.module) {
+            return this.module;
         }
 
-        debug(`Creating ModuleBrowser for entity ${scope.entityName}`);
-        const module = await this.moduleResolver.resolve(this.config, scope.entityName);
+        debug(`Creating ModuleBrowser`);
+        const module = await this.moduleResolver.resolve();
         const moduleBrowser = new ModuleBrowser(module);
-        this.modules[scope.entityName] = moduleBrowser;
+        this.module = moduleBrowser;
 
         return moduleBrowser;
     }

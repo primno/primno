@@ -1,21 +1,21 @@
 import { CanBePromise, ExternalArgs } from "../../typing";
 import { getControlType, isNullOrUndefined } from "../../utils";
-import { Configuration } from "../configuration";
 import { Context } from "./context";
 import { EventEnv } from "../events/event-env";
 import { ModuleLoader } from "../module/module-loader";
+import { InitializeOptions } from "../primno";
 
 /**
- * Creates or gives the execution context of Primno associated with the main control of the event 
+ * Creates or gives the execution context of Primno for a given D365 event.
  */
 export class ContextInitializer {
     private contexts: Record<string, CanBePromise<Context>> = {};
-    private moduleRegister: ModuleLoader;
+    private moduleLoader: ModuleLoader;
 
-    public constructor(config: Configuration,
+    public constructor(initOptions: InitializeOptions,
         private eventEnv: EventEnv)
     {
-        this.moduleRegister = new ModuleLoader(config.moduleResolverConfig);
+        this.moduleLoader = new ModuleLoader(initOptions);
     }
 
     /**
@@ -37,7 +37,7 @@ export class ContextInitializer {
 
         return (async () => {
             // HACK : Attempt to return a promise during initialization if another call to the same context occurs during asynchronous init. 
-            this.contexts[controlType] = Context.new(extArgs, this.eventEnv, this.moduleRegister);
+            this.contexts[controlType] = Context.new(extArgs, this.eventEnv, this.moduleLoader);
             return this.contexts[controlType] = await this.contexts[controlType];
         })();
     }

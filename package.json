@@ -3,7 +3,7 @@
   "repository": "github:primno/core",
   "author": "Xavier Monin",
   "description": "Primno. Framework Typescript pour Dynamics 365.",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "main": "dist/primno.cjs.js",
   "module": "dist/primno.esm.js",
   "types": "dist/primno.d.ts",

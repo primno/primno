@@ -1,17 +1,16 @@
 // Entry point for D365
 
-import { Primno } from "./core/primno";
-import { Configuration } from "./core/configuration";
+import { InitializeOptions, Primno } from "./core/primno";
 import { CanBePromise, EventTypes, PrimaryArgument } from "./typing";
 import { isNullOrUndefined, notifyCriticalError } from "./utils";
 
 let primno: Primno | undefined;
-let config: Configuration;
+let initOptions: InitializeOptions;
 
 function getPrimno(): Primno | undefined {
     if (isNullOrUndefined(primno)) {
         try {
-            primno = new Primno(config);
+            primno = new Primno(initOptions);
         }
         catch (except: any) {
             notifyCriticalError("Primno can't be started", except.message);
@@ -21,13 +20,12 @@ function getPrimno(): Primno | undefined {
     return primno;
 }
 
-//TODO: Initialize instead ?
 /**
- * Define the Primno configuration. Must be set before any event call.
- * @param cfg Primno configuration
+ * Initialize Primno. Must be set before any event call.
+ * @param options Initialize options
  */
-export function setConfig(cfg: Configuration) {
-    config = cfg;
+export function initialize(options: InitializeOptions) {
+    initOptions = options;
 }
 
 /**

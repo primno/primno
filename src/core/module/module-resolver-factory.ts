@@ -1,10 +1,16 @@
 import { ModuleResolver, ImportModuleResolver } from ".";
-import { ModuleResolverTypes } from "../configuration";
+import { InitializeOptions } from "../primno";
+import { EmbeddedModuleResolver } from "./embedded-module-resolver";
 
 /** Builds and gets the module resolver from its type */
-export function buildModuleResolver(type: ModuleResolverTypes): ModuleResolver {
-    switch(type){
-        case "import": return new ImportModuleResolver();
-        default: throw new Error("Resolver type unsupported");
+export function buildModuleResolver(primnoInit: InitializeOptions): ModuleResolver {
+    const moduleConfig = primnoInit.config.moduleResolverConfig;
+
+    switch (moduleConfig.type) {
+        case "import":
+            return new ImportModuleResolver(moduleConfig);
+        case "embedded":
+            return new EmbeddedModuleResolver(primnoInit.module);
+        default: throw new Error("Unable to find module resolver");
     }
 }
