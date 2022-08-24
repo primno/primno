@@ -1,1 +1,1 @@
-export type Module = any;
+export type ModuleType = new (...args: unknown[]) => unknown;

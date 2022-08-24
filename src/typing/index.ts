@@ -10,3 +10,4 @@ export * from './context';
 export * from './populate-query';
 export * from './module';
 export * from './scope';
+export * from './esm';

@@ -1,12 +1,12 @@
 import { ImportModuleResolverConfig } from "../configuration";
 import { isNullOrUndefined } from "../../utils";
-import { ModuleResolver } from "./module-resolver";
-import { Module } from "../../typing";
+import { EsmResolver } from "./esm-resolver";
+import { Esm } from "../../typing/esm";
 
-export class ImportModuleResolver implements ModuleResolver {
+export class ImportModuleResolver implements EsmResolver {
     constructor(private config: ImportModuleResolverConfig) {}
 
-    public async resolve(): Promise<Module> {
+    public async resolve(): Promise<Esm> {
         try {
             const esm = await import(this.config.uri);
 

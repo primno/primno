@@ -1,4 +1,4 @@
-﻿import { Domain, Module } from "../../typing";
+﻿import { Domain, Esm } from "../../typing";
 import { DecoratorTypes } from "../../metadata";
 import { hasMetadata } from "../../utils/metadata";
 
@@ -13,7 +13,7 @@ export type DomainType = { new(): Domain };
  * Finds all domains in an ECMAScript module.
  * @param esm ECMAScript module
  */
-export function findDomains(esm: Module): DomainType[] {
+export function findDomains(esm: Esm): DomainType[] {
     const domainTypes: DomainType[] = [];
 
     for (const propName in esm) {

@@ -1,16 +1,16 @@
-import { ModuleResolver, ImportModuleResolver } from ".";
+import { EsmResolver, ImportModuleResolver } from ".";
 import { InitializeOptions } from "../primno";
-import { EmbeddedModuleResolver } from "./embedded-module-resolver";
+import { EmbeddedEsmResolver } from "./embedded-esm-resolver";
 
 /** Builds and gets the module resolver from its type */
-export function buildModuleResolver(primnoInit: InitializeOptions): ModuleResolver {
+export function buildEsmResolver(primnoInit: InitializeOptions): EsmResolver {
     const moduleConfig = primnoInit.config.moduleResolverConfig;
 
     switch (moduleConfig.type) {
         case "import":
             return new ImportModuleResolver(moduleConfig);
         case "embedded":
-            return new EmbeddedModuleResolver(primnoInit.module);
+            return new EmbeddedEsmResolver(primnoInit.esm);
         default: throw new Error("Unable to find module resolver");
     }
 }

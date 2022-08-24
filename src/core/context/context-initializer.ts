@@ -2,7 +2,7 @@ import { CanBePromise, ExternalArgs } from "../../typing";
 import { getControlType, isNullOrUndefined } from "../../utils";
 import { Context } from "./context";
 import { EventEnv } from "../events/event-env";
-import { ModuleLoader } from "../module/module-loader";
+import { EsmLoader } from "../esm/esm-loader";
 import { InitializeOptions } from "../primno";
 
 /**
@@ -10,12 +10,12 @@ import { InitializeOptions } from "../primno";
  */
 export class ContextInitializer {
     private contexts: Record<string, CanBePromise<Context>> = {};
-    private moduleLoader: ModuleLoader;
+    private moduleLoader: EsmLoader;
 
     public constructor(initOptions: InitializeOptions,
         private eventEnv: EventEnv)
     {
-        this.moduleLoader = new ModuleLoader(initOptions);
+        this.moduleLoader = new EsmLoader(initOptions);
     }
 
     /**

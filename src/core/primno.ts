@@ -1,12 +1,12 @@
 ﻿import { notifyCriticalError, MaybePromise, isNullOrUndefined } from "../utils";
 import { Configuration } from "./configuration";
-import { CanBePromise, ExternalArgs, MnEvent, Module, PrimaryArgument } from "../typing";
+import { CanBePromise, ExternalArgs, MnEvent, Esm, PrimaryArgument } from "../typing";
 import { ContextInitializer } from "./context";
 import { EventEnv, initEventTypes } from "./events";
 
 export interface InitializeOptions {
     config: Configuration;
-    module: Module;
+    esm: Esm;
 }
 
 export class Primno {

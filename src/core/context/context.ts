@@ -2,7 +2,7 @@ import { ComponentEvent, EventType, ControlType, ExternalArgs, MnEvent, Componen
 import { debug, getControlType, isNullOrUndefined, isUci } from "../../utils";
 import { ControlScope } from "../common/scope";
 import { EventEnv } from "../events/event-env";
-import { ModuleLoader } from "../module/module-loader";
+import { EsmLoader } from "../esm/esm-loader";
 
 /**
  * Define all actions that could be done in the context of the execution (provided by dataverse).
@@ -16,7 +16,7 @@ export class Context implements MnContext {
     public static async new(
         extArgs: ExternalArgs,
         eventEnv: EventEnv,
-        moduleLoader: ModuleLoader): Promise<Context> {
+        moduleLoader: EsmLoader): Promise<Context> {
 
         const module = new Context(eventEnv, moduleLoader, extArgs);
         await module.init(extArgs);
@@ -25,7 +25,7 @@ export class Context implements MnContext {
 
     private constructor(
         private eventEnv: EventEnv,
-        private moduleLoader: ModuleLoader,
+        private moduleLoader: EsmLoader,
         initialExtArgs: ExternalArgs) {
         this.controlType = getControlType(initialExtArgs.primaryArgument) as ControlType;
     }
