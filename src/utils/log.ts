@@ -10,8 +10,24 @@ export function debug(message: any): void {
     console.debug(message);
 }
 
+/**
+ * Show a verbose message
+ * @param message Message
+ */
+export function verbose(message: string) {
+    console.log(message);
+}
+
 export function assert(assertion: boolean, message?: string): void {
     if (assertion !== true){
         notifyCriticalError(`Assertion failed: ${message}`);
     }
+}
+
+/**
+ * Show an error message
+ * @param message Message
+ */
+export function error(message: string) {
+    notifyCriticalError(message);
 }

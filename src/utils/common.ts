@@ -70,3 +70,20 @@ export function isPromise(object: any): object is Promise<any> {
 export function isSameId(id1: string, id2: string): boolean {
     return formatId(id1).toLowerCase() == formatId(id2).toLowerCase();
 }
+
+/**
+ * Obtains all methods of an object (prototype include).
+ * @param obj 
+ * @returns 
+ */
+export function getMethods(obj: Record<string | symbol, any>) {
+    const properties = new Set<string>();
+    let currentObj = obj;
+
+    do {
+      Object.getOwnPropertyNames(currentObj)
+        .map(item => properties.add(item));
+    } while ((currentObj = Object.getPrototypeOf(currentObj)));
+
+    return [...properties.keys()].filter(item => typeof obj[item] === "function");
+}

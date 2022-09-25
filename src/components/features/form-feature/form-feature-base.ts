@@ -44,6 +44,7 @@ export abstract class FormFeatureBase
      * by their name as indicated in the configuration.
      * @param eventArg
      */
+    // TODO: Replace with a service
     protected newMapper(eventArg: FormEventArg): XrmMapper<TConfig, TFieldMetaData> {
         return new XrmMapper<TConfig, TFieldMetaData>(eventArg, this.config);
     }

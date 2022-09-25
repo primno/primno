@@ -18,14 +18,14 @@ export class Context implements MnContext {
         eventEnv: EventEnv,
         moduleLoader: EsmLoader): Promise<Context> {
 
-        const module = new Context(eventEnv, moduleLoader, extArgs);
-        await module.init(extArgs);
-        return module;
+        const context = new Context(eventEnv, moduleLoader, extArgs);
+        await context.init(extArgs);
+        return context;
     }
 
     private constructor(
         private eventEnv: EventEnv,
-        private moduleLoader: EsmLoader,
+        private esmModuleLoader: EsmLoader,
         initialExtArgs: ExternalArgs) {
         this.controlType = getControlType(initialExtArgs.primaryArgument) as ControlType;
     }
@@ -53,7 +53,7 @@ export class Context implements MnContext {
             // Indicate search specifications (entityName, formId, formName, gridName, gridId, that kind of thing) 
             // Call a ComponentHelper which will take care of obtaining the concerned module and domain(s) in order to obtain the components
             const controlScope = await ControlScope.new(extArgs.primaryArgument);
-            const moduleBrowser = await this.moduleLoader.get();
+            const moduleBrowser = await this.esmModuleLoader.get();
             const domains = moduleBrowser.domainRegister.getDomains(controlScope);
             this.components = domains.flatMap(d => d.components);
         }

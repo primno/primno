@@ -1,5 +1,4 @@
-import Module from "module";
-import { Component, Domain } from "../../typing";
+import { Component, Domain, Esm } from "../../typing";
 import { debug, isNullOrUndefined } from "../../utils";
 import { DomainScope } from "./domain-scope";
 import { DomainType, findDomains } from "./loader";
@@ -24,8 +23,8 @@ export class DomainBrowser {
 export class DomainLoader {
     private domainsTypeState: DomainTypeInfo[] = [];
 
-    public constructor(private module: Module) {
-        this.domainsTypeState = findDomains(module).map(dt => ({ domainType: dt }));
+    public constructor(private esm: Esm) {
+        this.domainsTypeState = findDomains(esm).map(dt => ({ domainType: dt }));
     }
 
     public getDomains(controlScope: DomainScope): DomainBrowser[] {
