@@ -1,8 +1,14 @@
-import { ComponentEvent, EventType, ControlType, ExternalArgs, MnEvent, Component, MnContext } from "../../typing";
+import { ComponentEvent, EventType, ControlType, ExternalArgs, MnEvent, Component, MnContext, ComponentConstructor, ComponentObject } from "../../typing";
 import { debug, getControlType, isNullOrUndefined, isUci } from "../../utils";
 import { ControlScope } from "../common/scope";
 import { EventEnv } from "../events/event-env";
 import { EsmLoader } from "../esm/esm-loader";
+import { getModuleConfig } from "../metadata/helper";
+import { RootContainer } from "../di/container/component-container";
+import { OnInitMiddleWare } from "../di/middleware/on-init-middleware";
+import { SubComponentMiddleware } from "../di/middleware/subcomponent-middleware";
+import { EventMiddleware } from "../di/middleware/event-middleware";
+import { EventStorage } from "../events/event-storage";
 
 /**
  * Define all actions that could be done in the context of the execution (provided by dataverse).
@@ -25,7 +31,7 @@ export class Context implements MnContext {
 
     private constructor(
         private eventEnv: EventEnv,
-        private esmModuleLoader: EsmLoader,
+        private esmLoader: EsmLoader,
         initialExtArgs: ExternalArgs) {
         this.controlType = getControlType(initialExtArgs.primaryArgument) as ControlType;
     }
@@ -36,12 +42,31 @@ export class Context implements MnContext {
      */
     private async init(extArgs: ExternalArgs) {
         try {
-            await this.loadComponents(extArgs);
-            this.components.forEach(component => component.onInit(this, extArgs));
+            await this.bootstrapModule();
+            //await this.loadComponents(extArgs);
+            //this.components.forEach(component => component.onInit(this, extArgs));
         }
         catch (except: any) {
             throw new Error(`Initialization error - ${except.message}. Exception: ${except.name}. Stack trace: ${except.stack}`);
         }
+    }
+
+    private async bootstrapModule() {
+        const esmBrowser = await this.esmLoader.get();
+        const module = esmBrowser.module;
+        const moduleConfig = getModuleConfig(module);
+        const boostrapComponent = moduleConfig?.bootstrap as ComponentConstructor<ComponentObject>;
+        
+        const container = new RootContainer(module);
+        const eventStorage = new EventStorage();
+        container.applyMiddlewares(
+            new OnInitMiddleWare(),
+            new SubComponentMiddleware(),
+            new EventMiddleware(eventStorage)
+        );
+
+        // TODO: Replace with ComponentActivator or ComponentRunner (something like that)
+        container.componentContainer.get(boostrapComponent);
     }
 
     /**
@@ -53,9 +78,9 @@ export class Context implements MnContext {
             // Indicate search specifications (entityName, formId, formName, gridName, gridId, that kind of thing) 
             // Call a ComponentHelper which will take care of obtaining the concerned module and domain(s) in order to obtain the components
             const controlScope = await ControlScope.new(extArgs.primaryArgument);
-            const moduleBrowser = await this.esmModuleLoader.get();
-            const domains = moduleBrowser.domainRegister.getDomains(controlScope);
-            this.components = domains.flatMap(d => d.components);
+            const moduleBrowser = await this.esmLoader.get();
+            //const domains = moduleBrowser.domainRegister.getDomains(controlScope);
+            //this.components = domains.flatMap(d => d.components);
         }
         catch (except: any) {
             throw new Error(`An error was occured during components loading: ${except.message}`);

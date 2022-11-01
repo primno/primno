@@ -1,6 +1,3 @@
-/* eslint-disable @typescript-eslint/ban-types */
-import "reflect-metadata";
-
 // https://github.com/rbuckton/reflect-metadata
 
 export function setMetadata<T>(key: string, value: T, target: Object) {

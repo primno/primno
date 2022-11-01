@@ -18,9 +18,7 @@ function convertToInvMiddleware(middleware: Middleware, container: Container): I
 
             try {
                 middleware.onPreConstruct(args.serviceIdentifier, args.key);
-
                 instance = planAndResolve(args);
-
                 instance = middleware.onPostConstruct(instance, container);
             }
             catch (except: any) {
@@ -47,6 +45,10 @@ export class Container {
         }
     }
 
+    /**
+     * Middlewares will be executed left to right.
+     * @param middlewares Middleware
+     */
     public addMiddlewares(...middlewares: Middleware[]) {
         this.middlewares.push(...middlewares);
 
@@ -54,7 +56,8 @@ export class Container {
         this.children.forEach(c => c.addMiddlewares(...inheritMiddlewares));
 
         const invMiddlewares = this.middlewares.map(m => convertToInvMiddleware(m, this));
-        this.invContainer.applyMiddleware(...invMiddlewares);
+        // Reverse because Inversify execute right to left
+        this.invContainer.applyMiddleware(...invMiddlewares.reverse());
     }
 
     public bindComponent(componentType: ComponentConstructor) {

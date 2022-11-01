@@ -1,4 +1,4 @@
-import { ValueOrInputPropertyMapper } from "../../typing/component";
+import { ValueOrConfigPropertyMapper } from "../../typing/component";
 import { MetadataDecoratorHelper } from "../reflection/decorator-helper";
 
 export enum EventType {
@@ -8,7 +8,7 @@ export enum EventType {
 }
 
 export interface EventConfig {
-    target?: ValueOrInputPropertyMapper<string>;
+    target?: ValueOrConfigPropertyMapper<string>;
     type: EventType;
 }
 
@@ -21,8 +21,9 @@ export function MnOnLoad() {
     }
 }
 
-export function MnOnFieldChange(fieldName: ValueOrInputPropertyMapper<string>) {
+export function MnOnFieldChange(fieldName: ValueOrConfigPropertyMapper<string>) {
     return function (target: any, key: any, descriptor: PropertyDescriptor) {
+        // TODO: Replace with helper
         const primnoTarget = new MetadataDecoratorHelper(target, key);
         primnoTarget.setMetadata("event", {
             type: EventType.fieldChange,
@@ -31,7 +32,7 @@ export function MnOnFieldChange(fieldName: ValueOrInputPropertyMapper<string>) {
     }
 }
 
-export function MnOnTabState(tabName: ValueOrInputPropertyMapper<string>) {
+export function MnOnTabState(tabName: ValueOrConfigPropertyMapper<string>) {
     return function (target: any, key: any, descriptor: PropertyDescriptor) {
         const primnoTarget = new MetadataDecoratorHelper(target, key);
         primnoTarget.setMetadata("event", {

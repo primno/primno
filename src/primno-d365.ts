@@ -1,5 +1,6 @@
 // Entry point for D365
 
+import "reflect-metadata";
 import { InitializeOptions, Primno } from "./core/primno";
 import { CanBePromise, EventTypes, PrimaryArgument } from "./typing";
 import { isNullOrUndefined, notifyCriticalError } from "./utils";

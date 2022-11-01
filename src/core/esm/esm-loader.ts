@@ -1,19 +1,17 @@
-import { Esm } from "../../typing";
+import { Esm, ModuleConstructor } from "../../typing";
 import { debug } from "../../utils";
-import { DomainLoader } from "../domain/domain-loader";
 import { InitializeOptions } from "../primno";
 import { EsmResolver } from "./esm-resolver";
 import { buildEsmResolver } from "./esm-resolver-factory";
 
 export class EsmBrowser {
-    private _domainRegister: DomainLoader;
-
     public constructor(private esm: Esm) {
-        this._domainRegister = new DomainLoader(this.esm);
+        
     }
 
-    public get domainRegister() : DomainLoader {
-        return this._domainRegister;
+    public get module() : ModuleConstructor {
+        // TODO: IMPORTANT: Replace with default export
+        return this.esm["AppModule"];
     }
 }
 

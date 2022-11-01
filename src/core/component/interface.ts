@@ -12,3 +12,7 @@ export interface OnInit {
 export interface OnDestroy {
     mnOnDestroy(): void;
 }
+
+export interface Config {
+    config: any;
+}

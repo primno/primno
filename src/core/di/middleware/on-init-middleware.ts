@@ -2,6 +2,11 @@ import { ComponentObject } from "../../../typing";
 import { isComponent } from "../../metadata/helper";
 import { Middleware } from "../container/container";
 
+/**
+ * Trigger the mnOnInit event on the components.
+ * Must be the first middleware to ensure
+ * that mnOnInit will be trigger in the right order (parent to children).
+ */
 export class OnInitMiddleWare implements Middleware {
     private componentsConstructed: ComponentObject[] = [];
     private counter = 0;
@@ -21,15 +26,19 @@ export class OnInitMiddleWare implements Middleware {
             this.componentsConstructed.push(instance);
 
             if (--this.counter === 0) {
-                this.componentsConstructed.forEach(c => {
-                    if (c.mnOnInit) {
-                        c.mnOnInit();
-                    }
-                })
-            }
+                const components = [...this.componentsConstructed];
+                
+                // Reset
+                this.componentsConstructed.splice(0);
 
-            // Reset
-            this.componentsConstructed.splice(0);
+                components
+                    .reverse()
+                    .forEach(c => {
+                        if (c.mnOnInit) {
+                            c.mnOnInit();
+                        }
+                });
+            }
         }
 
         return instance;

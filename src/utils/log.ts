@@ -28,6 +28,7 @@ export function assert(assertion: boolean, message?: string): void {
  * Show an error message
  * @param message Message
  */
-export function error(message: string) {
-    notifyCriticalError(message);
+export function throwError(message: string) {
+    console.error(message);
+    throw new Error(message);
 }

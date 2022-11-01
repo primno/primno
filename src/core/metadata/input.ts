@@ -1,12 +1,9 @@
 import { Inject } from "../di/inject";
 
 /**
- * Décorateur marquant cette propriété comme affecté par le composant parent.
- * @param importFromParent Importer à partir du parent ?
+ * Decorator that mark the property as input.
  * @returns 
  */
- export function MnInput(importFromParent = true) {
-    if (importFromParent) {
-        return Inject("input");
-    }
+ export function MnInput() {
+    return Inject("input");
 }

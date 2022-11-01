@@ -1,5 +1,6 @@
 import { ComponentConstructor } from "../../../typing/component";
 import { ModuleConstructor } from "../../../typing/module";
+import { throwError } from "../../../utils";
 import { ComponentActivator } from "../../component/component-activator";
 import { ComponentConfigInternal } from "../../metadata/component";
 import { getModuleConfig, getComponentConfig, isModule } from "../../metadata/helper";
@@ -29,6 +30,10 @@ export class RootContainer {
         this._rootComponentContainer = new ComponentContainer(bootstrap, this.container);
     }
 
+    /**
+     * Middlewares will be executed left to right.
+     * @param middlewares Middlewares
+     */
     public applyMiddlewares(...middlewares: Middleware[]) {
         this.container.addMiddlewares(...middlewares);
     }
@@ -70,8 +75,16 @@ export class ComponentContainer {
         this.container.bindConstantValue("input", input);
     }
 
+    public bindConfig(config: any) {
+        this.container.bindConstantValue("config", config);
+    }
+
     protected bindComponent(componentType: ComponentConstructor) {
         const config = getComponentConfig(componentType) as ComponentConfigInternal;
+
+        if (!config.moduleConfig) {
+            throwError(`The component ${componentType.name} is not declared in a module`);
+        }
 
         config.moduleConfig?.declarations
             ?.filter(c => c !== componentType) // Except itself
