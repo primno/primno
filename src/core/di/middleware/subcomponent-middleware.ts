@@ -6,6 +6,7 @@ import { PropertyMetadata } from "../../reflection/property";
 import { Container, Middleware } from "../container/container";
 
 /**
+ * Create the ComponentActivator for each sub components of a component.
  * Prepare the subcomponent to be enabled/disabled with his container.
  */
 export class SubComponentMiddleware implements Middleware {
@@ -22,7 +23,7 @@ export class SubComponentMiddleware implements Middleware {
             const isSubComponent = property.hasMetadata("subcomponent");
     
             if (isSubComponent) {
-                const subComponentMetadata = property.getMetadata("subcomponent") as SubComponentConfig<any>;
+                const subComponentMetadata = property.getMetadata<SubComponentConfig<any>>("subcomponent");
     
                 verbose(`Subcomponent ${subComponentMetadata.component.name} find in ${instance.constructor.name} for ${key} property.`);
     
