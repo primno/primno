@@ -1,5 +1,5 @@
-import { ComponentEvent, EventType, ControlType, ExternalArgs, MnEvent, Component, MnContext, ComponentConstructor, ComponentObject } from "../../typing";
-import { debug, getControlType, isNullOrUndefined, isUci } from "../../utils";
+import { ComponentEvent, EventType, ControlType, ExternalArgs, ExternalEvent, Component, MnContext, ComponentConstructor, ComponentObject } from "../../typing";
+import { debug, getControlType, isNullOrUndefined } from "../../utils";
 import { ControlScope } from "../common/scope";
 import { EventEnv } from "../events/event-env";
 import { EsmLoader } from "../esm/esm-loader";
@@ -34,7 +34,7 @@ export class Context implements MnContext {
         private eventEnv: EventEnv,
         private esmLoader: EsmLoader,
         initialExtArgs: ExternalArgs) {
-        this.controlType = getControlType(initialExtArgs.primaryArgument) as ControlType;
+        this.controlType = getControlType(initialExtArgs.selectedControl) as ControlType;
     }
 
     /**
@@ -85,7 +85,7 @@ export class Context implements MnContext {
         try {
             // Indicate search specifications (entityName, formId, formName, gridName, gridId, that kind of thing) 
             // Call a ComponentHelper which will take care of obtaining the concerned module and domain(s) in order to obtain the components
-            const controlScope = await ControlScope.new(extArgs.primaryArgument);
+            const controlScope = await ControlScope.new(extArgs.selectedControl);
             const moduleBrowser = await this.esmLoader.get();
             //const domains = moduleBrowser.domainRegister.getDomains(controlScope);
             //this.components = domains.flatMap(d => d.components);
@@ -100,17 +100,13 @@ export class Context implements MnContext {
      * @param eventType 
      * @param event 
      */
-    private checkEventType(eventType: EventType, event: MnEvent) {
+    private checkEventType(eventType: EventType, event: ExternalEvent) {
         if (isNullOrUndefined(eventType)) {
             throw new Error(`No event listener or event type ${event.type}`);
         }
 
         if (eventType.controlNameRequired && isNullOrUndefined(event.targetName)) {
             throw new Error(`Event type ${event.type} required a control name`);
-        }
-
-        if (eventType.isUciRequired && isUci() == false) {
-            throw new Error(`Event type ${event.type} works only in Uci`);
         }
     }
 
@@ -131,7 +127,7 @@ export class Context implements MnContext {
             if (this.eventEnv.eventRegister.exist(event) == false) {
                 debug(`Subscribe ${event.type} event with target name ${event.targetName} on component ${event.component.name}`);
                 this.eventEnv.eventRegister.addEvent(event);
-                eventType.subscribe(extArgs.primaryArgument, event.targetName);
+                eventType.subscribe(extArgs.selectedControl, event.targetName);
             }
         }
     }
@@ -149,7 +145,7 @@ export class Context implements MnContext {
         }
 
         if (eventType?.supportedControls.some(f => f == this.controlType)) {
-            eventType.unsubscribe(extArgs.primaryArgument, event.targetName);
+            eventType.unsubscribe(extArgs.selectedControl, event.targetName);
             //this.eventEnv.eventRegister.removeEvent(event);
         }
     }
@@ -160,7 +156,7 @@ export class Context implements MnContext {
      * @param extArgs 
      * @returns 
      */
-    public triggerEvent(event: MnEvent, extArgs: ExternalArgs): unknown {
+    public triggerEvent(event: ExternalEvent, extArgs: ExternalArgs): unknown {
         const eventType = this.eventEnv.eventTypeRegister.getEventType(event.type) as EventType;
         this.checkEventType(eventType, event);
 

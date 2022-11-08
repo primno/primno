@@ -25,7 +25,7 @@ export class ContextInitializer {
      * @returns 
      */
     public getContext(extArgs: ExternalArgs): CanBePromise<Context> {
-        const controlType = getControlType(extArgs.primaryArgument);
+        const controlType = getControlType(extArgs.selectedControl);
 
         if (isNullOrUndefined(controlType)) {
             throw new Error("Unknow event type flow");

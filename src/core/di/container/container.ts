@@ -64,25 +64,31 @@ export class Container {
     }
 
     public bindComponent(componentType: ComponentConstructor) {
-        this.invContainer.bind(componentType)
+        this.invContainer
+            .bind(componentType)
             .toSelf()
             .inRequestScope()
             .when(request => isComponent(request.serviceIdentifier as ComponentConstructor));
     }
 
     public bindService(provider: any, value: any) {
-        this.invContainer.bind(provider).to(value).inSingletonScope();
+        this.invContainer
+            .bind(provider)
+            .to(value)
+            .inSingletonScope();
     }
 
     public bindConstantValue(provider: any, value: any) {
-        this.invContainer.bind(provider)
+        this.invContainer
+            .bind(provider)
             .toConstantValue(value)
             // TODO: Too specific, provide filter like inversify ?
             .when(request => isComponent(request?.parentRequest?.serviceIdentifier as ComponentConstructor));
     }
 
     public bindDynamicValue(provider: any, dynValResolver: (target: any) => any) {
-        this.invContainer.bind(provider)
+        this.invContainer
+            .bind(provider)
             .toDynamicValue(dynValResolver)
             .when(request => isComponent(request?.parentRequest?.serviceIdentifier as ComponentConstructor));
     }

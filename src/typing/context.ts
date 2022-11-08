@@ -1,8 +1,8 @@
-import { ComponentEvent, ControlType, ExternalArgs, MnEvent } from "./events";
+import { ComponentEvent, ControlType, ExternalArgs, ExternalEvent } from "./events";
 
 export interface MnContext {
     controlType: ControlType;
     subscribe(event: ComponentEvent, extArgs: ExternalArgs): void;
     unsubscribe(event: ComponentEvent, extArgs: ExternalArgs): void;
-    triggerEvent(event: MnEvent, extArgs: ExternalArgs): any;
+    triggerEvent(event: ExternalEvent, extArgs: ExternalArgs): unknown;
 }

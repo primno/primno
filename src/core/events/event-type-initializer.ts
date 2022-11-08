@@ -1,4 +1,4 @@
-import { EventType, ExternalArgs, MnEvent, PrimaryArgument } from "../../typing";
+import { EventType, ExternalArgs, ExternalEvent, Control } from "../../typing";
 import { debug } from "../../utils";
 import { Primno } from "../primno";
 import { EventTypeRegister } from "./event-type-register";
@@ -20,9 +20,23 @@ function createCallback(eventType: EventType, primno: Primno) {
     // Create callback for this event type
     return (targetName?: string, ...args: unknown[]) => {
         debug(`Callback called. Event Type: ${eventType.name}. Target name: ${targetName}`);
-        const [firstArg, ...othersArgs] = args;
-        const extArgs: ExternalArgs = { primaryArgument: <PrimaryArgument>firstArg, args: othersArgs };
-        // TODO: Create a specialized function ?
-        return primno.triggerEvent.bind(primno, { type: eventType.name, targetName: targetName } as MnEvent, extArgs.primaryArgument, extArgs.args)();
+        const [firstArg, secondArg, ...othersArgs] = args;
+
+        const extArgs: ExternalArgs = {
+            selectedControl: firstArg as Control,
+            primaryControl: secondArg as Control,
+            args: othersArgs
+        };
+
+        return primno.triggerEvent.bind(
+            primno,
+            {
+                type: eventType.name,
+                targetName: targetName
+            } as ExternalEvent,
+            extArgs.selectedControl,
+            extArgs.primaryControl,
+            extArgs.args
+        )();
     };
 }

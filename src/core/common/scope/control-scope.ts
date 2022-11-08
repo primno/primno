@@ -1,14 +1,14 @@
-import { PrimaryArgument, ControlType } from "../../../typing";
+import { Control, ControlType } from "../../../typing";
 import { getAppId, getControlType, getEntityName, getFormContext } from "../../../utils";
 import { ScopeBase } from "./scope-base";
 
 export class ControlScope extends ScopeBase {
-    private constructor(control: PrimaryArgument) {
+    private constructor(control: Control) {
         const entityName = getEntityName(control);
         super(entityName);
     }
 
-    public static async new(control: PrimaryArgument): Promise<ControlScope> {
+    public static async new(control: Control): Promise<ControlScope> {
         const controlScope = new ControlScope(control);
 
         // Initialize

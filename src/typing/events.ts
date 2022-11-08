@@ -1,7 +1,8 @@
 import { Component } from "./component";
 
 export interface ExternalArgs {
-    primaryArgument: PrimaryArgument;
+    selectedControl: Control;
+    primaryControl: Control | undefined;
     args: unknown[];
 }
 
@@ -25,12 +26,11 @@ export type EventCallBack = (targetName?: string, ...args: unknown[]) => unknown
     controlNameRequired: boolean;
     // TODO: Rename to compatible control ?
     supportedControls: ControlType[];
-    isUciRequired: boolean;
     
     createEventArg(extArgs: ExternalArgs): EventArg;
 
-    subscribe(primaryControl: PrimaryArgument, controlName?: string): void;
-    unsubscribe(primaryControl: PrimaryArgument, controlName?: string): void;
+    subscribe(selectedControl: Control, controlName?: string): void;
+    unsubscribe(selectedControl: Control, controlName?: string): void;
 
     init(callBack: EventCallBack): void;
 }
@@ -39,11 +39,11 @@ export type EventCallBack = (targetName?: string, ...args: unknown[]) => unknown
 
 // TODO: To Review
 export interface MnEventArg extends EventArg {
-    primaryControl: PrimaryArgument;
+    selectedControl: Control;
 }
 
 export interface CommandBarEventArg extends EventArg {
-    selectedControl: PrimaryArgument;
+    selectedControl: Control;
     extraArgs: unknown[];
 }
 
@@ -83,9 +83,8 @@ export enum EventTypes {
 
 /**
  * Minimalist definition of an event.
- * @deprecated
  */
-export interface MnEvent {
+export interface ExternalEvent {
     /**
      * Event type
      */
@@ -99,11 +98,11 @@ export interface MnEvent {
 /**
  * Event to register
  */
-export interface ComponentEvent extends MnEvent {
+export interface ComponentEvent extends ExternalEvent {
     eventHandler: EventHandler;
     component: Component;
 }
 
-export type PrimaryArgument = Xrm.Events.EventContext | Xrm.Controls.GridControl;
+export type Control = Xrm.Events.EventContext | Xrm.Controls.GridControl;
 
 export enum ControlType { form = "form", grid = "grid" }

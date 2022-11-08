@@ -1,6 +1,6 @@
 ﻿import { debug, isNullOrUndefined, notifyCriticalFeatureError } from "../../utils";
 import { EventRegister } from "./event-register";
-import { ComponentEvent, MnEvent, EventArg } from '../..//typing/events';
+import { ComponentEvent, ExternalEvent, EventArg } from '../..//typing/events';
 
 /** Pass events to features */
 export class EventDispatcher {
@@ -15,7 +15,7 @@ export class EventDispatcher {
      * @param event Event.
      * @param eventArg Event Argument
      */
-    public dispatchComponentEvent(event: MnEvent, eventArg: EventArg): any {
+    public dispatchComponentEvent(event: ExternalEvent, eventArg: EventArg): any {
         const dispatchedEvent = this._eventRegister.events.filter(e => e.type == event.type && e.targetName == event.targetName);
         let firstResponse = null;
 

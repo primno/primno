@@ -25,7 +25,7 @@ export abstract class FormFeatureBase
     }
 
     public onInit(context: MnContext, extArgs: ExternalArgs): void {
-        const formCtx = getFormContext(extArgs.primaryArgument as Xrm.Events.EventContext);
+        const formCtx = getFormContext(extArgs.selectedControl as Xrm.Events.EventContext);
         if (isNullOrUndefined(formCtx) == false) {
             // Checking the configuration only on form context
             this.checkConfiguration(formCtx as Xrm.FormContext);

@@ -1,6 +1,6 @@
 ﻿import { notifyCriticalError, MaybePromise, isNullOrUndefined } from "../utils";
 import { Configuration } from "./configuration";
-import { CanBePromise, ExternalArgs, MnEvent, Esm, PrimaryArgument } from "../typing";
+import { CanBePromise, ExternalArgs, ExternalEvent, Esm, Control } from "../typing";
 import { ContextInitializer } from "./context";
 import { EventEnv, initEventTypes } from "./events";
 
@@ -29,11 +29,11 @@ export class Primno {
     /**
      * Trigger an event.
      * @param event Event.
-     * @param primaryEventArg Associated execution context.
+     * @param selectedControl Associated execution context.
      * @param args Additional optional arguments that will be passed to the event handler. 
      */
-    public triggerEvent(event: MnEvent, primaryEventArg: PrimaryArgument, ...args: unknown[]): CanBePromise<unknown> {
-        const extArgs: ExternalArgs = { primaryArgument: primaryEventArg, args: args };
+    public triggerEvent(event: ExternalEvent, selectedControl: Control, primaryControl: Control | undefined, ...args: unknown[]): CanBePromise<unknown> {
+        const extArgs: ExternalArgs = { selectedControl: selectedControl, primaryControl, args: args };
 
         return MaybePromise.new(() => this.contextInitializer.getContext(extArgs))
             .then((context) => context.triggerEvent(event, extArgs))

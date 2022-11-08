@@ -1,4 +1,4 @@
-﻿import { ControlType, PrimaryArgument } from "../typing";
+﻿import { ControlType, Control } from "../typing";
 import { isNullOrUndefined } from "./common";
 
 /** Indicates whether the form is a Uci form */
@@ -47,29 +47,33 @@ export async function getAppId(): Promise<string> {
 }
 
 /**
- * Gets the name of the entity from the given context.
- * @param context 
+ * Gets the entity name of the current page.
+ * @returns Entity name
  */
-export function getEntityName(context: PrimaryArgument): string {
-    // Only available in uci ? 9.1 ?
+export function getPageEntityName() {
     const pageContext = Xrm.Utility.getPageContext();
     return pageContext.input.entityName;
+}
 
-    // TODO: Remove if it works.
-    // switch (getControlType(context)) {
-    //     case "form": {
-    //         const formCtx = getFormContext(context as Xrm.Events.EventContext);
-    //         if (formCtx == null) {
-    //             throw new Error("Unable to find form context");
-    //         }
+/**
+ * Gets the name of the entity from the given control.
+ * @param control 
+ */
+export function getEntityName(control: Control): string { 
+    switch (getControlType(context)) {
+        case "form": {
+            const formCtx = getFormContext(control as Xrm.Events.EventContext);
+            if (formCtx == null) {
+                throw new Error("Unable to find form context");
+            }
 
-    //         return formCtx.data.entity.getEntityName();
-    //     }
-    //     case "grid": {
-    //         return (<Xrm.Controls.GridControl>context).getEntityName();
-    //     }
-    //     default: throw new Error("Unable to get entity name from context. The context must be form or grid");
-    // }
+            return formCtx.data.entity.getEntityName();
+        }
+        case "grid": {
+            return (control as Xrm.Controls.GridControl).getEntityName();
+        }
+        default: throw new Error("Unable to get entity name from context. The context must be form or grid");
+    }
 }
 
 /**
