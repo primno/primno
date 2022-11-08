@@ -1,6 +1,7 @@
 ﻿import { ComponentEvent } from '../../typing/events';
 
-/** Subscribed event register **/
+/** Subscribed event register
+ * @deprecated **/
 export class EventRegister {
     /** Events */
     private _events: ComponentEvent[] = [];

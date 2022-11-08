@@ -29,6 +29,9 @@ function convertToInvMiddleware(middleware: Middleware, container: Container): I
     };
 }
 
+/**
+ * Container for dependency injection.
+ */
 export class Container {
     protected children: Container[] = [];
     protected invContainer: InvContainer;

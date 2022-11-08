@@ -82,7 +82,8 @@ export enum EventTypes {
 }
 
 /**
- * Minimalist definition of an event. 
+ * Minimalist definition of an event.
+ * @deprecated
  */
 export interface MnEvent {
     /**

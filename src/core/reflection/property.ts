@@ -23,8 +23,8 @@ export class PropertyMetadata implements MetadataAccessor {
         this.storage.setMetadata(this.propertyKey, data);
     }
 
-    public getMetadata(key: string): any {
-        return this.getData()[key];
+    public getMetadata<T = any>(key: string): T {
+        return this.getData()[key] as T;
     }
 
     public setMetadata(key: string, value: any) {

@@ -1,5 +1,5 @@
 import { ComponentObject } from "../../../typing";
-import { getMethods, verbose } from "../../../utils";
+import { getMethods } from "../../../utils";
 import { EventStorage } from "../../events/event-storage";
 import { EventConfig } from "../../metadata/events";
 import { isComponent } from "../../metadata/helper";
@@ -46,8 +46,12 @@ export class EventMiddleware implements Middleware {
             if (isEvent) {
                 const eventConfig = property.getMetadata("event") as EventConfig;
                 const target = resolveTarget(eventConfig.target);
-                verbose(`Event ${eventConfig.type} with target ${target}`);
-                this.eventStorage.addEvent(eventConfig.type, eventConfig.target as string, (...args: any[]) => instance[key](...args));
+                // TODO: Event register ?
+                this.eventStorage.addEvent({
+                    type: eventConfig.type,
+                    targetName: target,
+                    callback: (...args: any[]) => instance[key](...args)
+                });
             }
         }
 

@@ -1,16 +1,21 @@
 import { ComponentConstructor } from "../../../typing/component";
 import { ModuleConstructor } from "../../../typing/module";
 import { throwError } from "../../../utils";
-import { ComponentActivator } from "../../component/component-activator";
 import { ComponentConfigInternal } from "../../metadata/component";
 import { getModuleConfig, getComponentConfig, isModule } from "../../metadata/helper";
-import { componentActivatorIdentifier, SubComponentConfig } from "../../metadata/subcomponent";
 import { Container, Middleware } from "./container";
 
+/**
+ * Create the root module container.
+ */
 export class RootContainer {
-    private container: Container;
+    private _container: Container;
 
-    private _rootComponentContainer!: ComponentContainer;
+    //private _rootComponentContainer!: ComponentContainer;
+
+    public get container() {
+        return this._container;
+    }
 
     public constructor(moduleType: ModuleConstructor) {
         if (!isModule(moduleType)) {
@@ -20,14 +25,13 @@ export class RootContainer {
         const config = getModuleConfig(moduleType);
         const bootstrap = config?.bootstrap as ComponentConstructor;
 
-        this.container = new Container();
+        this._container = new Container();
         this.bindModule(moduleType);
-        this.bindComponentActivator();
         this.applyMiddlewares();
 
-        this.container.bindComponent(bootstrap);
+        this._container.bindComponent(bootstrap);
 
-        this._rootComponentContainer = new ComponentContainer(bootstrap, this.container);
+        //this._rootComponentContainer = new ComponentContainer(bootstrap, this._container);
     }
 
     /**
@@ -35,40 +39,40 @@ export class RootContainer {
      * @param middlewares Middlewares
      */
     public applyMiddlewares(...middlewares: Middleware[]) {
-        this.container.addMiddlewares(...middlewares);
-    }
-
-    private bindComponentActivator() {
-        this.container.bindDynamicValue(componentActivatorIdentifier, (context) => {
-            const subComponentConfig = context.currentRequest.target.metadata.find((m: any) => m.key == "subcomponent")?.value as SubComponentConfig;
-                return new ComponentActivator(subComponentConfig.componentType, subComponentConfig.enabled);
-        });
+        this._container.addMiddlewares(...middlewares);
     }
 
     private bindModule(moduleType: ModuleConstructor) {
         const config = getModuleConfig(moduleType);
 
-        config?.providers?.forEach(p => this.container.bindService(p.provide, p.useClass));
+        config?.providers?.forEach(p => this._container.bindService(p.provide, p.useClass));
         config?.imports?.forEach(m => this.bindModule(m));
     }
 
-    public get componentContainer(): ComponentContainer  {
-        return this._rootComponentContainer;
-    }
+    // public get componentContainer(): ComponentContainer  {
+    //     return this._rootComponentContainer;
+    // }
 }
 
-export class ComponentContainer {
-    protected container: Container;
+/**
+ * Create a component container.
+ */
+export class ComponentContainer<T extends ComponentConstructor = ComponentConstructor> {
+    protected _container: Container;
 
-    public constructor(componentType: ComponentConstructor, parentContainer?: Container) {
+    public get container() {
+        return this._container;
+    }
+
+    public constructor(private component: T, parentContainer?: Container) {
         if (parentContainer) {
-            this.container = parentContainer.createChild();
+            this._container = parentContainer.createChild();
         }
         else {
-            this.container = new Container();
+            this._container = new Container();
         }
 
-        this.bindComponent(componentType);
+        this.bindComponent(component);
     }
 
     public bindInput(input: any) {
@@ -86,19 +90,26 @@ export class ComponentContainer {
             throwError(`The component ${componentType.name} is not declared in a module`);
         }
 
+        // Bind sub components of current module
         config.moduleConfig?.declarations
             ?.filter(c => c !== componentType) // Except itself
-            .forEach(c => this.container.bindComponent(c));
+            .forEach(c => this._container.bindComponent(c));
         
+        // Bind sub components of imported modules
         config.moduleConfig?.imports
             ?.flatMap(m => getModuleConfig(m)?.exports)
             .filter(c => c)
-            .forEach(c => this.container.bindComponent(c!));
+            .forEach(c => this._container.bindComponent(c!));
 
-        config.providers?.forEach(s => this.container.bindService(s.provide, s.useClass));
+        // Bind services declared in component
+        config.providers?.forEach(s => this._container.bindService(s.provide, s.useClass));
     }
 
-    public get(identifier: any) {
-        return this.container.get(identifier);
+    /**
+     * Obtains instance of component from this container.
+     * @returns 
+     */
+    public get(): InstanceType<T> {
+        return this._container.get(this.component) as InstanceType<T>;
     }
 }

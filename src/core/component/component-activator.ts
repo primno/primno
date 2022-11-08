@@ -1,24 +1,40 @@
-import { ComponentConstructor, ComponentObject, InputOf } from "../../typing";
-import { debug } from "../../utils";
+import { ComponentConstructor, ComponentObject, ConfigOrConfigMapper } from "../../typing";
+import { debug, verbose } from "../../utils";
 import { ComponentContainer } from "../di/container/component-container";
-import { Injectable } from "../di/injectable";
+import { Container } from "../di/container/container";
+import { PropertyMetadata } from "../reflection/property";
 
-export type ComponentActivatorFactory = <T extends ComponentObject>(component: new (...args: any[]) => T) => ComponentActivator<T>;
+export interface SubComponent<T extends ComponentObject> {
+    readonly state: boolean;
+    enable(): void;
+    disable(): void;
 
-@Injectable()
-export class ComponentActivator<T extends ComponentObject> {
+    //readonly output: OutputOf<T> | undefined;
+}
+
+export class ComponentActivator<T extends ComponentObject> implements SubComponent<T> {
     public constructor(
         private componentType: ComponentConstructor,
-        initialState = true
-        ) {
-        this.state = initialState;
+        parentContainer: Container,
+        private input?: any
+     ) {
+        this.container = new ComponentContainer(componentType, parentContainer);
+        this.container.bindInput(input);
+        this.container.bindConfig(this.resolveConfig());
     }
 
-    private container?: ComponentContainer;
+    private resolveConfig() {
+        const propMetadata = new PropertyMetadata(this.componentType, "config");
+        const configOrMapper = propMetadata.getMetadata<ConfigOrConfigMapper<T>>("config");
 
-    public get input(): InputOf<T> | undefined {
-        return this.component?.input;
+        switch (typeof configOrMapper) {
+            case "function": return configOrMapper(this.input);
+            case "object": return configOrMapper;
+            default: throw new Error(`Invalid component config type: ${typeof configOrMapper}`);
+        }
     }
+
+    private container: ComponentContainer<ComponentConstructor<T>>;
 
     /*public get output(): OutputOf<T> | undefined {
         return undefined as any;
@@ -26,7 +42,7 @@ export class ComponentActivator<T extends ComponentObject> {
 
     private _state = false;
 
-    public component?: T;
+    private component?: T;
 
     public get state(): boolean {
         return this._state;
@@ -37,9 +53,14 @@ export class ComponentActivator<T extends ComponentObject> {
     }
 
     public enable(): void {
+        if (this.state) {
+            verbose(`Component ${this.componentType.name} already enabled`);
+            return;
+        }
+
         debug(`Enable component ${this.componentType.name}`);
 
-        this.component = this.container?.get(this.componentType) as T;
+        this.component = this.container?.get();
         if (!this.component) {
             throw new Error(`Unable to find ${this.componentType.name}.`);
         }
@@ -52,13 +73,5 @@ export class ComponentActivator<T extends ComponentObject> {
 
         this.state = false;
         this.component = undefined;
-    }
-
-    public init(container: ComponentContainer) {
-        this.container = container;
-
-        if (this.state) {
-            this.enable();
-        }
     }
 }

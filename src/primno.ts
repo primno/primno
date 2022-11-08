@@ -50,5 +50,5 @@ export {
 } from "./core/component/interface";
 
 export {
-    ComponentActivator
+    SubComponent
 } from "./core/component/component-activator";

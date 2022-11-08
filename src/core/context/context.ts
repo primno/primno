@@ -9,6 +9,7 @@ import { OnInitMiddleWare } from "../di/middleware/on-init-middleware";
 import { SubComponentMiddleware } from "../di/middleware/subcomponent-middleware";
 import { EventMiddleware } from "../di/middleware/event-middleware";
 import { EventStorage } from "../events/event-storage";
+import { ComponentActivator } from "../component/component-activator";
 
 /**
  * Define all actions that could be done in the context of the execution (provided by dataverse).
@@ -57,16 +58,16 @@ export class Context implements MnContext {
         const moduleConfig = getModuleConfig(module);
         const boostrapComponent = moduleConfig?.bootstrap as ComponentConstructor<ComponentObject>;
         
-        const container = new RootContainer(module);
+        const rootContainer = new RootContainer(module);
         const eventStorage = new EventStorage();
-        container.applyMiddlewares(
+        rootContainer.applyMiddlewares(
             new OnInitMiddleWare(),
             new SubComponentMiddleware(),
             new EventMiddleware(eventStorage)
         );
 
-        // TODO: Replace with ComponentActivator or ComponentRunner (something like that)
-        container.componentContainer.get(boostrapComponent);
+        const componentActivator = new ComponentActivator(boostrapComponent, rootContainer.container);
+        componentActivator.enable();
     }
 
     /**
