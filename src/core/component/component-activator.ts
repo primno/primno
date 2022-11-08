@@ -72,6 +72,7 @@ export class ComponentActivator<T extends ComponentObject> implements SubCompone
         debug(`Disable component ${this.componentType.name}`);
 
         this.state = false;
+        // TODO: Remove events here
         this.component = undefined;
     }
 }

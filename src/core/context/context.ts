@@ -4,7 +4,7 @@ import { ControlScope } from "../common/scope";
 import { EventEnv } from "../events/event-env";
 import { EsmLoader } from "../esm/esm-loader";
 import { getModuleConfig } from "../metadata/helper";
-import { RootContainer } from "../di/container/component-container";
+import { RootContainer } from "../di/container";
 import { OnInitMiddleWare } from "../di/middleware/on-init-middleware";
 import { SubComponentMiddleware } from "../di/middleware/subcomponent-middleware";
 import { EventMiddleware } from "../di/middleware/event-middleware";
@@ -13,7 +13,7 @@ import { ComponentActivator } from "../component/component-activator";
 
 /**
  * Define all actions that could be done in the context of the execution (provided by dataverse).
- * The context is defined by the control type.
+ * The context is defined by the control type (form or grid).
  */
 export class Context implements MnContext {
     private components: Component[] = [];
@@ -43,6 +43,8 @@ export class Context implements MnContext {
      */
     private async init(extArgs: ExternalArgs) {
         try {
+            debug(`Init ${this.controlType} context`);
+            // TODO: Must be init in Context Initializer. Currently, root container can be init 2 times
             await this.bootstrapModule();
             //await this.loadComponents(extArgs);
             //this.components.forEach(component => component.onInit(this, extArgs));
@@ -57,7 +59,12 @@ export class Context implements MnContext {
         const module = esmBrowser.module;
         const moduleConfig = getModuleConfig(module);
         const boostrapComponent = moduleConfig?.bootstrap as ComponentConstructor<ComponentObject>;
+
+        if (!boostrapComponent) {
+            throw new Error("Bootstap component not found in module");
+        }
         
+        // Init DI
         const rootContainer = new RootContainer(module);
         const eventStorage = new EventStorage();
         rootContainer.applyMiddlewares(
