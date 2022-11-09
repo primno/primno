@@ -1,5 +1,5 @@
 import { CanBePromise, ExternalArgs } from "../../typing";
-import { getControlType, isNullOrUndefined } from "../../utils";
+import { getControlType } from "../../utils";
 import { Context } from "./context";
 import { EventEnv } from "../events/event-env";
 import { EsmLoader } from "../esm/esm-loader";
@@ -25,7 +25,7 @@ export class ContextInitializer {
      * @returns 
      */
     public getContext(extArgs: ExternalArgs): CanBePromise<Context> {
-        const controlType = getControlType(extArgs.selectedControl);
+        const controlType = getControlType(extArgs.primaryControl);
 
         if (!controlType) {
             throw new Error("Unknow event type flow");

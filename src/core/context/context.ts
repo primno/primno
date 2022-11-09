@@ -13,10 +13,9 @@ import { ComponentActivator } from "../component/component-activator";
 
 /**
  * Define all actions that could be done in the context of the execution (provided by dataverse).
- * The context is defined by the control type (form or grid).
+ * The context is defined by the current page contexte (form or grid).
  */
 export class Context implements MnContext {
-    private components: Component[] = [];
     //TODO: Change !
     public controlType: ControlType;
 
@@ -118,10 +117,12 @@ export class Context implements MnContext {
     public subscribe(event: ComponentEvent, extArgs: ExternalArgs): void {
         const eventType = this.eventEnv.eventTypeRegister.getEventType(event.type);
 
-        if (isNullOrUndefined(eventType)) {
+        if (eventType == null) {
             throw new Error(`Event type ${event.type} unknow`);
         }
 
+        // TODO: Selected and primary control. Maybe possible to subscribe to primary ?
+        // Context is created with selected, not primary
         if (eventType.supportedControls.some(f => f == this.controlType)) {
             // TODO: Evite d'avoir des doublons d'abonnements. Etudier une meilleur gestion.
             if (this.eventEnv.eventRegister.exist(event) == false) {

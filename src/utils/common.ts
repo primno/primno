@@ -75,6 +75,16 @@ export function isSameId(id1: string, id2: string): boolean {
 }
 
 /**
+ * Indicate if the object has the method.
+ * @param obj Object
+ * @param methodName Method name.
+ * @returns true or false
+ */
+export function hasMethod(obj: Record<string | symbol, any>, methodName: string): boolean {
+    return methodName in obj && typeof obj[methodName] === "function";
+}
+
+/**
  * Obtains all methods of an object (prototype include).
  * @param obj 
  * @returns 

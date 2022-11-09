@@ -3,13 +3,13 @@
 import "reflect-metadata";
 import { InitializeOptions, Primno } from "./core/primno";
 import { CanBePromise, EventTypes, Control } from "./typing";
-import { isNullOrUndefined, notifyCriticalError } from "./utils";
+import { notifyCriticalError } from "./utils";
 
 let primno: Primno | undefined;
 let initOptions: InitializeOptions;
 
 function getPrimno(): Primno | undefined {
-    if (isNullOrUndefined(primno)) {
+    if (primno == null) {
         try {
             primno = new Primno(initOptions);
         }
@@ -43,8 +43,17 @@ export function onEvent(
     selectedControl: Control,
     primaryControl: Control | undefined,
     ...args: unknown[]
-    ): CanBePromise<unknown> {
-    return getPrimno()?.triggerEvent({type: eventTypeName, targetName: controlName}, selectedControl, primaryControl, ...args);
+): CanBePromise<unknown> {
+    return getPrimno()
+        ?.triggerEvent(
+            {
+                type: eventTypeName,
+                targetName: controlName
+            },
+            selectedControl,
+            primaryControl ?? selectedControl,
+            ...args
+        );
 }
 
 /**
@@ -52,34 +61,35 @@ export function onEvent(
  * @param eventCtx 
  * @returns 
  */
+// TODO: Handler must be added by EventType
 export function onFormLoad(control: Xrm.Events.EventContext, ...args: unknown[]): CanBePromise<unknown> {
-    return onEvent(EventTypes.FormLoad, undefined, control, undefined, ...args);
+    return onEvent(EventTypes.FormLoad, undefined, control, control, ...args);
 }
 
 /**
- * "OnButtonPress" event handler. Must be called by Dynamics 365 when a button on the command bar is pressed. 
- * @param buttonName 
- * @param selectedControl 
- * @param args 
+ * "onCommandInvoke" event handler. Must be called by Dynamics 365 when a button on the command bar is pressed. 
+ * @param commandId Command name
+ * @param selectedControl Selected control
+ * @param primaryControl Primary control
+ * @param args Optionnal args
  * @returns 
  */
-// TODO: Rename to onCommandInvoke ?
-export function onButtonPress(
+export function onCommandInvoke(
     commandId: string,
     selectedControl: Control,
     primaryControl: Control,
     ...args: unknown[]): CanBePromise<unknown> {
-    return onEvent(EventTypes.ButtonPress, commandId, selectedControl, primaryControl,...args);
+    return onEvent(EventTypes.ButtonPress, commandId, selectedControl, primaryControl, ...args);
 }
 
 /**
- * "OnPopulateQuery" event handler. 
+ * "onPopulateQuery" event handler. 
  * @param buttonName 
  * @param selectedControl 
  * @param args 
  * @returns 
  */
- export function onPopulateQuery(
+export function onPopulateQuery(
     commandId: string,
     selectedControl: Control,
     primaryControl: Control,
@@ -88,7 +98,7 @@ export function onButtonPress(
 }
 
 /**
- * "OnEnableRuleCheck" event handler. Must be called by Dynamics 365 when a js button enable rule is triggered. 
+ * "onEnableRuleCheck" event handler. Must be called by Dynamics 365 when a js button enable rule is triggered. 
  * @param enableRuleName 
  * @param selectedControl 
  * @param args 
@@ -99,6 +109,6 @@ export function onEnableRuleCheck(
     selectedControl: Control,
     primaryControl: Control,
     ...args: unknown[]
-    ) : CanBePromise<boolean> {
+): CanBePromise<boolean> {
     return onEvent(EventTypes.EnableRule, enableRuleName, selectedControl, primaryControl, ...args) as CanBePromise<boolean>;
 }

@@ -1,5 +1,5 @@
 ﻿import { ControlType, Control } from "../typing";
-import { isNullOrUndefined } from "./common";
+import { hasMethod } from "./common";
 
 /** Indicates whether the form is a Uci form */
 export function isUci(): boolean {
@@ -22,11 +22,18 @@ export function isUci(): boolean {
  * @context context 
  */
 export function getControlType(context: any): ControlType | undefined {
-    if (isNullOrUndefined(context?.getGrid) === false){
+    if (context?.getGrid != null) {
+        // Grid control. The event comes from the command bar on a entitylist page.
         return ControlType.grid;
     }
 
-    if (isNullOrUndefined(context?.getAttribute) === false || isNullOrUndefined(context?.getFormContext) == false) {
+    if (context?.getFormContext != null) {
+        // Form execution context. The event comes from form (field change, onload, etc).
+        return ControlType.form;
+    }
+
+    if (context?.getAttribute != null) {
+        // Form context. The event comes from the command bar.
         return ControlType.form;
     }
 }
@@ -39,7 +46,7 @@ export async function getAppId(): Promise<string> {
     const globalContext = Xrm.Utility.getGlobalContext();
 
     const appProperties = await globalContext.getCurrentAppProperties();
-    if (isNullOrUndefined(appProperties.appId)) {
+    if (appProperties.appId == null) {
         throw new Error("AppId not found");
     }
 
@@ -53,6 +60,14 @@ export async function getAppId(): Promise<string> {
 export function getPageEntityName() {
     const pageContext = Xrm.Utility.getPageContext();
     return pageContext.input.entityName;
+}
+
+/**
+ * Gets the page type (entityrecord or entitylist).
+ */
+export function getPageType() {
+    const pageContext = Xrm.Utility.getPageContext();
+    pageContext.input.pageType;
 }
 
 /**
@@ -81,18 +96,18 @@ export function getEntityName(control: Control): string {
 * Returns null if the form context is not found.
 * @param eventCtx
 */
-export function getFormContext(eventCtx: Xrm.Events.EventContext): Xrm.FormContext | null {
-    if (isNullOrUndefined(eventCtx)){
+export function getFormContext(eventCtx: Xrm.Events.EventContext | Xrm.FormContext): Xrm.FormContext | null {
+    if (eventCtx == null) {
         return null;
     }
 
-    if (isNullOrUndefined(eventCtx.getFormContext) == false) {
-        return eventCtx.getFormContext();
+    if (hasMethod(eventCtx, "getFormContext")) {
+        return (eventCtx as Xrm.Events.EventContext).getFormContext();
     }
     else {
-        if (isNullOrUndefined((eventCtx as any).getAttribute) == false &&
-            isNullOrUndefined((eventCtx as any).getControl) == false) {
-            return (<unknown>eventCtx) as Xrm.FormContext;
+        if (hasMethod(eventCtx, "getAttribute") &&
+            hasMethod(eventCtx, "getControl")) {
+            return eventCtx as Xrm.FormContext;
         }
     }
 
