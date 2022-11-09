@@ -1,5 +1,5 @@
 import { EventType, ExternalArgs, ExternalEvent, Control } from "../../typing";
-import { debug } from "../../utils";
+import { debug, verbose } from "../../utils";
 import { Primno } from "../primno";
 import { EventTypeRegister } from "./event-type-register";
 import { cmdBarEventPack, formEventPack } from "./types";
@@ -17,6 +17,7 @@ export function initEventTypes(eventTypeRegister: EventTypeRegister, primno: Pri
 }
 
 function createCallback(eventType: EventType, primno: Primno) {
+    verbose(`Init event type ${eventType.name}`);
     // Create callback for this event type
     return (targetName?: string, ...args: unknown[]) => {
         debug(`Callback called. Event Type: ${eventType.name}. Target name: ${targetName}`);

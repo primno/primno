@@ -24,18 +24,20 @@ export class Primno {
 
         initEventTypes(this._eventEnv.eventTypeRegister, this);
         this._contextInitializer = new ContextInitializer(options, this._eventEnv);
+        
     }
-
     /**
      * Trigger an event.
      * @param event Event.
      * @param selectedControl Associated execution context.
-     * @param args Additional optional arguments that will be passed to the event handler. 
+     * @param primaryControl Optionnal primary control. Must be set to undefined if there are other args.
+     * @param args Additional optional arguments that will be passed to the event handler.
      */
     public triggerEvent(event: ExternalEvent, selectedControl: Control, primaryControl: Control | undefined, ...args: unknown[]): CanBePromise<unknown> {
-        const extArgs: ExternalArgs = { selectedControl: selectedControl, primaryControl, args: args };
+        const extArgs: ExternalArgs = { selectedControl, primaryControl, args };
 
-        return MaybePromise.new(() => this.contextInitializer.getContext(extArgs))
+        return MaybePromise
+            .new(() => this.contextInitializer.getContext(extArgs))
             .then((context) => context.triggerEvent(event, extArgs))
             .catch((except) => {
                 console.error(except);

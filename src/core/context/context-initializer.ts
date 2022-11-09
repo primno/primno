@@ -27,11 +27,11 @@ export class ContextInitializer {
     public getContext(extArgs: ExternalArgs): CanBePromise<Context> {
         const controlType = getControlType(extArgs.selectedControl);
 
-        if (isNullOrUndefined(controlType)) {
+        if (!controlType) {
             throw new Error("Unknow event type flow");
         }
 
-        if (!isNullOrUndefined(this.contexts[controlType])) {
+        if (this.contexts[controlType]) {
             return this.contexts[controlType];
         }
 

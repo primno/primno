@@ -6,11 +6,14 @@ export const EmptyString = "";
  * @param text
  */
 export function isNullOrEmpty(text: string | null | undefined): text is null | undefined | "" {
-    return isNullOrUndefined(text) || text === EmptyString;
+    return text == null || text === EmptyString;
 }
 
+/**
+ * @deprecated use == null instead
+ */
 export function isNullOrUndefined<T>(obj: T | null | undefined): obj is null | undefined {
-    return typeof obj === "undefined" || obj === null;
+    return obj == null;
 }
 
 /**
@@ -18,7 +21,7 @@ export function isNullOrUndefined<T>(obj: T | null | undefined): obj is null | u
  * @param item
  */
 export function isObject(item: unknown): item is Record<string, unknown> {
-    return (isNullOrUndefined(item) == false && typeof item === 'object' && !Array.isArray(item));
+    return (item != null && typeof item === 'object' && !Array.isArray(item));
 }
 
 /**
@@ -51,7 +54,7 @@ export function mergeDeep(target: Record<string, unknown>, ...sources: unknown[]
  * @returns 
  */
 export function isPromise(object: any): object is Promise<any> {
-    return !isNullOrUndefined(object?.then) && !isNullOrUndefined(object?.catch);
+    return (object?.then != null && !object?.catch != null);
 }
 
 /**

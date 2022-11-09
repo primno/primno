@@ -21,6 +21,7 @@ export type EventCallBack = (targetName?: string, ...args: unknown[]) => unknown
  * Describes a type of event. 
  * Provides the generation of the event parameter (eventarg) and actions to be performed when subscribing to this event.
  */
+// TODO: Replace with abstract class with callback in constructor and remove init method ?
  export interface EventType {
     name: string;
     controlNameRequired: boolean;
@@ -103,6 +104,6 @@ export interface ComponentEvent extends ExternalEvent {
     component: Component;
 }
 
-export type Control = Xrm.Events.EventContext | Xrm.Controls.GridControl;
+export type Control = Xrm.Events.EventContext | Xrm.FormContext | Xrm.Controls.GridControl;
 
 export enum ControlType { form = "form", grid = "grid" }
