@@ -1,5 +1,5 @@
 import { CanBePromise, ExternalArgs } from "../../typing";
-import { getControlType } from "../../utils";
+import { assert, getControlType } from "../../utils";
 import { Context } from "./context";
 import { EventEnv } from "../events/event-env";
 import { EsmLoader } from "../esm/esm-loader";
@@ -34,6 +34,8 @@ export class ContextInitializer {
         if (this.contexts[controlType]) {
             return this.contexts[controlType];
         }
+
+        assert(Object.keys(this.contexts).length === 0, "Only one page context can be init.");
 
         return (async () => {
             // HACK : Attempt to return a promise during initialization if another call to the same context occurs during asynchronous init. 
