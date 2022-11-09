@@ -1,9 +1,7 @@
 import { ComponentObject } from "../../../typing";
-import { getMethods } from "../../../utils";
+import { ComponentBrowser } from "../../component/component-browser";
 import { EventStorage } from "../../events/event-storage";
-import { EventConfig } from "../../metadata/events";
 import { isComponent } from "../../metadata/helper";
-import { PropertyMetadata } from "../../reflection/property";
 import { Middleware } from "../container/container";
 
 /**
@@ -19,41 +17,14 @@ export class EventMiddleware implements Middleware {
     // eslint-disable-next-line @typescript-eslint/no-empty-function
     onPreConstruct(): void {}
 
-    onPostConstruct(instance: ComponentObject): unknown {
+    onPostConstruct(instance: ComponentObject): ComponentObject {
         if (!isComponent(instance)) {
-            return;
+            return instance;
         }
 
-        const resolveTarget = (valueOrValueMapper: unknown) => {
-            switch (typeof valueOrValueMapper) {
-                case "function": {
-                    if (instance.config) {
-                        return valueOrValueMapper(instance.config);
-                    }
-                    else {
-                        throw new Error("Config required");
-                    }
-                }
-                default:
-                    return valueOrValueMapper;
-            }
-        };
-
-        for (const key of getMethods(instance)) {
-            const property = new PropertyMetadata(instance, key);
-            const isEvent = property.hasMetadata("event");
-
-            if (isEvent) {
-                const eventConfig = property.getMetadata("event") as EventConfig;
-                const target = resolveTarget(eventConfig.target);
-                // TODO: Event register ?
-                this.eventStorage.addEvent({
-                    type: eventConfig.type,
-                    targetName: target,
-                    callback: (...args: any[]) => instance[key](...args)
-                });
-            }
-        }
+        const componentBrowser = new ComponentBrowser(instance, instance.input);
+        componentBrowser.events
+            .forEach(e => this.eventStorage.addEvent(e));
 
         return instance;
     }

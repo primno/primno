@@ -12,10 +12,6 @@ import { debug, verbose } from "../../utils";
      * Event targer. Optional.
      */
     targetName?: string;
-    /**
-     * Callback.
-     */
-    callback: (...args: any) => any;
 }
 
 export class EventStorage {

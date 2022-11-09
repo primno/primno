@@ -1,9 +1,10 @@
-import { Constructor, MnContext } from '.';
+import { Constructor, ConstructorOrObject, MnContext } from '.';
 import { Config, Input } from '../core/component/interface';
 import { ExternalArgs } from './events';
 
 export type ComponentConstructor<T = ComponentObject> = Constructor<T>;
 export type ComponentObject = Record<string | number | symbol, any>;
+export type ComponentOrComponentConstructor = ConstructorOrObject<ComponentObject>;
 
 /**
  * Obtain input type from a component.

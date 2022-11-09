@@ -3,6 +3,7 @@ import { debug, verbose } from "../../utils";
 import { ComponentContainer } from "../di/container/component-container";
 import { Container } from "../di/container/container";
 import { PropertyMetadata } from "../reflection/property";
+import { ComponentBrowser } from "./component-browser";
 
 export interface SubComponent<T extends ComponentObject> {
     readonly state: boolean;
@@ -16,25 +17,17 @@ export class ComponentActivator<T extends ComponentObject> implements SubCompone
     public constructor(
         private componentType: ComponentConstructor,
         parentContainer: Container,
-        private input?: any
+        input?: any
      ) {
+        this.componentBrowser = new ComponentBrowser(componentType, input);
+
         this.container = new ComponentContainer(componentType, parentContainer);
         this.container.bindInput(input);
-        this.container.bindConfig(this.resolveConfig());
-    }
-
-    private resolveConfig() {
-        const propMetadata = new PropertyMetadata(this.componentType, "config");
-        const configOrMapper = propMetadata.getMetadata<ConfigOrConfigMapper<T>>("config");
-
-        switch (typeof configOrMapper) {
-            case "function": return configOrMapper(this.input);
-            case "object": return configOrMapper;
-            default: throw new Error(`Invalid component config type: ${typeof configOrMapper}`);
-        }
+        this.container.bindConfig(this.componentBrowser.config);
     }
 
     private container: ComponentContainer<ComponentConstructor<T>>;
+    private componentBrowser: ComponentBrowser;
 
     /*public get output(): OutputOf<T> | undefined {
         return undefined as any;

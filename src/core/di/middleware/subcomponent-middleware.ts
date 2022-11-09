@@ -1,6 +1,8 @@
-import { ComponentObject } from "../../../typing";
+import { ComponentConstructor, ComponentObject } from "../../../typing";
 import { verbose } from "../../../utils";
 import { ComponentActivator } from "../../component/component-activator";
+import { ComponentBrowser } from "../../component/component-browser";
+import { isComponent } from "../../metadata/helper";
 import { SubComponentConfig } from "../../metadata/subcomponent";
 import { PropertyMetadata } from "../../reflection/property";
 import { Container, Middleware } from "../container/container";
@@ -18,40 +20,23 @@ export class SubComponentMiddleware implements Middleware {
     onPreConstruct(): void {}
 
     onPostConstruct(instance: ComponentObject, container: Container): ComponentObject {
-        for (const key in instance) {
-            const property = new PropertyMetadata(instance, key);
-            const isSubComponent = property.hasMetadata("subcomponent");
-    
-            if (isSubComponent) {
-                const subComponentMetadata = property.getMetadata<SubComponentConfig<any>>("subcomponent");
-    
-                verbose(`Subcomponent ${subComponentMetadata.component.name} find in ${instance.constructor.name} for ${key} property.`);
-    
-                const resolveInput = () => {
-                    switch (typeof subComponentMetadata.input) {
-                        case "function": {
-                            if (instance.config) {
-                                return subComponentMetadata.input(instance.config);
-                            }
-                            else {
-                                throw new Error(`Config required in ${instance.constructor.name}`);
-                            }
-                        }
-                        case "object": return subComponentMetadata.input;
-                        case "undefined": return undefined;
-                        default: throw new Error("Unsupported input type");
-                    }
-                };
+        if (!isComponent(instance)) {
+            return instance;
+        }
 
-                const componentActivator = new ComponentActivator(subComponentMetadata.component, container, resolveInput());
+        const componentBrowser = new ComponentBrowser(instance, instance.input);
+        componentBrowser.subComponents
+            .forEach(c => {
+                verbose(`Subcomponent ${c.name} find in ${componentBrowser.name} for ${c.keyName} property.`);
+
+                const componentActivator = new ComponentActivator(c.componentType as ComponentConstructor, container, c.input);
                 // TODO: Replace with proxy to component activator
-                instance[key] = componentActivator;
+                instance[c.keyName as string] = componentActivator;
 
-                if (subComponentMetadata.enabled) {
+                if (c.defaultEnabled) {
                     componentActivator.enable();
                 }
-            }
-        }
+            });
 
         return instance;
     }
