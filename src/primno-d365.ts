@@ -3,7 +3,7 @@
 import "reflect-metadata";
 import { InitializeOptions, Primno } from "./core/primno";
 import { CanBePromise, EventTypes, Control } from "./typing";
-import { notifyCriticalError } from "./utils";
+import { isUci, notifyCriticalError } from "./utils";
 
 let primno: Primno | undefined;
 let initOptions: InitializeOptions;
@@ -44,6 +44,11 @@ export function onEvent(
     primaryControl: Control | undefined,
     ...args: unknown[]
 ): CanBePromise<unknown> {
+    if (!isUci()) {
+        notifyCriticalError("Primno support Uci only");
+        return;
+    }
+
     return getPrimno()
         ?.triggerEvent(
             {
@@ -51,7 +56,7 @@ export function onEvent(
                 targetName: controlName
             },
             selectedControl,
-            primaryControl ?? selectedControl,
+            primaryControl,
             ...args
         );
 }

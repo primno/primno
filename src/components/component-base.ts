@@ -2,6 +2,9 @@ import { Component, ComponentConfig, MnContext } from "../typing";
 import { ExternalArgs } from "../typing/events";
 import { FluentEventRegister } from "./fluent-event-register";
 
+/**
+ * @deprecated
+ */
 export abstract class ComponentBase<TConfig extends ComponentConfig = ComponentConfig> implements Component<TConfig> {
     private readonly _config: Readonly<TConfig>;
 

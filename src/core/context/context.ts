@@ -1,5 +1,5 @@
-import { ComponentEvent, EventType, ControlType, ExternalArgs, ExternalEvent, Component, MnContext, ComponentConstructor, ComponentObject } from "../../typing";
-import { debug, getControlType, isNullOrUndefined } from "../../utils";
+import { ComponentEvent, EventType, ControlType, ExternalArgs, Event, MnContext, ComponentConstructor, ComponentObject, Control } from "../../typing";
+import { debug, getControlType, throwError } from "../../utils";
 import { ControlScope } from "../common/scope";
 import { EventEnv } from "../events/event-env";
 import { EsmLoader } from "../esm/esm-loader";
@@ -8,8 +8,9 @@ import { RootContainer } from "../di/container";
 import { OnInitMiddleWare } from "../di/middleware/on-init-middleware";
 import { SubComponentMiddleware } from "../di/middleware/subcomponent-middleware";
 import { EventMiddleware } from "../di/middleware/event-middleware";
-import { EventStorage } from "../events/event-storage";
 import { ComponentActivator } from "../component/component-activator";
+import { ComponentBrowser } from "../component/component-browser";
+import { D365EventSubscriber } from "../events/d365-event-subscriber";
 
 /**
  * Define all actions that could be done in the context of the execution (provided by dataverse).
@@ -18,6 +19,7 @@ import { ComponentActivator } from "../component/component-activator";
 export class Context implements MnContext {
     //TODO: Change !
     public controlType: ControlType;
+    private d365EventSubscriber: D365EventSubscriber;
 
     public static async new(
         extArgs: ExternalArgs,
@@ -34,6 +36,7 @@ export class Context implements MnContext {
         private esmLoader: EsmLoader,
         initialExtArgs: ExternalArgs) {
         this.controlType = getControlType(initialExtArgs.selectedControl) as ControlType;
+        this.d365EventSubscriber = new D365EventSubscriber(eventEnv.eventTypeRegister, initialExtArgs.primaryControl as Control);
     }
 
     /**
@@ -43,10 +46,7 @@ export class Context implements MnContext {
     private async init(extArgs: ExternalArgs) {
         try {
             debug(`Init ${this.controlType} context`);
-            // TODO: Must be init in Context Initializer. Currently, root container can be init 2 times
             await this.bootstrapModule();
-            //await this.loadComponents(extArgs);
-            //this.components.forEach(component => component.onInit(this, extArgs));
         }
         catch (except: any) {
             throw new Error(`Initialization error - ${except.message}. Exception: ${except.name}. Stack trace: ${except.stack}`);
@@ -65,13 +65,17 @@ export class Context implements MnContext {
         
         // Init DI
         const rootContainer = new RootContainer(module);
-        const eventStorage = new EventStorage();
         rootContainer.applyMiddlewares(
             new OnInitMiddleWare(),
             new SubComponentMiddleware(),
-            new EventMiddleware(eventStorage)
+            new EventMiddleware(this.eventEnv.eventRegister)
         );
 
+        // Subscribe to D365 events
+        const componentBrowser = new ComponentBrowser(boostrapComponent);
+        componentBrowser.allEvents.forEach(e => this.d365EventSubscriber.subscribe(e));
+
+        // Create and enable the boostrap component
         const componentActivator = new ComponentActivator(boostrapComponent, rootContainer.container);
         componentActivator.enable();
     }
@@ -99,12 +103,13 @@ export class Context implements MnContext {
      * @param eventType 
      * @param event 
      */
-    private checkEventType(eventType: EventType, event: ExternalEvent) {
-        if (isNullOrUndefined(eventType)) {
+    // TODO: Call to EventType.checkValidity instead
+    private checkEventType(eventType: EventType, event: Event) {
+        if (eventType == null) {
             throw new Error(`No event listener or event type ${event.type}`);
         }
 
-        if (eventType.controlNameRequired && isNullOrUndefined(event.targetName)) {
+        if (eventType.controlNameRequired && event.targetName == null) {
             throw new Error(`Event type ${event.type} required a control name`);
         }
     }
@@ -115,22 +120,7 @@ export class Context implements MnContext {
      * @param extArgs 
      */
     public subscribe(event: ComponentEvent, extArgs: ExternalArgs): void {
-        const eventType = this.eventEnv.eventTypeRegister.getEventType(event.type);
-
-        if (eventType == null) {
-            throw new Error(`Event type ${event.type} unknow`);
-        }
-
-        // TODO: Selected and primary control. Maybe possible to subscribe to primary ?
-        // Context is created with selected, not primary
-        if (eventType.supportedControls.some(f => f == this.controlType)) {
-            // TODO: Evite d'avoir des doublons d'abonnements. Etudier une meilleur gestion.
-            if (this.eventEnv.eventRegister.exist(event) == false) {
-                debug(`Subscribe ${event.type} event with target name ${event.targetName} on component ${event.component.name}`);
-                this.eventEnv.eventRegister.addEvent(event);
-                eventType.subscribe(extArgs.selectedControl, event.targetName);
-            }
-        }
+        throwError("Deprecated subscribe call in context");
     }
 
     /**
@@ -139,16 +129,7 @@ export class Context implements MnContext {
      * @param extArgs 
      */
     public unsubscribe(event: ComponentEvent, extArgs: ExternalArgs): void {
-        const eventType = this.eventEnv.eventTypeRegister.getEventType(event.type);
-
-        if (isNullOrUndefined(eventType)) {
-            throw new Error(`Event type ${event.type} unknow`);
-        }
-
-        if (eventType?.supportedControls.some(f => f == this.controlType)) {
-            eventType.unsubscribe(extArgs.selectedControl, event.targetName);
-            //this.eventEnv.eventRegister.removeEvent(event);
-        }
+        throwError("Deprecated unsubscribe call in context");
     }
 
     /**
@@ -157,7 +138,7 @@ export class Context implements MnContext {
      * @param extArgs 
      * @returns 
      */
-    public triggerEvent(event: ExternalEvent, extArgs: ExternalArgs): unknown {
+    public triggerEvent(event: Event, extArgs: ExternalArgs): unknown {
         const eventType = this.eventEnv.eventTypeRegister.getEventType(event.type) as EventType;
         this.checkEventType(eventType, event);
 

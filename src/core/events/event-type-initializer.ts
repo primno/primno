@@ -1,4 +1,4 @@
-import { EventType, ExternalArgs, ExternalEvent, Control } from "../../typing";
+import { EventType, ExternalArgs, Event, Control } from "../../typing";
 import { debug, verbose } from "../../utils";
 import { Primno } from "../primno";
 import { EventTypeRegister } from "./event-type-register";
@@ -34,7 +34,7 @@ function createCallback(eventType: EventType, primno: Primno) {
             {
                 type: eventType.name,
                 targetName: targetName
-            } as ExternalEvent,
+            } as Event,
             extArgs.selectedControl,
             extArgs.primaryControl,
             extArgs.args

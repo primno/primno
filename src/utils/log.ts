@@ -1,5 +1,3 @@
-import { notifyCriticalError } from "./error";
-
 // TODO: Use @rollup/plugin-strip to remove debug, verbose and assert in production
 
 /**
@@ -22,6 +20,22 @@ export function assert(assertion: boolean, message?: string): void {
     if (assertion !== true){
         notifyCriticalError(`Assertion failed: ${message}`);
     }
+}
+
+/**
+ * Log a error message
+ */
+export function error(message: string) {
+    console.error(message);
+}
+
+/**
+ * Notifies that a critical error has occurred.
+ * @param text Error message.
+ */
+ export function notifyCriticalError(text: string, details?: string): void {
+    error(`Critical error: ${text}. Details: ${details}`);
+    Xrm.Navigation.openErrorDialog({ message: text, details: details });
 }
 
 /**

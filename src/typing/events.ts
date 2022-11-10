@@ -1,4 +1,4 @@
-import { Component } from "./component";
+import { ComponentObject } from "./component";
 
 export interface ExternalArgs {
     selectedControl: Control;
@@ -85,7 +85,7 @@ export enum EventTypes {
 /**
  * Minimalist definition of an event.
  */
-export interface ExternalEvent {
+export interface Event {
     /**
      * Event type
      */
@@ -99,9 +99,9 @@ export interface ExternalEvent {
 /**
  * Event to register
  */
-export interface ComponentEvent extends ExternalEvent {
+export interface ComponentEvent extends Event {
     eventHandler: EventHandler;
-    component: Component;
+    component: ComponentObject;
 }
 
 export type Control = Xrm.Events.EventContext | Xrm.FormContext | Xrm.Controls.GridControl;

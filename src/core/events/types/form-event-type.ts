@@ -19,7 +19,7 @@ export abstract class FormEventType<TEventArg extends FormEventArg = FormEventAr
     public createEventArg(args: ExternalArgs): TEventArg {
         return {
             eventCtx: args.selectedControl,
-            formCtx: getFormContext(args.selectedControl as Xrm.Events.EventContext) as Xrm.FormContext,
+            formCtx: getFormContext(args.primaryControl as Xrm.Events.EventContext) as Xrm.FormContext,
             type: this.name
         } as TEventArg;
     }
@@ -41,9 +41,9 @@ export class FormLoadEventType extends FormEventType {
     }
 
     // eslint-disable-next-line @typescript-eslint/no-empty-function
-    public subscribe(selectedControl: Control, controlName?: string): void {}
+    public subscribe(): void {}
     // eslint-disable-next-line @typescript-eslint/no-empty-function
-    public unsubscribe(selectedControl: Control, controlName?: string): void {}
+    public unsubscribe(): void {}
 }
 
 export class DataLoadEventType extends FormEventType {

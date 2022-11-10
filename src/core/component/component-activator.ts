@@ -2,7 +2,6 @@ import { ComponentConstructor, ComponentObject, ConfigOrConfigMapper } from "../
 import { debug, verbose } from "../../utils";
 import { ComponentContainer } from "../di/container/component-container";
 import { Container } from "../di/container/container";
-import { PropertyMetadata } from "../reflection/property";
 import { ComponentBrowser } from "./component-browser";
 
 export interface SubComponent<T extends ComponentObject> {
@@ -65,7 +64,7 @@ export class ComponentActivator<T extends ComponentObject> implements SubCompone
         debug(`Disable component ${this.componentType.name}`);
 
         this.state = false;
-        // TODO: Remove events here
+        // TODO: Disabled events here
         this.component = undefined;
     }
 }

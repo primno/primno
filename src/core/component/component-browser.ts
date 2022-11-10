@@ -1,7 +1,16 @@
-import { ComponentOrComponentConstructor } from "../../typing";
-import { Event } from "../events/event-storage";
+import { ComponentOrComponentConstructor, Event } from "../../typing";
 import { EventConfig, SubComponentConfig } from "../metadata";
 import { PropertyMetadata } from "../reflection/property";
+
+/**
+ * Describe an event in a component.
+ */
+export interface EventMetadata extends Event {
+    /**
+     * Property name in the component.
+     */
+    keyName: string;
+}
 
 /**
  * ComponentBrowser allows to navigate in the component tree.
@@ -104,15 +113,17 @@ export class ComponentBrowser {
     }
 
     /** Gets events of this component */
-    public get events(): Event[] {
+    public get events(): EventMetadata[] {
         return PropertyMetadata.getPropertiesMetadata(this.componentType)
             .filter(p => p.hasMetadata("event"))
-            .map(p => p.getMetadata<EventConfig>("event"))
-            .map(e => ({
+            .map(p => {
+                const e = p.getMetadata<EventConfig>("event");
+                return {
                     type: e.type,
                     targetName: this.resolveEventTargetName(e.target),
-                })
-        );
+                    keyName: p.propertyKey
+                };
+            });
     }
 
     /**

@@ -1,22 +1,17 @@
+import { EventTypes } from "../../typing";
 import { ValueOrConfigPropertyMapper } from "../../typing/component";
 import { MetadataDecoratorHelper } from "../reflection/decorator-helper";
 
-export enum EventType {
-    load = "Load",
-    fieldChange = "FieldChange",
-    tabState = "TabState"
-}
-
 export interface EventConfig {
     target?: ValueOrConfigPropertyMapper<string>;
-    type: EventType;
+    type: EventTypes;
 }
 
 export function MnOnLoad() {
     return function (target: any, key?: any, index?: any) {
         const primnoTarget = new MetadataDecoratorHelper(target, key, index);
         primnoTarget.setMetadata("event", {
-            type: EventType.load
+            type: EventTypes.FormLoad
         } as EventConfig);
     }
 }
@@ -26,7 +21,7 @@ export function MnOnFieldChange(fieldName: ValueOrConfigPropertyMapper<string>) 
         // TODO: Replace with helper
         const primnoTarget = new MetadataDecoratorHelper(target, key);
         primnoTarget.setMetadata("event", {
-            type: EventType.fieldChange,
+            type: EventTypes.FieldChange,
             target: fieldName
         } as EventConfig);
     }
@@ -36,7 +31,7 @@ export function MnOnTabState(tabName: ValueOrConfigPropertyMapper<string>) {
     return function (target: any, key: any, descriptor: PropertyDescriptor) {
         const primnoTarget = new MetadataDecoratorHelper(target, key);
         primnoTarget.setMetadata("event", {
-            type: EventType.fieldChange,
+            type: EventTypes.TabStateChange,
             target: tabName
         } as EventConfig);
     }

@@ -5,16 +5,6 @@ import { hasMethod } from "./common";
 export function isUci(): boolean {
     const globalContext = Xrm.Utility.getGlobalContext();
     return globalContext.getCurrentAppUrl() !== globalContext.getClientUrl();
-
-    // TODO: Remove if it works and is reliable. 
-    // Check with ?forceUCI=1&pagetype=entityrecord&etn=contact&id=43ca6642-8cfe-eb11-b828-005056be3253
-    
-    // const xrm = Xrm as any;
-
-    // if (isNullOrUndefined(xrm?.Internal?.isUci) == false)
-    //     return xrm.Internal.isUci();
-    // else
-    //     return false;
 }
 
 /**
@@ -114,6 +104,11 @@ export function getFormContext(eventCtx: Xrm.Events.EventContext | Xrm.FormConte
     return null;
 }
 
+/**
+ * Gets the Guid of the form.
+ * @param formContext Form context
+ * @returns Guid of form
+ */
 export function getFormId(formContext: Xrm.FormContext): string | undefined {
     return formContext?.ui.formSelector.getCurrentItem()?.getId();
 }

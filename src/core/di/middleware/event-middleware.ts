@@ -1,6 +1,6 @@
 import { ComponentObject } from "../../../typing";
 import { ComponentBrowser } from "../../component/component-browser";
-import { EventStorage } from "../../events/event-storage";
+import { EventRegister } from "../../events";
 import { isComponent } from "../../metadata/helper";
 import { Middleware } from "../container/container";
 
@@ -12,7 +12,7 @@ export class EventMiddleware implements Middleware {
         return true;
     }
 
-    public constructor(private eventStorage: EventStorage) {}
+    public constructor(private eventRegister: EventRegister) {}
 
     // eslint-disable-next-line @typescript-eslint/no-empty-function
     onPreConstruct(): void {}
@@ -24,7 +24,12 @@ export class EventMiddleware implements Middleware {
 
         const componentBrowser = new ComponentBrowser(instance, instance.input);
         componentBrowser.events
-            .forEach(e => this.eventStorage.addEvent(e));
+            .forEach(e => this.eventRegister.addEvent({
+                component: instance,
+                eventHandler: instance[e.keyName],
+                type: e.type,
+                targetName: e.targetName
+            }));
 
         return instance;
     }

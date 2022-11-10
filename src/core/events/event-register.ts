@@ -1,7 +1,7 @@
 ﻿import { ComponentEvent } from '../../typing/events';
+import { debug } from '../../utils';
 
-/** Subscribed event register
- * @deprecated **/
+/** Event register for components **/
 export class EventRegister {
     /** Events */
     private _events: ComponentEvent[] = [];
@@ -16,6 +16,7 @@ export class EventRegister {
      * @param event Event
      */
     public addEvent(event: ComponentEvent): void {
+        debug(`Event ${event.type} for ${event.targetName} added to ${event.component.constructor.name}`);
         this.events.push(event);
     }
 
@@ -33,7 +34,7 @@ export class EventRegister {
 
     /** Show events in console */
     public printEvents(): void {
-        console.info("--- Features ---");
+        console.info("--- Events ---");
 
         for (const event of this.events) {
             let controlName = event.targetName;
@@ -43,6 +44,6 @@ export class EventRegister {
             console.info(`[${controlName}] | ${event.type} => ${event.component.name}`);
         }
 
-        console.info("--- Features --- ");
+        console.info("--- Events --- ");
     }
 }
