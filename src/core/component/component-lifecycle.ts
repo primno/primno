@@ -1,6 +1,7 @@
 import { ComponentObject } from "../../typing";
 import { hasMethod } from "../../utils";
 import { EventRegister } from "../events";
+import { SubComponent } from "./component-activator";
 import { ComponentBrowser } from "./component-browser";
 
 /**
@@ -30,7 +31,7 @@ export class ComponentLifeCycle {
     }
 
     /**
-     * Destroy the given component. Call mnOnDestroy and unregister events.
+     * Destroy the given component and his children. Call mnOnDestroy and unregister events.
      * @param component 
      */
     public destroy(component: ComponentObject) {
@@ -39,6 +40,17 @@ export class ComponentLifeCycle {
         }
 
         const componentBrowser = new ComponentBrowser(component, component.input);
+
+        // Disable sub components
+        componentBrowser.subComponents
+            .forEach(c => {
+                const activator = component[c.keyName as string] as SubComponent<ComponentObject>;
+                if (activator.state) {
+                    activator.disable();
+                }
+            });
+
+        // Remove events
         componentBrowser.events
             .forEach(e => this.eventRegister.removeEvent({
                 component,
