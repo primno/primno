@@ -100,7 +100,7 @@ export interface Event {
  * Event to register
  */
 export interface ComponentEvent extends Event {
-    eventHandler: EventHandler;
+    propertyName: string;
     component: ComponentObject;
 }
 

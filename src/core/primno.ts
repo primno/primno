@@ -47,8 +47,10 @@ export class Primno {
             .new(() => this.contextInitializer.getContext(extArgs))
             .then((context) => context.triggerEvent(event, extArgs))
             .catch((except) => {
-                console.error(except);
-                notifyCriticalError(`An error was occured on ${event.type} event`, `${except.message}. Stack trace: ${except.stack}`);
+                notifyCriticalError(
+                    `An error was occured on ${event.type} event:\r\n${except.message}`,
+                    `Exception: ${except.name} => ${except.message}\r\n Stack trace: ${except.stack}`
+                );
             })
             .done();
     }

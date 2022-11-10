@@ -22,7 +22,7 @@ export class EventRegister {
 
     public exist(event: ComponentEvent): boolean {
         return (this.events.some(e => e.component == event.component &&
-            e.eventHandler === event.eventHandler &&
+            e.propertyName === event.propertyName &&
             e.targetName === event.targetName &&
             e.type === event.type));
     }

@@ -20,7 +20,7 @@ export class ComponentLifeCycle {
         componentBrowser.events
             .forEach(e => this.eventRegister.addEvent({
                 component,
-                eventHandler: component[e.keyName],
+                propertyName: e.keyName,
                 type: e.type,
                 targetName: e.targetName
             }));
@@ -54,7 +54,7 @@ export class ComponentLifeCycle {
         componentBrowser.events
             .forEach(e => this.eventRegister.removeEvent({
                 component,
-                eventHandler: component[e.keyName],
+                propertyName: e.keyName as string,
                 type: e.type,
                 targetName: e.targetName
             }));
