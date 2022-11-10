@@ -34,8 +34,9 @@ export class ComponentBrowser {
         const configOrMapper = propMetadata.getMetadata("config");
 
         switch (typeof configOrMapper) {
-            case "function": return configOrMapper(this.input);
+            case "function": return configOrMapper(input);
             case "object": return configOrMapper;
+            case "undefined": return undefined;
             default: throw new Error(`Invalid component config type: ${typeof configOrMapper}`);
         }
     }
@@ -71,18 +72,22 @@ export class ComponentBrowser {
         }
     }
     
+    /** Input value of the component */
     public get input(): any | undefined {
         return this._input;
     }
 
+    /** Config value of the component */
     public get config(): any | undefined {
         return this._config;
     }
 
+    /** Name of the component type (Eg: AppComponent) */
     public get name() {
         return this.componentType.name ?? this.componentType.constructor.name;
     }
 
+    /** Constructor of the component or an instance of the component */
     public get componentType() {
         return this._componentType;
     }
