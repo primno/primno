@@ -1,6 +1,5 @@
-import { Constructor, ConstructorOrObject, MnContext } from '.';
+import { Constructor, ConstructorOrObject } from '.';
 import { Config, Input } from '../core/component/interface';
-import { ExternalArgs } from './events';
 
 export type ComponentConstructor<T = ComponentObject> = Constructor<T>;
 export type ComponentObject = Record<string | number | symbol, any>;
@@ -48,18 +47,3 @@ export type InputOrInputMapper<T extends Constructor, TInstance extends Instance
 
 // Component configuration
 export type ComponentConfig = Record<string, unknown>;
-
-/**
- * @deprecated
- */
-export type ComponentType = new (...args: unknown[]) => unknown;
-
-/**
- * @deprecated
- */
-export interface Component<TConfig extends ComponentConfig = ComponentConfig> {
-    readonly config: Readonly<TConfig>;
-    readonly name: string;
-
-    onInit(context: MnContext, extArgs: ExternalArgs): void;
-}

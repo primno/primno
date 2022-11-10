@@ -1,6 +1,4 @@
-﻿import { FieldType, FormConfig, FormEventArg } from "../../../../typing";
-import { isNullOrUndefined } from "../../../../utils";
-import { FieldsMetadataFromConfig } from "../form-feature-base";
+﻿import { FieldType, FormConfig, FormEventArg, PropertyTypeReplacer, RecursiveNoUndefined } from "../../typing";
 import { XrmControlHandler, XrmFieldHandler, XrmTabHandler, XrmValueHandler } from "./xrm-handlers";
 
 type FieldTypeToXrmAttribute<T extends FieldType> = 
@@ -31,10 +29,13 @@ type Values<T extends FieldTypeMetadata> = { [P in keyof T]: ExtractAttributeTyp
 
 type Tabs<TConfig extends FormConfig> = { [P in keyof TConfig['tabs']]: Xrm.Controls.Tab };
 
+export type FieldTypeReplacer<TFields extends Record<string, unknown>> = PropertyTypeReplacer<TFields, FieldType>;
+export type FieldsMetadataFromConfig<TConfig extends FormConfig> = FieldTypeReplacer<RecursiveNoUndefined<TConfig["fields"]>>;
+
 /** Provides the tools allowing direct access to the fields, controls, values and tab of the form from the configuration  */
 export class XrmMapper<TConfig extends FormConfig, TFieldMetaData extends FieldsMetadataFromConfig<TConfig>> {
     constructor(eventArg: FormEventArg, config: TConfig) {
-        if (isNullOrUndefined(config.fields) === false) {
+        if (config.fields != null) {
             const configFields = config.fields as NonNullable<TConfig["fields"]>;
             this.fields = new Proxy<NonNullable<TConfig["fields"]>>(configFields, new XrmFieldHandler(eventArg.formCtx)) as never;
             this.controls = new Proxy<NonNullable<TConfig["fields"]>>(configFields, new XrmControlHandler(eventArg.formCtx)) as never;
@@ -46,7 +47,7 @@ export class XrmMapper<TConfig extends FormConfig, TFieldMetaData extends Fields
             this.values = {} as never;
         }
 
-        if (isNullOrUndefined(config.tabs) == false) {
+        if (config.tabs != null) {
             const configTabs = config.tabs as NonNullable<TConfig["tabs"]>;
             this.tabs = new Proxy<NonNullable<TConfig["tabs"]>>(configTabs, new XrmTabHandler(eventArg.formCtx)) as never;
         }

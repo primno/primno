@@ -1,6 +1,5 @@
-import { ComponentEvent, EventType, ControlType, ExternalArgs, Event, MnContext, ComponentConstructor, ComponentObject, Control } from "../../typing";
-import { debug, getControlType, throwError } from "../../utils";
-import { ControlScope } from "../common/scope";
+import { EventType, ControlType, ExternalArgs, Event, ComponentConstructor, ComponentObject, Control } from "../../typing";
+import { debug, getControlType } from "../../utils";
 import { EventEnv } from "../events/event-env";
 import { EsmLoader } from "../esm/esm-loader";
 import { getModuleConfig } from "../metadata/helper";
@@ -13,10 +12,10 @@ import { D365EventSubscriber } from "../events/d365-event-subscriber";
 import { ComponentLifeCycle } from "../component/component-lifecycle";
 
 /**
- * Define all actions that could be done in the context of the execution (provided by dataverse).
+ * Define all actions that could be done in the context of the execution (provided by D365).
  * The context is defined by the current page contexte (form or grid).
  */
-export class Context implements MnContext {
+export class Context {
     //TODO: Change !
     public controlType: ControlType;
     private d365EventSubscriber: D365EventSubscriber;
@@ -86,24 +85,6 @@ export class Context implements MnContext {
     }
 
     /**
-     * Loads components for a given context. 
-     * @param eventCtx
-     */
-    private async loadComponents(extArgs: ExternalArgs) {
-        try {
-            // Indicate search specifications (entityName, formId, formName, gridName, gridId, that kind of thing) 
-            // Call a ComponentHelper which will take care of obtaining the concerned module and domain(s) in order to obtain the components
-            const controlScope = await ControlScope.new(extArgs.selectedControl);
-            const moduleBrowser = await this.esmLoader.get();
-            //const domains = moduleBrowser.domainRegister.getDomains(controlScope);
-            //this.components = domains.flatMap(d => d.components);
-        }
-        catch (except: any) {
-            throw new Error(`An error was occured during components loading: ${except.message}`);
-        }
-    }
-
-    /**
      * Check the consistency of an event type 
      * @param eventType 
      * @param event 
@@ -117,24 +98,6 @@ export class Context implements MnContext {
         if (eventType.controlNameRequired && event.targetName == null) {
             throw new Error(`Event type ${event.type} required a control name`);
         }
-    }
-
-    /**
-     * Subscribe to an event.
-     * @param event 
-     * @param extArgs 
-     */
-    public subscribe(event: ComponentEvent, extArgs: ExternalArgs): void {
-        throwError("Deprecated subscribe call in context");
-    }
-
-    /**
-     * Unsubscribe an event
-     * @param event 
-     * @param extArgs 
-     */
-    public unsubscribe(event: ComponentEvent, extArgs: ExternalArgs): void {
-        throwError("Deprecated unsubscribe call in context");
     }
 
     /**
@@ -152,4 +115,22 @@ export class Context implements MnContext {
         const eventArg = eventType.createEventArg(extArgs);
         return this.eventEnv.eventDispatcher.dispatchComponentEvent(event, eventArg);
     }
+
+    // /**
+    //  * Loads components for a given context. 
+    //  * @param eventCtx
+    //  */
+    // private async loadComponents(extArgs: ExternalArgs) {
+    //     try {
+    //         // Indicate search specifications (entityName, formId, formName, gridName, gridId, that kind of thing) 
+    //         // Call a ComponentHelper which will take care of obtaining the concerned module and domain(s) in order to obtain the components
+    //         const controlScope = await ControlScope.new(extArgs.selectedControl);
+    //         const moduleBrowser = await this.esmLoader.get();
+    //         //const domains = moduleBrowser.domainRegister.getDomains(controlScope);
+    //         //this.components = domains.flatMap(d => d.components);
+    //     }
+    //     catch (except: any) {
+    //         throw new Error(`An error was occured during components loading: ${except.message}`);
+    //     }
+    // }
 }

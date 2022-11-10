@@ -1,5 +1,4 @@
-﻿import { StringPropertyObject } from "../../../../typing";
-import { isNullOrUndefined } from "../../../../utils";
+﻿import { StringPropertyObject } from "../../typing";
 
 /** Proxy allowing shortcut access to the fields indicated in the configuration of the features. */
 abstract class XrmHandler<T extends StringPropertyObject> implements ProxyHandler<T> {
@@ -23,7 +22,7 @@ export class XrmFieldHandler<T extends StringPropertyObject> extends XrmHandler<
     }
 
     public get(target: T, prop: string): unknown {
-        if (isNullOrUndefined(target) || isNullOrUndefined(target[prop])) {
+        if (target == null || target[prop] == null) {
             return null;
         }
 
@@ -49,7 +48,7 @@ export class XrmValueHandler<T extends StringPropertyObject> extends XrmHandler<
     }
 
     public get(target: T, prop: string): unknown {
-        if (isNullOrUndefined(target) || isNullOrUndefined(target[prop])) {
+        if (target == null || target[prop] == null) {
             return null;
         }
 

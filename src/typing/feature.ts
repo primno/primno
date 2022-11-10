@@ -1,5 +1,5 @@
 import { StringPropertyObject } from "./common";
-import { Component, ComponentConfig } from "./component";
+import { ComponentConfig } from "./component";
 
 //export type FieldType = "lookup" | "string" | "number" | "optionset" | "boolean" | "datetime";
 export const enum FieldType {
@@ -23,14 +23,3 @@ export interface FormConfig extends FeatureConfig {
     fields?: StringPropertyObject;
     tabs?: StringPropertyObject;
 }
-
-export interface GridConfig extends FeatureConfig {
-    buttons?: StringPropertyObject;
-    enableRules?: StringPropertyObject;
-}
-
-// Feature
-
-export type Feature<TConfig extends FeatureConfig = FeatureConfig> = Component<TConfig>;
-export type FormFeature<TConfig extends FormConfig = FormConfig> = Feature<TConfig>;
-export type GridFeature<TConfig extends GridConfig = GridConfig> = Feature<TConfig>;
