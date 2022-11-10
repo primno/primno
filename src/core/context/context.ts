@@ -7,10 +7,10 @@ import { getModuleConfig } from "../metadata/helper";
 import { RootContainer } from "../di/container";
 import { OnInitMiddleWare } from "../di/middleware/on-init-middleware";
 import { SubComponentMiddleware } from "../di/middleware/subcomponent-middleware";
-import { EventMiddleware } from "../di/middleware/event-middleware";
 import { ComponentActivator } from "../component/component-activator";
 import { ComponentBrowser } from "../component/component-browser";
 import { D365EventSubscriber } from "../events/d365-event-subscriber";
+import { ComponentLifeCycle } from "../component/component-lifecycle";
 
 /**
  * Define all actions that could be done in the context of the execution (provided by dataverse).
@@ -20,6 +20,7 @@ export class Context implements MnContext {
     //TODO: Change !
     public controlType: ControlType;
     private d365EventSubscriber: D365EventSubscriber;
+    private componentLifeCycle: ComponentLifeCycle;
 
     public static async new(
         extArgs: ExternalArgs,
@@ -37,6 +38,7 @@ export class Context implements MnContext {
         initialExtArgs: ExternalArgs) {
         this.controlType = getControlType(initialExtArgs.selectedControl) as ControlType;
         this.d365EventSubscriber = new D365EventSubscriber(eventEnv.eventTypeRegister, initialExtArgs.primaryControl as Control);
+        this.componentLifeCycle = new ComponentLifeCycle(eventEnv.eventRegister);
     }
 
     /**
@@ -66,9 +68,8 @@ export class Context implements MnContext {
         // Init DI
         const rootContainer = new RootContainer(module);
         rootContainer.applyMiddlewares(
-            new OnInitMiddleWare(),
-            new SubComponentMiddleware(),
-            new EventMiddleware(this.eventEnv.eventRegister)
+            new OnInitMiddleWare(this.componentLifeCycle),
+            new SubComponentMiddleware(this.componentLifeCycle)
         );
 
         // Subscribe to D365 events
@@ -76,7 +77,11 @@ export class Context implements MnContext {
         componentBrowser.allEvents.forEach(e => this.d365EventSubscriber.subscribe(e));
 
         // Create and enable the boostrap component
-        const componentActivator = new ComponentActivator(boostrapComponent, rootContainer.container);
+        const componentActivator = new ComponentActivator(
+            boostrapComponent,
+            this.componentLifeCycle,
+            rootContainer.container
+        );
         componentActivator.enable();
     }
 

@@ -1,8 +1,9 @@
-import { ComponentConstructor, ComponentObject, ConfigOrConfigMapper } from "../../typing";
+import { ComponentConstructor, ComponentObject } from "../../typing";
 import { debug, verbose } from "../../utils";
 import { ComponentContainer } from "../di/container/component-container";
 import { Container } from "../di/container/container";
 import { ComponentBrowser } from "./component-browser";
+import { ComponentLifeCycle } from "./component-lifecycle";
 
 export interface SubComponent<T extends ComponentObject> {
     readonly state: boolean;
@@ -15,6 +16,7 @@ export interface SubComponent<T extends ComponentObject> {
 export class ComponentActivator<T extends ComponentObject> implements SubComponent<T> {
     public constructor(
         private componentType: ComponentConstructor,
+        private componentLifeCycle: ComponentLifeCycle,
         parentContainer: Container,
         input?: any
      ) {
@@ -32,18 +34,17 @@ export class ComponentActivator<T extends ComponentObject> implements SubCompone
         return undefined as any;
     }*/
 
-    private _state = false;
-
     private component?: T;
 
+    /** State of the component. true if enabled then false */
     public get state(): boolean {
-        return this._state;
+        return this.component != null;
     }
 
-    private set state(value: boolean) {
-        this._state = value;
-    }
-
+    /**
+     * Create an instance of the component.
+     * @returns 
+     */
     public enable(): void {
         if (this.state) {
             verbose(`Component ${this.componentType.name} already enabled`);
@@ -56,15 +57,22 @@ export class ComponentActivator<T extends ComponentObject> implements SubCompone
         if (!this.component) {
             throw new Error(`Unable to find ${this.componentType.name}.`);
         }
-
-        this.state = true;
     }
 
+    /**
+     * Destroy instance of the component.
+     * @returns 
+     */
     public disable(): void {
-        debug(`Disable component ${this.componentType.name}`);
+        if (!this.state) {
+            verbose(`Component ${this.componentType.name} already disabled`);
+            return;
+        }
 
-        this.state = false;
-        // TODO: Disabled events here
+        debug(`Disable component ${this.componentType.name}`);
+        
+        this.componentLifeCycle.destroy(this.component as ComponentObject);
+
         this.component = undefined;
     }
 }

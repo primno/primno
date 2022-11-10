@@ -2,9 +2,8 @@ import { ComponentConstructor, ComponentObject } from "../../../typing";
 import { verbose } from "../../../utils";
 import { ComponentActivator } from "../../component/component-activator";
 import { ComponentBrowser } from "../../component/component-browser";
+import { ComponentLifeCycle } from "../../component/component-lifecycle";
 import { isComponent } from "../../metadata/helper";
-import { SubComponentConfig } from "../../metadata/subcomponent";
-import { PropertyMetadata } from "../../reflection/property";
 import { Container, Middleware } from "../container/container";
 
 /**
@@ -15,6 +14,8 @@ export class SubComponentMiddleware implements Middleware {
     get inherit(): boolean {
         return true;
     }
+
+    public constructor(private componentLifeCycle: ComponentLifeCycle) {}
 
     // eslint-disable-next-line @typescript-eslint/no-empty-function
     onPreConstruct(): void {}
@@ -29,7 +30,13 @@ export class SubComponentMiddleware implements Middleware {
             .forEach(c => {
                 verbose(`Subcomponent ${c.name} find in ${componentBrowser.name} for ${c.keyName} property.`);
 
-                const componentActivator = new ComponentActivator(c.componentType as ComponentConstructor, container, c.input);
+                const componentActivator = new ComponentActivator(
+                    c.componentType as ComponentConstructor,
+                    this.componentLifeCycle,
+                    container,
+                    c.input
+                );
+
                 // TODO: Replace with proxy to component activator
                 instance[c.keyName as string] = componentActivator;
 

@@ -1,4 +1,5 @@
 import { ComponentObject } from "../../../typing";
+import { ComponentLifeCycle } from "../../component/component-lifecycle";
 import { isComponent } from "../../metadata/helper";
 import { Middleware } from "../container/container";
 
@@ -15,7 +16,9 @@ export class OnInitMiddleWare implements Middleware {
         return true;
     }
 
-    onPreConstruct(identifier: any, key?: string | number | symbol | undefined): void {
+    public constructor(private componentLifeCycle: ComponentLifeCycle) {}
+
+    onPreConstruct(identifier: any): void {
         if (isComponent(identifier)) {
             ++this.counter;
         }
@@ -34,9 +37,7 @@ export class OnInitMiddleWare implements Middleware {
                 components
                     .reverse()
                     .forEach(c => {
-                        if (c.mnOnInit) {
-                            c.mnOnInit();
-                        }
+                        this.componentLifeCycle.init(c);
                 });
             }
         }
