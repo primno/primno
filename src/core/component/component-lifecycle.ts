@@ -45,7 +45,7 @@ export class ComponentLifeCycle {
         componentBrowser.subComponents
             .forEach(c => {
                 const activator = component[c.keyName as string] as SubComponent<ComponentObject>;
-                if (activator.state) {
+                if (activator.enabled) {
                     activator.disable();
                 }
             });

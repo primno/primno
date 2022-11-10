@@ -6,7 +6,7 @@ import { ComponentBrowser } from "./component-browser";
 import { ComponentLifeCycle } from "./component-lifecycle";
 
 export interface SubComponent<T extends ComponentObject> {
-    readonly state: boolean;
+    readonly enabled: boolean;
     enable(): void;
     disable(): void;
 
@@ -36,8 +36,8 @@ export class ComponentActivator<T extends ComponentObject> implements SubCompone
 
     private component?: T;
 
-    /** State of the component. true if enabled then false */
-    public get state(): boolean {
+    /** State of the component. true if enabled */
+    public get enabled(): boolean {
         return this.component != null;
     }
 
@@ -46,7 +46,7 @@ export class ComponentActivator<T extends ComponentObject> implements SubCompone
      * @returns 
      */
     public enable(): void {
-        if (this.state) {
+        if (this.enabled) {
             verbose(`Component ${this.componentType.name} already enabled`);
             return;
         }
@@ -64,7 +64,7 @@ export class ComponentActivator<T extends ComponentObject> implements SubCompone
      * @returns 
      */
     public disable(): void {
-        if (!this.state) {
+        if (!this.enabled) {
             verbose(`Component ${this.componentType.name} already disabled`);
             return;
         }
