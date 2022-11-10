@@ -112,7 +112,7 @@ export class ComponentBrowser {
                 const cfg = p.getMetadata<SubComponentConfig>("subcomponent");
                 const subComp = new ComponentBrowser(cfg.component, this.resolveSubComponentInput(cfg.input));
                 subComp._keyName = p.propertyKey;
-                subComp._defaultEnabled = cfg.enabled;
+                subComp._defaultEnabled = cfg.enabled ?? true;
                 return subComp;
             } );
     }

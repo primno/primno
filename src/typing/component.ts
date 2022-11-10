@@ -20,8 +20,14 @@ export type ValueOrConfigPropertyMapper<T> = T | ConfigPropertyMapper<T>;
 
 //export type OutputOf<TComponent extends Component> = ReplaceProp<PickOnly<TComponent, EventSubscriber>, EventSubscriber>;
 
+/**
+ * Resolve the input value from the config of the parent component.
+ */
 export type InputMapper<T extends object> = (i: any | unknown | never) => InputOf<T>;
 
+/**
+ * Input value or input mapper 
+ */
 export type InputOrInputMapper<T extends Constructor, TInstance extends InstanceType<T> = InstanceType<T>> = InputOf<TInstance> | InputMapper<TInstance>;
 
 // ----

@@ -3,9 +3,22 @@ import { ComponentConstructor, InputMapper, InputOf } from "../../typing";
 import { Input } from "../component/interface";
 import { MetadataDecoratorHelper } from "../reflection/decorator-helper";
 
+/**
+ * Sub component configuration.
+ */
 export interface SubComponentConfig<T extends ComponentConstructor = ComponentConstructor> {
+    /**
+     * Component
+     */
     component: T;
+    /**
+     * Default state of the component.
+     * @default true
+     */
     enabled?: boolean;
+    /**
+     * Input value or input mapper sent to the sub component.
+     */
     input: InstanceType<T> extends Input ? InputOf<InstanceType<T>> | InputMapper<InstanceType<T>> : never;
 }
 
