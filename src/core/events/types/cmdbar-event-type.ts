@@ -1,4 +1,4 @@
-import { CommandBarEventArg, EventArg, EventCallBack, EventType, ControlType, EventTypes, ExternalArgs, Control, PopulateQueryEventArg } from "../../../typing";
+import { CommandBarEventArg, EventArg, EventCallBack, EventType, ControlType, EventTypes, ExternalArgs, PopulateQueryEventArg } from "../../../typing";
 import { verbose } from "../../../utils";
 
 /**
@@ -41,9 +41,9 @@ export abstract class CmdBarEventType implements EventType {
     name: string;
 }
 
-export class ButtonPressEventType extends CmdBarEventType {
+export class CommandInvokeEventType extends CmdBarEventType {
     constructor(){
-        super(EventTypes.ButtonPress, [ControlType.form, ControlType.grid], true);
+        super(EventTypes.CommandInvoke, [ControlType.form, ControlType.grid], true);
     }
 }
 

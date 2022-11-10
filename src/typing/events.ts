@@ -70,7 +70,7 @@ export enum EventTypes {
     LookupTagClick = "LookupTagClick",
     TabStateChange = "TabStateChange",
     PreSearch = "PreSearch",
-    ButtonPress = "ButtonPress",
+    CommandInvoke = "CommandInvoke",
     StageChange = "StageChange",
     PreStageChange = "PreStageChange",
     ProcessStatusChange = "ProcessStatusChange",

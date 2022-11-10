@@ -18,11 +18,11 @@ export {
     MnModule,
     MnOutput,
     MnSubComponent,
-    MnOnLoad,
-    MnOnFieldChange,
-    MnOnTabState,
     MnConfig
 } from "./core/metadata"
+
+// MnOnFormLoad, MnOnFieldChange, etc.
+export * from "./core/metadata/events";
 
 export {
     Config,

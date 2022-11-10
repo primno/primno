@@ -84,7 +84,7 @@ export function onCommandInvoke(
     selectedControl: Control,
     primaryControl: Control,
     ...args: unknown[]): CanBePromise<unknown> {
-    return onEvent(EventTypes.ButtonPress, commandId, selectedControl, primaryControl, ...args);
+    return onEvent(EventTypes.CommandInvoke, commandId, selectedControl, primaryControl, ...args);
 }
 
 /**
