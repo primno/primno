@@ -16,7 +16,7 @@ export class EventRegister {
      * @param event Event
      */
     public addEvent(event: ComponentEvent): void {
-        debug(`Event ${event.type} for ${event.targetName} added to ${event.component.constructor.name}`);
+        debug(`Adding ${event.type} event targeting ${event.targetName} for the component ${event.component.constructor.name}`);
         this.events.push(event);
     }
 
@@ -28,22 +28,20 @@ export class EventRegister {
     }
 
     public removeEvent(event: ComponentEvent): void {
-        // TODO: Must be checked, use filter ?
+        debug(`Removing ${event.type} event targeting ${event.targetName} for the component ${event.component.constructor.name}`);
         this.events.splice(this.events.indexOf(event), 1);
     }
 
     /** Show events in console */
     public printEvents(): void {
-        console.info("--- Events ---");
+        debug("--- Events ---");
 
         for (const event of this.events) {
-            let controlName = event.targetName;
-            if (!event.targetName)
-                controlName = "NC";
+            const controlName = event.targetName ?? "NC";
 
-            console.info(`[${controlName}] | ${event.type} => ${event.component.name}`);
+            debug(`[${controlName}] | ${event.type} => ${event.component.constructor.name}`);
         }
 
-        console.info("--- Events --- ");
+        debug("--- Events --- ");
     }
 }
