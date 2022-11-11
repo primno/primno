@@ -18,6 +18,6 @@ export class ClassMetadata implements MetadataAccessor {
     }
 
     public hasMetadata(key: string): boolean {
-        return this.getMetadata(key) !== null;
+        return this.getMetadata(key) !== undefined;
     }
 }

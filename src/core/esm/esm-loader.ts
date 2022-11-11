@@ -1,5 +1,6 @@
 import { Esm, ModuleConstructor } from "../../typing";
 import { debug } from "../../utils";
+import { isModule } from "../metadata/helper";
 import { InitializeOptions } from "../primno";
 import { EsmResolver } from "./esm-resolver";
 import { buildEsmResolver } from "./esm-resolver-factory";
@@ -10,8 +11,19 @@ export class EsmBrowser {
     }
 
     public get module() : ModuleConstructor {
-        // TODO: IMPORTANT: Replace with default export
-        return this.esm["AppModule"];
+        const keys = Object.keys(this.esm);
+
+        if (keys.length !== 1) {
+            throw new Error("Invalid ESM: An entry point must export one module");
+        }
+
+        const module = this.esm[keys[0]];
+        
+        if (!isModule(module)) {
+            throw new Error("Invalid ESM: Module not found");
+        }
+
+        return module;
     }
 }
 

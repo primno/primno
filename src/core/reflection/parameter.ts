@@ -30,6 +30,6 @@ export class ParameterMetadata implements MetadataAccessor {
     }
 
     public hasMetadata(key: string): boolean {
-        return this.getMetadata(key) !== null;
+        return this.getMetadata(key) !== undefined;
     }
 }
