@@ -39,7 +39,7 @@ export class D365EventSubscriber {
             return;
         }
         
-        if (!this.events.find(e => e == event)) {
+        if (!this.events.find(e => e.type === event.type && e.targetName === event.targetName)) {
             debug(`Subscribe to D365 ${event.type} event with target name ${event.targetName}`);
             try {
                 eventType.subscribe(this.primaryControl, event.targetName);
