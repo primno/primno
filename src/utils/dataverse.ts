@@ -1,4 +1,4 @@
-﻿import { ControlType, Control } from "../typing";
+﻿import { ControlType, Control, PageType } from "../typing";
 import { hasMethod } from "./common";
 
 /** Indicates whether the form is a Uci form */
@@ -55,9 +55,9 @@ export function getPageEntityName() {
 /**
  * Gets the page type (entityrecord or entitylist).
  */
-export function getPageType() {
+export function getPageType(): PageType {
     const pageContext = Xrm.Utility.getPageContext();
-    pageContext.input.pageType;
+    return pageContext.input.pageType;
 }
 
 /**

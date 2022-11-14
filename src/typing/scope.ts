@@ -1,4 +1,4 @@
-export type PageType = "record" | "list";
+export type PageType = "entityrecord" | "entitylist";
 
 export interface AppScopeConfig {
     id: string;
@@ -10,8 +10,8 @@ export interface FormScopeConfig {
 }
 
 export interface Scope {
-    entityName: string;
+    pageType: PageType;
+    entityName?: string | string[];
     form?: FormScopeConfig;
     app?: AppScopeConfig;
-    pageType?: PageType;
 }

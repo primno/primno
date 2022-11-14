@@ -1,12 +1,14 @@
 import { decorate } from "inversify";
-import { Constructor } from "../../typing";
+import { Constructor, Scope } from "../../typing";
 import { Injectable } from "../di/injectable";
 import { MetadataDecoratorHelper } from "../reflection/decorator-helper";
 import { ModuleConfig } from "./module";
 import { Provider } from "./provider";
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface ComponentConfig extends Provider {}
+export interface ComponentConfig extends Provider {
+    scope: Scope;
+}
 
 export interface ComponentConfigInternal extends ComponentConfig {
     /**
@@ -16,7 +18,7 @@ export interface ComponentConfigInternal extends ComponentConfig {
     moduleConfig?: ModuleConfig;
 }
 
-export function MnComponent<T extends Constructor>(config: ComponentConfig = {}) {
+export function MnComponent<T extends Constructor>(config: ComponentConfig) {
     return function (target: T) {
         decorate(Injectable(), target);
 
