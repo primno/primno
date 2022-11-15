@@ -9,7 +9,8 @@ export { Configuration } from "./core/configuration";
 
 export {
     Inject,
-    Injectable
+    Injectable,
+    Optional
 } from "./core/di";
 
 export {
