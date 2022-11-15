@@ -1,12 +1,12 @@
 ﻿import { debug } from "../../utils";
-import { EventRegister } from "./event-register";
+import { ComponentEventRegister } from "./component-event-register";
 import { ComponentEvent, Event, EventArg } from '../..//typing/events';
 
 /** Pass events to features */
 export class EventDispatcher {
-    private _eventRegister: EventRegister;
+    private _eventRegister: ComponentEventRegister;
 
-    constructor(eventRegister: EventRegister) {
+    constructor(eventRegister: ComponentEventRegister) {
         this._eventRegister = eventRegister;
     }
 

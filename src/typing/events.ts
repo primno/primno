@@ -1,4 +1,5 @@
 import { ComponentObject } from "./component";
+import { PageType } from "./scope";
 
 export interface ExternalArgs {
     selectedControl: Control;
@@ -10,37 +11,47 @@ export interface EventArg {
     type: string;
 }
 
-export type EventHandler<TEventArg extends EventArg = EventArg> = (event: TEventArg) => unknown;
+//export type EventHandler<TEventArg extends EventArg = EventArg> = (event: TEventArg) => unknown;
 
 /**
- * Callback called when a specific event is trigger.
+ * Internal event handler called when a specific event is triggered.
  */
-export type EventCallBack = (targetName?: string, ...args: unknown[]) => unknown;
+export type EventHandler = (targetName?: string, ...args: unknown[]) => unknown;
 
 /**
  * Describes a type of event. 
  * Provides the generation of the event parameter (eventarg) and actions to be performed when subscribing to this event.
  */
-// TODO: Replace with abstract class with callback in constructor and remove init method ?
  export interface EventType {
     name: string;
     controlNameRequired: boolean;
-    // TODO: Rename to compatible control ?
-    supportedControls: ControlType[];
+    supportedPageType: PageType[];
+    subscribable: boolean;
     
     createEventArg(extArgs: ExternalArgs): EventArg;
 
+    /**
+     * Subscribe at runtime to D365 event.
+     * This method will be called only if subscribable is set to true.
+     * @param selectedControl Control
+     * @param controlName Target name
+     */
     subscribe(selectedControl: Control, controlName?: string): void;
+    /**
+     * Unsubscribe at runtime to D365 event.
+     * This method will be called only if subscribable is set to true.
+     * @param selectedControl Control
+     * @param controlName Target name
+     */
     unsubscribe(selectedControl: Control, controlName?: string): void;
 
-    init(callBack: EventCallBack): void;
-}
+    /**
+     * Defines the event handler that should be called when the event occurs.
+     * This method will be called only if subscribable is set to true.
+     * @param eventHandler Callback to Primno
+     */
+    init(eventHandler: EventHandler): void;
 
-// TODO: Move ?
-
-// TODO: To Review
-export interface MnEventArg extends EventArg {
-    selectedControl: Control;
 }
 
 export interface CommandBarEventArg extends EventArg {
@@ -97,7 +108,8 @@ export interface Event {
 }
 
 /**
- * Event to register
+ * Event targeting an event handler of a component.
+ * Registred in EventRegister.
  */
 export interface ComponentEvent extends Event {
     propertyName: string;

@@ -34,7 +34,7 @@ export class D365EventSubscriber {
             throw new Error(`Event type ${event.type} unknow`);
         }
 
-        if (!eventType.supportedControls.some(f => f === this.controlType)) {
+        if (!eventType.subscribable) {
             error(`${event.type} can't be subscribe to D365 at runtime with this control type`);
             return;
         }

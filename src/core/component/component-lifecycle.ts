@@ -1,6 +1,6 @@
 import { ComponentObject } from "../../typing";
 import { hasMethod } from "../../utils";
-import { EventRegister } from "../events";
+import { ComponentEventRegister } from "../events";
 import { SubComponent } from "./component-activator";
 import { ComponentBrowser } from "./component-browser";
 
@@ -8,7 +8,7 @@ import { ComponentBrowser } from "./component-browser";
  * Performs the necessary behavior to activate and deactivate a component.
  */
 export class ComponentLifeCycle {
-    public constructor(private eventRegister: EventRegister) {
+    public constructor(private eventRegister: ComponentEventRegister) {
     }
 
     /**

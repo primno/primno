@@ -1,4 +1,4 @@
-import { CommandBarEventArg, EventArg, EventCallBack, EventType, ControlType, EventTypes, ExternalArgs, PopulateQueryEventArg } from "../../../typing";
+import { CommandBarEventArg, EventArg, EventType, EventTypes, ExternalArgs, PopulateQueryEventArg, PageType } from "../../../typing";
 import { verbose } from "../../../utils";
 
 /**
@@ -6,10 +6,11 @@ import { verbose } from "../../../utils";
  * This events can't be subscribe in runtime.
  */
 export abstract class CmdBarEventType implements EventType {
-    constructor(name: string, availableContext: ControlType[], controlNameRequired: boolean) {
+    constructor(name: string, pageType: PageType[], controlNameRequired: boolean) {
         this.name = name;
-        this.supportedControls = availableContext;
+        this.supportedPageType = pageType;
         this.controlNameRequired = controlNameRequired;
+        this.subscribable = false;
     }
 
     public createEventArg(extArgs: ExternalArgs): EventArg {
@@ -30,32 +31,31 @@ export abstract class CmdBarEventType implements EventType {
         verbose("Command bar events can't be unscribe at runtime");
     }
 
-    public init(callBack: EventCallBack): void {
-        this._callBack = callBack;
+    public init(): void {
+        verbose("Command bar events can't be init at runtime");
     }
 
-    private _callBack: EventCallBack | undefined;
-
     controlNameRequired: boolean;
-    supportedControls: ControlType[];
+    supportedPageType: PageType[];
     name: string;
+    subscribable: boolean;
 }
 
 export class CommandInvokeEventType extends CmdBarEventType {
     constructor(){
-        super(EventTypes.CommandInvoke, [ControlType.form, ControlType.grid], true);
+        super(EventTypes.CommandInvoke, ["entityrecord", "entitylist"], true);
     }
 }
 
 export class EnableRuleEventType extends CmdBarEventType {
     constructor(){
-        super(EventTypes.EnableRule, [ControlType.form, ControlType.grid], true);
+        super(EventTypes.EnableRule, ["entityrecord", "entitylist"], true);
     }
 }
 
 export class PopulateQueryEventType extends CmdBarEventType {
     constructor() {
-        super(EventTypes.PopulateQuery, [ControlType.form, ControlType.grid], true);
+        super(EventTypes.PopulateQuery, ["entityrecord", "entitylist"], true);
     }
 
     public createEventArg(extArgs: ExternalArgs): EventArg {

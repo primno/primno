@@ -2,7 +2,7 @@
 import { debug } from '../../utils';
 
 /** Event register for components **/
-export class EventRegister {
+export class ComponentEventRegister {
     /** Events */
     private _events: ComponentEvent[] = [];
 
@@ -20,6 +20,11 @@ export class EventRegister {
         this.events.push(event);
     }
 
+    /**
+     * Indicates if the event is already register.
+     * @param event Event to check.
+     * @returns true if the event exists otherwise false
+     */
     public exist(event: ComponentEvent): boolean {
         return (this.events.some(e => e.component == event.component &&
             e.propertyName === event.propertyName &&
@@ -27,12 +32,16 @@ export class EventRegister {
             e.type === event.type));
     }
 
+    /**
+     * Remove event.
+     * @param event Event to remove.
+     */
     public removeEvent(event: ComponentEvent): void {
         debug(`Removing ${event.type} event targeting ${event.targetName} for the component ${event.component.constructor.name}`);
         this.events.splice(this.events.indexOf(event), 1);
     }
 
-    /** Show events in console */
+    /** Show registered events in console */
     public printEvents(): void {
         debug("--- Events ---");
 
