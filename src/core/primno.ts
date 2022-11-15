@@ -1,4 +1,4 @@
-﻿import { notifyCriticalError, MaybePromise, isNullOrUndefined } from "../utils";
+﻿import { notifyCriticalError, MaybePromise } from "../utils";
 import { Configuration } from "./configuration";
 import { CanBePromise, ExternalArgs, Event, Esm, Control } from "../typing";
 import { ContextInitializer } from "./context";

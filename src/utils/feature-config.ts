@@ -1,5 +1,5 @@
 ﻿import { FieldType, FieldTypePropertyObject, FormConfig, StringPropertyObject } from "../typing";
-import { isNullOrEmpty, isNullOrUndefined } from "./common";
+import { isNullOrEmpty } from "./common";
 
 /**
  * Converts Dataverse field type to Primno field type.
@@ -30,7 +30,7 @@ function convertToFieldType(xrmAttributeType: Xrm.Attributes.AttributeType): Fie
  * @returns 
  */
 function checkFields(formCtx: Xrm.FormContext, fields?: StringPropertyObject, fieldsMetadata?: FieldTypePropertyObject) {
-    if (isNullOrUndefined(fields)) {
+    if (fields == null) {
         return;
     }
     
@@ -43,11 +43,11 @@ function checkFields(formCtx: Xrm.FormContext, fields?: StringPropertyObject, fi
 
         const xrmAttr = formCtx.getAttribute(fieldValue as string);
 
-        if (isNullOrUndefined(xrmAttr)) {
+        if (xrmAttr == null) {
             throw new Error(`The field ${fieldKey} / ${fieldValue} is not on this form`);
         }
         
-        if (isNullOrUndefined(fieldsMetadata) == false) {
+        if (fieldsMetadata != null) {
             const xrmFieldType = convertToFieldType(xrmAttr.getAttributeType());
             const fieldType = (fieldsMetadata as FieldTypePropertyObject)[fieldKey];
 
@@ -65,7 +65,7 @@ function checkFields(formCtx: Xrm.FormContext, fields?: StringPropertyObject, fi
  * @returns 
  */
 function checkTabs(formCtx: Xrm.FormContext, tabs: FormConfig["tabs"]) {
-    if (isNullOrUndefined(tabs)) {
+    if (tabs == null) {
         return;
     }
 
@@ -75,7 +75,7 @@ function checkTabs(formCtx: Xrm.FormContext, tabs: FormConfig["tabs"]) {
             throw new Error(`The tab ${tabKey} is not set in configuration`);
         }
 
-        if (isNullOrUndefined(formCtx.ui.tabs.get(tab as string))) {
+        if (formCtx.ui.tabs.get(tab as string) == null) {
             throw new Error(`The tab ${tabKey} / ${tab} is not on this form`);
         }
     }
@@ -87,7 +87,7 @@ function checkTabs(formCtx: Xrm.FormContext, tabs: FormConfig["tabs"]) {
  * @param formCtx
  */
 export function checkFormConfiguration(formCtx: Xrm.FormContext, config: FormConfig, fieldsMetadata?: FieldTypePropertyObject): void {
-    if (isNullOrUndefined(config)) {
+    if (config == null) {
         throw new Error("Configuration is null");
     }
 

@@ -1,7 +1,3 @@
-export {
-    isNullOrUndefined
-} from './utils';
-
 export * from './typing';
 
 // For @primno/cli

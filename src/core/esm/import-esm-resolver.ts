@@ -1,5 +1,4 @@
 import { ImportModuleResolverConfig } from "../configuration";
-import { isNullOrUndefined } from "../../utils";
 import { EsmResolver } from "./esm-resolver";
 import { Esm } from "../../typing/esm";
 
@@ -10,7 +9,7 @@ export class ImportModuleResolver implements EsmResolver {
         try {
             const esm = await import(this.config.uri);
 
-            if (isNullOrUndefined(esm)) {
+            if (esm == null) {
                 throw new Error(`Unable to import module from ${this.config.uri} uri.`);
             }
 
