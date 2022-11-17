@@ -110,7 +110,7 @@ export class ComponentBrowser {
             .filter(p => p.hasMetadata("subcomponent"))
             .map(p => {
                 const cfg = p.getMetadata<SubComponentConfig>("subcomponent");
-                const subComp = new ComponentBrowser(cfg.component, this.resolveSubComponentInput(cfg.input));
+                const subComp = new ComponentBrowser(cfg.component, this.resolveSubComponentInput((cfg as any).input));
                 subComp._keyName = p.propertyKey;
                 subComp._defaultEnabled = cfg.enabled ?? true;
                 return subComp;
