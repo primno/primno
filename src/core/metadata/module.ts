@@ -30,6 +30,10 @@ import { Provider } from "./provider";
     bootstrap?: ComponentConstructor | ComponentConstructor[];
 }
 
+/**
+ * Decorator that mark a class as module.
+ * @param moduleConfig Configuration of the module.
+ */
 export function MnModule<T>(moduleConfig: ModuleConfig) {
     return function (target: { new(...args: any[]): T }) {
         decorate(Injectable(), target);

@@ -1,7 +1,7 @@
 import { Inject } from "../di/inject";
 
 /**
- * Decorator that mark the property as input.
+ * Decorator that mark a property as input.
  * @returns 
  */
  export function MnInput() {

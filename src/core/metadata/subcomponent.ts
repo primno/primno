@@ -22,6 +22,10 @@ export interface SubComponentConfig<T extends ComponentConstructor = ComponentCo
     input: InstanceType<T> extends Input ? InputOf<InstanceType<T>> | InputMapper<InstanceType<T>> : never;
 }
 
+/**
+ * Decorator that mark a property as sub component.
+ * @param config Configuration of the sub component.
+ */
 export function MnSubComponent<T extends ComponentConstructor>(config: SubComponentConfig<T>) {
     return function (target: DecoratorTarget, targetKey?: string | symbol, indexOrPropertyDescriptor?: number | TypedPropertyDescriptor<unknown>) {  
         const primnoTarget = new MetadataDecoratorHelper(target, targetKey, indexOrPropertyDescriptor);

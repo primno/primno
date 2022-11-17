@@ -1,5 +1,5 @@
 /**
- * Décorateur marquant cette propriété comme un output (event emitter).
+ * Decorator that mark a property as output (EventEmiiter).
  * @returns 
  */
  export function MnOutput() {
