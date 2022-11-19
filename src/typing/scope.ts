@@ -9,9 +9,19 @@ export interface FormScopeConfig {
     name?: string;
 }
 
-export interface Scope {
+interface ScopeBase {
     pageType: PageType;
     entityName?: string | string[];
-    form?: FormScopeConfig;
     app?: AppScopeConfig;
 }
+
+export interface RecordScope extends ScopeBase {
+    pageType: "entityrecord";
+    form?: FormScopeConfig;
+}
+
+export interface ListScope extends ScopeBase {
+    pageType: "entitylist";
+}
+
+export type Scope = RecordScope | ListScope;
