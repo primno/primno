@@ -1,5 +1,5 @@
-import { ComponentConstructor } from "../../../typing/component";
 import { ModuleConstructor } from "../../../typing/module";
+import { getBootstrapComponents } from "../../../utils/module";
 import { getModuleConfig, isModule } from "../../metadata/helper";
 import { Container, Middleware } from "./container";
 
@@ -18,14 +18,13 @@ import { Container, Middleware } from "./container";
             throw new Error("moduleType is not a module");
         }
 
-        const config = getModuleConfig(moduleType);
-        const bootstrap = config?.bootstrap as ComponentConstructor;
+        const components = getBootstrapComponents(moduleType);
 
         this._container = new Container();
         this.bindModule(moduleType);
         this.applyMiddlewares();
 
-        this._container.bindComponent(bootstrap);
+        components.forEach(c => this._container.bindComponent(c));
     }
 
     /**

@@ -1,4 +1,4 @@
-import { EventType, ControlType, ExternalArgs, Event, ComponentConstructor, ComponentObject, Control } from "../../typing";
+import { EventType, ControlType, ExternalArgs, Event, Control, ModuleConstructor } from "../../typing";
 import { debug, getControlType } from "../../utils";
 import { EventEnv } from "../events/event-env";
 import { EsmLoader } from "../esm/esm-loader";
@@ -10,6 +10,7 @@ import { ComponentActivator } from "../component/component-activator";
 import { ComponentBrowser } from "../component/component-browser";
 import { D365EventSubscriber } from "../events/d365-event-subscriber";
 import { ComponentLifeCycle } from "../component/component-lifecycle";
+import { getBootstrapComponents } from "../../utils/module";
 
 /**
  * Define all actions that could be done in the context of the execution (provided by D365).
@@ -47,41 +48,38 @@ export class Context {
     private async init(extArgs: ExternalArgs) {
         try {
             debug(`Init ${this.controlType} context`);
-            await this.bootstrapModule();
+
+            const esmBrowser = await this.esmLoader.get();
+            const module = esmBrowser.module;
+
+            const bootstrapComponents = getBootstrapComponents(module);
+
+            // Init DI
+            const rootContainer = new RootContainer(module);
+            rootContainer.applyMiddlewares(
+                new OnInitMiddleWare(this.componentLifeCycle),
+                new SubComponentMiddleware(this.componentLifeCycle)
+            );
+
+            // Subscribe to D365 events
+            bootstrapComponents.forEach(c => {
+                const componentBrowser = new ComponentBrowser(c);
+                componentBrowser.allEvents.forEach(e => this.d365EventSubscriber.subscribe(e));
+            });
+
+            // Create and enable the boostrap components
+            bootstrapComponents.forEach(c => {
+                const componentActivator = new ComponentActivator(
+                    c,
+                    this.componentLifeCycle,
+                    rootContainer.container
+                );
+                componentActivator.enable();
+            });
         }
         catch (except: any) {
             throw new Error(`Initialization error - ${except.message}. Exception: ${except.name}. Stack trace: ${except.stack}`);
         }
-    }
-
-    private async bootstrapModule() {
-        const esmBrowser = await this.esmLoader.get();
-        const module = esmBrowser.module;
-        const moduleConfig = getModuleConfig(module);
-        const boostrapComponent = moduleConfig?.bootstrap as ComponentConstructor<ComponentObject>;
-
-        if (!boostrapComponent) {
-            throw new Error("Bootstap component not found in module");
-        }
-        
-        // Init DI
-        const rootContainer = new RootContainer(module);
-        rootContainer.applyMiddlewares(
-            new OnInitMiddleWare(this.componentLifeCycle),
-            new SubComponentMiddleware(this.componentLifeCycle)
-        );
-
-        // Subscribe to D365 events
-        const componentBrowser = new ComponentBrowser(boostrapComponent);
-        componentBrowser.allEvents.forEach(e => this.d365EventSubscriber.subscribe(e));
-
-        // Create and enable the boostrap component
-        const componentActivator = new ComponentActivator(
-            boostrapComponent,
-            this.componentLifeCycle,
-            rootContainer.container
-        );
-        componentActivator.enable();
     }
 
     /**
