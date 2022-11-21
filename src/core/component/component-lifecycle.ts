@@ -1,4 +1,4 @@
-import { ComponentObject } from "../../typing";
+import { Component } from "../../typing";
 import { hasMethod } from "../../utils";
 import { ComponentEventRegister } from "../events";
 import { SubComponent } from "./component-activator";
@@ -15,7 +15,7 @@ export class ComponentLifeCycle {
      * Init the given component. Call mnOnInit and register events.
      * @param component 
      */
-    public init(component: ComponentObject) {
+    public init(component: Component) {
         const componentBrowser = new ComponentBrowser(component, component.input);
         componentBrowser.events
             .forEach(e => this.eventRegister.addEvent({
@@ -34,7 +34,7 @@ export class ComponentLifeCycle {
      * Destroy the given component and his children. Call mnOnDestroy and unregister events.
      * @param component 
      */
-    public destroy(component: ComponentObject) {
+    public destroy(component: Component) {
         if (hasMethod(component, "mnOnDestroy")) {
             component.mnOnDestroy();
         }
@@ -44,7 +44,7 @@ export class ComponentLifeCycle {
         // Disable sub components
         componentBrowser.subComponents
             .forEach(c => {
-                const activator = component[c.keyName as string] as SubComponent<ComponentObject>;
+                const activator = component[c.keyName as string] as SubComponent<Component>;
                 if (activator.enabled) {
                     activator.disable();
                 }

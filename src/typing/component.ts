@@ -1,14 +1,14 @@
 import { Constructor, ConstructorOrObject } from '.';
 import { Config, Input } from '../core/component/interface';
 
-export type ComponentConstructor<T = ComponentObject> = Constructor<T>;
-export type ComponentObject = Record<string | number | symbol, any>;
-export type ComponentOrComponentConstructor = ConstructorOrObject<ComponentObject>;
+export type ComponentConstructor<T = Component> = Constructor<T>;
+export type Component = Record<string | number | symbol, any>;
+export type ComponentOrComponentConstructor = ConstructorOrObject<Component>;
 
 /**
  * Obtain input type from a component.
  */
-export type InputOf<TComponent extends ComponentObject> = TComponent extends Input ? Readonly<TComponent["input"]> : never;
+export type InputOf<TComponent extends Component> = TComponent extends Input ? Readonly<TComponent["input"]> : never;
 
 type ConfigPropertyMapper<T> = (cfg: any | unknown | never) => string;
 
@@ -34,14 +34,14 @@ export type InputOrInputMapper<T extends Constructor, TInstance extends Instance
 /**
  * Obtain config type from a component.
  */
- export type ConfigOf<TComponent extends ComponentObject> = TComponent extends Config ? Readonly<TComponent["config"]> : never;
+ export type ConfigOf<TComponent extends Component> = TComponent extends Config ? Readonly<TComponent["config"]> : never;
 
  /**
   * Obtain config resolver of a component from it input
   */
- export type ConfigMapperFromInput<T extends ComponentObject> = (i: InputOf<T>) => ConfigOf<T>;
+ export type ConfigMapperFromInput<T extends Component> = (i: InputOf<T>) => ConfigOf<T>;
 
- export type ConfigOrConfigMapper<TInstance extends ComponentObject> = ConfigOf<TInstance> | ConfigMapperFromInput<TInstance>;
+ export type ConfigOrConfigMapper<TInstance extends Component> = ConfigOf<TInstance> | ConfigMapperFromInput<TInstance>;
 
 // ---
 

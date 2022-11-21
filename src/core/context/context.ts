@@ -1,8 +1,7 @@
-import { EventType, ControlType, ExternalArgs, Event, Control, ModuleConstructor } from "../../typing";
+import { EventType, ControlType, ExternalArgs, Event, Control } from "../../typing";
 import { debug, getControlType } from "../../utils";
 import { EventEnv } from "../events/event-env";
 import { EsmLoader } from "../esm/esm-loader";
-import { getModuleConfig } from "../metadata/helper";
 import { RootContainer } from "../di/container";
 import { OnInitMiddleWare } from "../di/middleware/on-init-middleware";
 import { SubComponentMiddleware } from "../di/middleware/subcomponent-middleware";

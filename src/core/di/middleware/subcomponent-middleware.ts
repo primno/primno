@@ -1,4 +1,4 @@
-import { ComponentConstructor, ComponentObject } from "../../../typing";
+import { ComponentConstructor, Component } from "../../../typing";
 import { verbose } from "../../../utils";
 import { ComponentActivator } from "../../component/component-activator";
 import { ComponentBrowser } from "../../component/component-browser";
@@ -20,7 +20,7 @@ export class SubComponentMiddleware implements Middleware {
     // eslint-disable-next-line @typescript-eslint/no-empty-function
     onPreConstruct(): void {}
 
-    onPostConstruct(instance: ComponentObject, container: Container): ComponentObject {
+    onPostConstruct(instance: Component, container: Container): Component {
         if (!isComponent(instance)) {
             return instance;
         }

@@ -1,4 +1,4 @@
-import { ConstructorOrObject, ModuleConstructor, ComponentConstructor, ComponentObject } from "../../typing";
+import { ConstructorOrObject, ModuleConstructor, ComponentConstructor, Component } from "../../typing";
 import { ClassMetadata } from "../reflection/class";
 import { ComponentConfigInternal } from "./component";
 import { ModuleConfig } from "./module";
@@ -25,7 +25,7 @@ export function getComponentConfig(componentType: ComponentConstructor) {
     return classMetadata.getMetadata("component") as ComponentConfigInternal;
 }
 
-export function isComponent(componentType: ComponentConstructor | ComponentObject) {
+export function isComponent(componentType: ComponentConstructor | Component) {
     if (!isConstructorOrObject(componentType)) {
         return false;
     }

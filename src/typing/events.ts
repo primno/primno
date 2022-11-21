@@ -1,4 +1,4 @@
-import { ComponentObject } from "./component";
+import { Component } from "./component";
 import { PageType } from "./scope";
 
 export interface ExternalArgs {
@@ -113,7 +113,7 @@ export interface Event {
  */
 export interface ComponentEvent extends Event {
     propertyName: string;
-    component: ComponentObject;
+    component: Component;
 }
 
 export type Control = Xrm.Events.EventContext | Xrm.FormContext | Xrm.Controls.GridControl;

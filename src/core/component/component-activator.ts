@@ -1,11 +1,11 @@
-import { ComponentConstructor, ComponentObject } from "../../typing";
+import { ComponentConstructor, Component } from "../../typing";
 import { debug, verbose } from "../../utils";
 import { ComponentContainer } from "../di/container/component-container";
 import { Container } from "../di/container/container";
 import { ComponentBrowser } from "./component-browser";
 import { ComponentLifeCycle } from "./component-lifecycle";
 
-export interface SubComponent<T extends ComponentObject> {
+export interface SubComponent<T extends Component> {
     readonly enabled: boolean;
     enable(): void;
     disable(): void;
@@ -13,7 +13,7 @@ export interface SubComponent<T extends ComponentObject> {
     //readonly output: OutputOf<T> | undefined;
 }
 
-export class ComponentActivator<T extends ComponentObject> implements SubComponent<T> {
+export class ComponentActivator<T extends Component> implements SubComponent<T> {
     public constructor(
         private componentType: ComponentConstructor,
         private componentLifeCycle: ComponentLifeCycle,
@@ -71,7 +71,7 @@ export class ComponentActivator<T extends ComponentObject> implements SubCompone
 
         debug(`Disable component ${this.componentType.name}`);
         
-        this.componentLifeCycle.destroy(this.component as ComponentObject);
+        this.componentLifeCycle.destroy(this.component as Component);
 
         this.component = undefined;
     }

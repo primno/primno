@@ -1,4 +1,4 @@
-import { ComponentObject } from "../../../typing";
+import { Component } from "../../../typing";
 import { ComponentLifeCycle } from "../../component/component-lifecycle";
 import { isComponent } from "../../metadata/helper";
 import { Middleware } from "../container/container";
@@ -9,7 +9,7 @@ import { Middleware } from "../container/container";
  * that mnOnInit will be trigger in the right order (parent to children).
  */
 export class OnInitMiddleWare implements Middleware {
-    private componentsConstructed: ComponentObject[] = [];
+    private componentsConstructed: Component[] = [];
     private counter = 0;
 
     public get inherit() {
@@ -24,7 +24,7 @@ export class OnInitMiddleWare implements Middleware {
         }
     }
 
-    onPostConstruct(instance: ComponentObject): unknown {
+    onPostConstruct(instance: Component): unknown {
         if (isComponent(instance)) {
             this.componentsConstructed.push(instance);
 
