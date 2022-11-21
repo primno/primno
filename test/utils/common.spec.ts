@@ -1,5 +1,5 @@
 import { expect } from "chai";
-import { isNullOrEmpty, isNullOrUndefined, isObject } from "../../src/utils/common";
+import { isNullOrEmpty, isObject } from "../../src/utils/common";
 
 describe("Utils common", () => {
     describe("isNullOrEmpty", () => {
@@ -12,19 +12,6 @@ describe("Utils common", () => {
         it("must return false if not null or empty", () => {
             expect(isNullOrEmpty("Text")).false;
         })
-    });
-
-    describe("isNullOrUndefined", () => {
-        it("must return true if null or undefined", () => {
-            expect(isNullOrUndefined(null)).true;
-            expect(isNullOrUndefined(undefined)).true;
-        });
-
-        it("must return false if not null or undefined", () => {
-            expect(isNullOrUndefined({})).false;
-            expect(isNullOrUndefined("")).false;
-            expect(isNullOrUndefined(true)).false;
-        });
     });
 
     describe("isObject", () => {

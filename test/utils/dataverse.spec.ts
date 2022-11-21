@@ -1,7 +1,6 @@
 import { expect } from "chai";
-import sinon from "sinon";
 import { XrmMockGenerator } from "xrm-mock";
-import { getFormContext, isUci } from "../../src/utils";
+import { getFormContext } from "../../src/utils";
 
 describe("Utils dataverse", () => {
 

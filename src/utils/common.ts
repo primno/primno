@@ -10,13 +10,6 @@ export function isNullOrEmpty(text: string | null | undefined): text is null | u
 }
 
 /**
- * @deprecated use == null instead
- */
-export function isNullOrUndefined<T>(obj: T | null | undefined): obj is null | undefined {
-    return obj == null;
-}
-
-/**
  * Indicates whether an element is a javascript object.
  * @param item
  */
