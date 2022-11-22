@@ -1,4 +1,4 @@
-import { EventHandler, EventType, ControlType, EventTypes, ExternalArgs, FormEventArg, Control, SaveEventArg, StageSelectedEventArg, PageType } from "../../../typing";
+import { EventHandler, EventType, EventTypes, ExternalArgs, FormEventArg, Control, SaveEventArg, StageSelectedEventArg, PageType } from "../../../typing";
 import { getFormContext } from "../../../utils";
 
 export abstract class FormEventType<TEventArg extends FormEventArg = FormEventArg> implements EventType {
@@ -6,7 +6,7 @@ export abstract class FormEventType<TEventArg extends FormEventArg = FormEventAr
 
     constructor(name: string, controlNameRequired: boolean) {
         this.name = name;
-        this.supportedPageType = ["entityrecord"];
+        this.supportedPageType = [PageType.record];
         this.controlNameRequired = controlNameRequired;
         this.subscribable = true;
     }

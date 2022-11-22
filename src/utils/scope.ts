@@ -1,4 +1,4 @@
-import { Control, Scope, ControlType, FormScopeConfig } from "../typing";
+import { Control, Scope, ControlType, FormScopeConfig, PageType } from "../typing";
 import { isSameId, isNullOrEmpty } from "./common";
 import { getEntityName, getPageType, getAppId, getControlType, getFormContext } from "./dataverse";
 
@@ -19,7 +19,7 @@ export async function getScopeFromControl(control: Control): Promise<Scope> {
         };
 
         if (getControlType(control) === ControlType.form) {
-            if (scope.pageType !== "entityrecord") {
+            if (scope.pageType !== PageType.record) {
                 throw new Error("A form control cannot exist on a list page.");
             }
 
@@ -58,8 +58,8 @@ export function isInScope(first: Scope, second: Scope): boolean {
     //this.entityNames.every(e => this.isEqualsOrNull(e, scope.entityName)) &&
     return (
         (
-            first.pageType === "entityrecord" && second.pageType === "entityrecord" && isSameForm(first.form, second.form) ||
-            first.pageType === "entitylist"
+            first.pageType === PageType.record && second.pageType === PageType.record && isSameForm(first.form, second.form) ||
+            first.pageType === PageType.list
         ) &&
         isEqualsOrNull(first.app?.id, second.app?.id) &&
         isEqualsOrNull(first.pageType, second.pageType)
