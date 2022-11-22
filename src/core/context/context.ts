@@ -1,4 +1,4 @@
-import { EventType, ControlType, ExternalArgs, Event, Control } from "../../typing";
+import { EventType, ControlType, ExternalArgs, Event, Control, ComponentConstructor, PageType } from "../../typing";
 import { debug, getControlType } from "../../utils";
 import { EventEnv } from "../events/event-env";
 import { EsmLoader } from "../esm/esm-loader";
@@ -10,6 +10,7 @@ import { ComponentBrowser } from "../component/component-browser";
 import { D365EventSubscriber } from "../events/d365-event-subscriber";
 import { ComponentLifeCycle } from "../component/component-lifecycle";
 import { getBootstrapComponents } from "../../utils/module";
+import { getComponentConfig } from "../metadata/helper";
 
 /**
  * Define all actions that could be done in the context of the execution (provided by D365).
@@ -40,6 +41,17 @@ export class Context {
         this.componentLifeCycle = new ComponentLifeCycle(eventEnv.eventRegister);
     }
 
+    // TODO: Move and improve
+    private hasEventIntegrityError(cb: ComponentBrowser): boolean {
+        const hasError = cb.events.some(e => {
+            const eventType = this.eventEnv.eventTypeRegister.getEventType(e.type);
+            const componentMetadata = getComponentConfig(cb.componentType as ComponentConstructor);
+            return !eventType?.supportedPageType.includes(componentMetadata?.scope.pageType as PageType);
+        });
+
+        return hasError || cb.subComponents.some(c => this.hasEventIntegrityError(c));
+    }
+
     /**
      * Initialize the context
      * @param extArgs 
@@ -52,6 +64,12 @@ export class Context {
             const module = esmBrowser.module;
 
             const bootstrapComponents = getBootstrapComponents(module);
+            const boostrapCBs = bootstrapComponents.map(c => new ComponentBrowser(c));
+
+            // Check events integrity
+            if (boostrapCBs.some(c => this.hasEventIntegrityError(c))) {
+                throw new Error(`One or more components have unauthorized events (Wrong page type)`);
+            }
 
             // Init DI
             const rootContainer = new RootContainer(module);
@@ -61,10 +79,7 @@ export class Context {
             );
 
             // Subscribe to D365 events
-            bootstrapComponents.forEach(c => {
-                const componentBrowser = new ComponentBrowser(c);
-                componentBrowser.allEvents.forEach(e => this.d365EventSubscriber.subscribe(e));
-            });
+            boostrapCBs.forEach(cb => cb.allEvents.forEach(e => this.d365EventSubscriber.subscribe(e)));
 
             // Create and enable the boostrap components
             bootstrapComponents.forEach(c => {
