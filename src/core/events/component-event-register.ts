@@ -26,10 +26,7 @@ export class ComponentEventRegister {
      * @returns true if the event exists otherwise false
      */
     public exist(event: ComponentEvent): boolean {
-        return (this.events.some(e => e.component == event.component &&
-            e.propertyName === event.propertyName &&
-            e.targetName === event.targetName &&
-            e.type === event.type));
+        return this.findEventIndex(event) !== -1;
     }
 
     /**
@@ -38,7 +35,14 @@ export class ComponentEventRegister {
      */
     public removeEvent(event: ComponentEvent): void {
         debug(`Removing ${event.type} event targeting ${event.targetName} for the component ${event.component.constructor.name}`);
-        this.events.splice(this.events.indexOf(event), 1);
+
+        const index = this.findEventIndex(event);
+
+        if (index === -1) {
+            throw new Error("Unable to remove the event.");
+        }
+        
+        this.events.splice(index, 1);
     }
 
     /** Show registered events in console */
@@ -52,5 +56,17 @@ export class ComponentEventRegister {
         }
 
         debug("--- Events --- ");
+    }
+
+    /**
+     * Find event index, -1 otherwise.
+     * @param event 
+     * @returns 
+     */
+     private findEventIndex(event: ComponentEvent) {
+        return this.events.findIndex(e => e.component == event.component &&
+            e.propertyName === event.propertyName &&
+            e.targetName === event.targetName &&
+            e.type === event.type);
     }
 }
