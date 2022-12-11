@@ -1,4 +1,4 @@
-import { Control, Scope, ControlType, FormScopeConfig, PageType } from "../typing";
+import { Control, Scope, ControlType, FormScopeConfig, PageType, AppScopeConfig } from "../typing";
 import { isSameId, isNullOrEmpty } from "./common";
 import { getEntityName, getPageType, getAppId, getControlType, getFormContext } from "./dataverse";
 
@@ -37,14 +37,34 @@ export async function getScopeFromControl(control: Control): Promise<Scope> {
 
 function isSameForm(first?: FormScopeConfig, second?: FormScopeConfig): boolean {
     return (
-        first == null ||
-        (second != null &&
-        (first.id != null && second.id != null && isSameId(first.id, second.id) || first.name == second.name))
+        (first == null || second == null) ||
+        (first.id != null && second.id != null && isSameId(first.id, second.id)) ||
+        (first.name == second.name)
     );
 }
 
 function isEqualsOrNull(first: string | undefined, second: string | undefined) {
-    return isNullOrEmpty(first) || second == second;
+    return isNullOrEmpty(first) || isNullOrEmpty(second) || first === second;
+}
+
+function isSameApp(first?: AppScopeConfig, second?: AppScopeConfig) {
+    return isEqualsOrNull(first?.id, second?.id);
+}
+
+function toArray<T>(elementOrArray: T | T[]) {
+    return Array.isArray(elementOrArray) ? elementOrArray : [elementOrArray];
+}
+
+function isSameEntityName(first?: string | string[], second?: string | string[]) {
+    if (second == null) {
+        // Second null = all entities
+        return true;
+    }
+
+    const firstEntities = toArray(first);
+    const secondEntities = toArray(second);
+
+    return firstEntities.some(f => secondEntities.includes(f as string));
 }
 
 /**
@@ -53,15 +73,29 @@ function isEqualsOrNull(first: string | undefined, second: string | undefined) {
  * @param second Scope maybe included
  * @returns true if included otherwise false
  */
-export function isInScope(first: Scope, second: Scope): boolean {
-    // TODO: Complete, dont work
-    //this.entityNames.every(e => this.isEqualsOrNull(e, scope.entityName)) &&
-    return (
-        (
-            first.pageType === PageType.record && second.pageType === PageType.record && isSameForm(first.form, second.form) ||
-            first.pageType === PageType.list
-        ) &&
-        isEqualsOrNull(first.app?.id, second.app?.id) &&
-        isEqualsOrNull(first.pageType, second.pageType)
-    );
+ export function isInScope(first: Scope, second: Scope): boolean {
+    const assertions: boolean[] = [
+        isSameApp(first.app, second.app)
+    ];
+
+    switch (first.pageType) {
+        case PageType.record:
+            // Record and list in second scope allowed
+            assertions.push(isSameForm(first.form, (second as any).form));
+            
+            if (second.pageType === PageType.record) {
+                assertions.push(isSameEntityName(first.entityName, second.entityName));
+            }
+            
+            break;
+        case PageType.list:
+            // Only list in second scope allowed
+            assertions.push(first.pageType === second.pageType);
+
+            assertions.push(isSameEntityName(first.entityName, second.entityName));
+
+            break;
+    }
+
+    return assertions.every(a => a);
 }

@@ -9,6 +9,9 @@ export interface AppScopeConfig {
 
 export interface FormScopeConfig {
     id?: string;
+    /**
+     * @deprecated Use id instead
+     */
     name?: string;
 }
 

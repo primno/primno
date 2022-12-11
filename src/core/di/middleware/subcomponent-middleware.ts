@@ -1,4 +1,4 @@
-import { ComponentConstructor, Component } from "../../../typing";
+import { ComponentConstructor, Component, Scope } from "../../../typing";
 import { verbose } from "../../../utils";
 import { ComponentActivator } from "../../component/component-activator";
 import { ComponentBrowser } from "../../component/component-browser";
@@ -15,7 +15,10 @@ export class SubComponentMiddleware implements Middleware {
         return true;
     }
 
-    public constructor(private componentLifeCycle: ComponentLifeCycle) {}
+    public constructor(
+        private componentLifeCycle: ComponentLifeCycle,
+        private contextScope: Scope
+        ) {}
 
     // eslint-disable-next-line @typescript-eslint/no-empty-function
     onPreConstruct(): void {}
@@ -34,6 +37,7 @@ export class SubComponentMiddleware implements Middleware {
                     c.componentType as ComponentConstructor,
                     this.componentLifeCycle,
                     container,
+                    this.contextScope,
                     c.input
                 );
 

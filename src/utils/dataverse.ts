@@ -68,7 +68,7 @@ export function getPageType(): PageType {
  * @param control 
  */
 export function getEntityName(control: Control): string { 
-    switch (getControlType(context)) {
+    switch (getControlType(control)) {
         case "form": {
             const formCtx = getFormContext(control as Xrm.Events.EventContext);
             if (formCtx == null) {

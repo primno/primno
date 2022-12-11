@@ -11,6 +11,7 @@ import { D365EventSubscriber } from "../events/d365-event-subscriber";
 import { ComponentLifeCycle } from "../component/component-lifecycle";
 import { getBootstrapComponents } from "../../utils/module";
 import { getComponentConfig } from "../metadata/helper";
+import { getScopeFromControl } from "../../utils/scope";
 
 /**
  * Define all actions that could be done in the context of the execution (provided by D365).
@@ -71,11 +72,13 @@ export class Context {
                 throw new Error(`One or more components have unauthorized events (Wrong page type)`);
             }
 
+            const contextScope = await getScopeFromControl(extArgs.primaryControl as Control);
+
             // Init DI
             const rootContainer = new RootContainer(module);
             rootContainer.applyMiddlewares(
                 new OnInitMiddleWare(this.componentLifeCycle),
-                new SubComponentMiddleware(this.componentLifeCycle)
+                new SubComponentMiddleware(this.componentLifeCycle, contextScope)
             );
 
             // Subscribe to D365 events
@@ -86,7 +89,8 @@ export class Context {
                 const componentActivator = new ComponentActivator(
                     c,
                     this.componentLifeCycle,
-                    rootContainer.container
+                    rootContainer.container,
+                    contextScope
                 );
                 componentActivator.enable();
             });

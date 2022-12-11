@@ -1,7 +1,9 @@
-import { ComponentConstructor, Component } from "../../typing";
+import { ComponentConstructor, Component, Scope } from "../../typing";
 import { debug, verbose } from "../../utils";
+import { isInScope } from "../../utils/scope";
 import { ComponentContainer } from "../di/container/component-container";
 import { Container } from "../di/container/container";
+import { getComponentConfig } from "../metadata/helper";
 import { ComponentBrowser } from "./component-browser";
 import { ComponentLifeCycle } from "./component-lifecycle";
 
@@ -18,9 +20,14 @@ export class ComponentActivator<T extends Component> implements SubComponent<T> 
         private componentType: ComponentConstructor,
         private componentLifeCycle: ComponentLifeCycle,
         parentContainer: Container,
+        contextScope: Scope,
         input?: any
      ) {
         this.componentBrowser = new ComponentBrowser(componentType, input);
+
+        const componentMetada = getComponentConfig(this.componentType);
+        const componentScope = componentMetada?.scope;
+        this.inScope = isInScope(contextScope, componentScope as Scope);
 
         this.container = new ComponentContainer(componentType, parentContainer);
         this.container.bindInput(input);
@@ -33,6 +40,8 @@ export class ComponentActivator<T extends Component> implements SubComponent<T> 
     /*public get output(): OutputOf<T> | undefined {
         return undefined as any;
     }*/
+
+    private inScope: boolean;
 
     private component?: T;
 
@@ -48,6 +57,11 @@ export class ComponentActivator<T extends Component> implements SubComponent<T> 
     public enable(): void {
         if (this.enabled) {
             verbose(`Component ${this.componentType.name} already enabled`);
+            return;
+        }
+
+        if (!this.inScope) {
+            debug(`The component ${this.componentType.name} is not in the scope of the context and will not be enable`);
             return;
         }
 
