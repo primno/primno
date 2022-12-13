@@ -1,26 +1,33 @@
-export {
-    FormFeatureBase,
-    GridFeatureBase,
-    EnableRuleBase,
-    FluentEventRegister,
-    PopulateQueryBase
-} from './components'
-
-export {
-    DomainBase,
-    FluentDomainInitializer
-} from './domain'
-
-export {
-    isNullOrUndefined
-} from './utils';
-
 export * from './typing';
 
 // For @primno/cli
 export { Configuration } from "./core/configuration";
 
 export {
-    MnDomain,
-    //MnConfig
-} from './metadata';
+    Inject,
+    Injectable,
+    Optional
+} from "./core/di";
+
+export {
+    MnComponent,
+    MnInput,
+    MnModule,
+    MnOutput,
+    MnSubComponent,
+    MnConfig
+} from "./core/metadata"
+
+// MnOnFormLoad, MnOnFieldChange, etc.
+export * from "./core/metadata/events";
+
+export {
+    Config,
+    Input,
+    OnDestroy,
+    OnInit
+} from "./core/component/interface";
+
+export {
+    SubComponent
+} from "./core/component/component-activator";

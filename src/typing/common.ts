@@ -18,3 +18,17 @@ export type RecursivePartial<T> = {
 };
 
 export type CanBePromise<T> = T | Promise<T>;
+
+export type Constructor<T = Record<any, any>> = abstract new (...args: any[]) => T;
+export type ConstructorOrObject<T extends Record<any, any> = Record<any, any>> = Constructor<T> | T;
+
+export type KeysMatching<T, V> = {
+    [K in keyof T]-?: T[K] extends V ? K : never
+  }[keyof T];
+
+export type PickOnly<T, V> = Pick<T, KeysMatching<T, V>>;
+
+/**
+ * Replace type of object properties
+ */
+export type ReplaceProp<T, V> = { [key in keyof T]: V};

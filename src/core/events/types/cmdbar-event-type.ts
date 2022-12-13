@@ -1,55 +1,61 @@
-import { CommandBarEventArg, EventArg, EventCallBack, EventType, ControlType, EventTypes, ExternalArgs, PrimaryArgument, PopulateQueryEventArg } from "../../../typing";
+import { CommandBarEventArg, EventArg, EventType, EventTypes, ExternalArgs, PopulateQueryEventArg, PageType } from "../../../typing";
+import { verbose } from "../../../utils";
 
+/**
+ * CommandBar Event Type.
+ * This events can't be subscribe in runtime.
+ */
 export abstract class CmdBarEventType implements EventType {
-    constructor(name: string, availableContext: ControlType[], controlNameRequired: boolean, isUciRequired: boolean) {
+    constructor(name: string, pageType: PageType[], controlNameRequired: boolean) {
         this.name = name;
-        this.supportedControls = availableContext;
+        this.supportedPageType = pageType;
         this.controlNameRequired = controlNameRequired;
-        this.isUciRequired = isUciRequired;
+        this.subscribable = false;
     }
 
     public createEventArg(extArgs: ExternalArgs): EventArg {
         return {
             type: this.name,
-            selectedControl: extArgs.primaryArgument,
+            selectedControl: extArgs.selectedControl,
             extraArgs: extArgs.args
         } as CommandBarEventArg;
     }
 
     // eslint-disable-next-line @typescript-eslint/no-empty-function
-    public subscribe(primaryControl: PrimaryArgument, controlName?: string): void {}
-    // eslint-disable-next-line @typescript-eslint/no-empty-function
-    public unsubscribe(primaryControl: PrimaryArgument, controlName?: string): void {}
-
-    // TODO: Appel de primno directement ? Nécessité d'avoir un callback ? Peut être appliqué dès la construction du type.
-    // Pas d'api pour le moment donc peut être ..
-    public init(callBack: EventCallBack): void {
-        this._callBack = callBack;
+    public subscribe(): void {
+        verbose("Command bar events can't be subscribe at runtime");
     }
 
-    private _callBack: EventCallBack | undefined;
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
+    public unsubscribe(): void {
+        verbose("Command bar events can't be unscribe at runtime");
+    }
+
+    public init(): void {
+        verbose("Command bar events can't be init at runtime");
+    }
 
     controlNameRequired: boolean;
-    isUciRequired: boolean;
-    supportedControls: ControlType[];
+    supportedPageType: PageType[];
     name: string;
+    subscribable: boolean;
 }
 
-export class ButtonPressEventType extends CmdBarEventType {
+export class CommandInvokeEventType extends CmdBarEventType {
     constructor(){
-        super(EventTypes.ButtonPress, [ControlType.form, ControlType.grid], true, false);
+        super(EventTypes.CommandInvoke, [PageType.record, PageType.list], true);
     }
 }
 
 export class EnableRuleEventType extends CmdBarEventType {
     constructor(){
-        super(EventTypes.EnableRule, [ControlType.form, ControlType.grid], true, true);
+        super(EventTypes.EnableRule, [PageType.record, PageType.list], true);
     }
 }
 
 export class PopulateQueryEventType extends CmdBarEventType {
     constructor() {
-        super(EventTypes.PopulateQuery, [ControlType.form, ControlType.grid], true, false);
+        super(EventTypes.PopulateQuery, [PageType.record, PageType.list], true);
     }
 
     public createEventArg(extArgs: ExternalArgs): EventArg {

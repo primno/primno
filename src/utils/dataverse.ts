@@ -1,20 +1,10 @@
-﻿import { ControlType, PrimaryArgument } from "../typing";
-import { isNullOrUndefined } from "./common";
+﻿import { ControlType, Control, PageType } from "../typing";
+import { hasMethod } from "./common";
 
 /** Indicates whether the form is a Uci form */
 export function isUci(): boolean {
     const globalContext = Xrm.Utility.getGlobalContext();
     return globalContext.getCurrentAppUrl() !== globalContext.getClientUrl();
-
-    // TODO: Remove if it works and is reliable. 
-    // Check with ?forceUCI=1&pagetype=entityrecord&etn=contact&id=43ca6642-8cfe-eb11-b828-005056be3253
-    
-    // const xrm = Xrm as any;
-
-    // if (isNullOrUndefined(xrm?.Internal?.isUci) == false)
-    //     return xrm.Internal.isUci();
-    // else
-    //     return false;
 }
 
 /**
@@ -22,11 +12,18 @@ export function isUci(): boolean {
  * @context context 
  */
 export function getControlType(context: any): ControlType | undefined {
-    if (isNullOrUndefined(context?.getGrid) === false){
+    if (context?.getGrid != null) {
+        // Grid control. The event comes from the command bar on a entitylist page.
         return ControlType.grid;
     }
 
-    if (isNullOrUndefined(context?.getAttribute) === false || isNullOrUndefined(context?.getFormContext) == false) {
+    if (context?.getFormContext != null) {
+        // Form execution context. The event comes from form (field change, onload, etc).
+        return ControlType.form;
+    }
+
+    if (context?.getAttribute != null) {
+        // Form context. The event comes from the command bar.
         return ControlType.form;
     }
 }
@@ -39,7 +36,7 @@ export async function getAppId(): Promise<string> {
     const globalContext = Xrm.Utility.getGlobalContext();
 
     const appProperties = await globalContext.getCurrentAppProperties();
-    if (isNullOrUndefined(appProperties.appId)) {
+    if (appProperties.appId == null) {
         throw new Error("AppId not found");
     }
 
@@ -47,29 +44,44 @@ export async function getAppId(): Promise<string> {
 }
 
 /**
- * Gets the name of the entity from the given context.
- * @param context 
+ * Gets the entity name of the current page.
+ * @returns Entity name
  */
-export function getEntityName(context: PrimaryArgument): string {
-    // Only available in uci ? 9.1 ?
+export function getPageEntityName() {
     const pageContext = Xrm.Utility.getPageContext();
     return pageContext.input.entityName;
+}
 
-    // TODO: Remove if it works.
-    // switch (getControlType(context)) {
-    //     case "form": {
-    //         const formCtx = getFormContext(context as Xrm.Events.EventContext);
-    //         if (formCtx == null) {
-    //             throw new Error("Unable to find form context");
-    //         }
+/**
+ * Gets the page type (entityrecord or entitylist).
+ */
+export function getPageType(): PageType {
+    switch (Xrm.Utility.getPageContext().input.pageType) {
+        case "entitylist": return PageType.list;
+        case "entityrecord": return PageType.record
+        default: throw new Error("Unknown page type");
+    }
+}
 
-    //         return formCtx.data.entity.getEntityName();
-    //     }
-    //     case "grid": {
-    //         return (<Xrm.Controls.GridControl>context).getEntityName();
-    //     }
-    //     default: throw new Error("Unable to get entity name from context. The context must be form or grid");
-    // }
+/**
+ * Gets the name of the entity from the given control.
+ * @param control 
+ */
+export function getEntityName(control: Control): string { 
+    switch (getControlType(control)) {
+        case "form": {
+            const formCtx = getFormContext(control as Xrm.Events.EventContext);
+            if (formCtx == null) {
+                throw new Error("Unable to find form context");
+            }
+
+            return formCtx.data.entity.getEntityName();
+        }
+        case "grid": {
+            return (control as Xrm.Controls.GridControl).getEntityName();
+        }
+        default: throw new Error("Unable to get entity name from context. The context must be form or grid");
+    }
 }
 
 /**
@@ -77,24 +89,29 @@ export function getEntityName(context: PrimaryArgument): string {
 * Returns null if the form context is not found.
 * @param eventCtx
 */
-export function getFormContext(eventCtx: Xrm.Events.EventContext): Xrm.FormContext | null {
-    if (isNullOrUndefined(eventCtx)){
+export function getFormContext(eventCtx: Xrm.Events.EventContext | Xrm.FormContext): Xrm.FormContext | null {
+    if (eventCtx == null) {
         return null;
     }
 
-    if (isNullOrUndefined(eventCtx.getFormContext) == false) {
-        return eventCtx.getFormContext();
+    if (hasMethod(eventCtx, "getFormContext")) {
+        return (eventCtx as Xrm.Events.EventContext).getFormContext();
     }
     else {
-        if (isNullOrUndefined((eventCtx as any).getAttribute) == false &&
-            isNullOrUndefined((eventCtx as any).getControl) == false) {
-            return (<unknown>eventCtx) as Xrm.FormContext;
+        if (hasMethod(eventCtx, "getAttribute") &&
+            hasMethod(eventCtx, "getControl")) {
+            return eventCtx as Xrm.FormContext;
         }
     }
 
     return null;
 }
 
+/**
+ * Gets the Guid of the form.
+ * @param formContext Form context
+ * @returns Guid of form
+ */
 export function getFormId(formContext: Xrm.FormContext): string | undefined {
     return formContext?.ui.formSelector.getCurrentItem()?.getId();
 }

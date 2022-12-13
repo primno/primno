@@ -1,33 +1,56 @@
-import { ComponentEvent, EventType, ControlType, ExternalArgs, MnEvent, Component, MnContext } from "../../typing";
-import { debug, getControlType, isNullOrUndefined, isUci } from "../../utils";
-import { ControlScope } from "../common/scope";
+import { EventType, ControlType, ExternalArgs, Event, Control, ComponentConstructor, PageType } from "../../typing";
+import { debug, getControlType } from "../../utils";
 import { EventEnv } from "../events/event-env";
-import { ModuleLoader } from "../module/module-loader";
+import { EsmLoader } from "../esm/esm-loader";
+import { RootContainer } from "../di/container";
+import { OnInitMiddleWare } from "../di/middleware/on-init-middleware";
+import { SubComponentMiddleware } from "../di/middleware/subcomponent-middleware";
+import { ComponentActivator } from "../component/component-activator";
+import { ComponentBrowser } from "../component/component-browser";
+import { D365EventSubscriber } from "../events/d365-event-subscriber";
+import { ComponentLifeCycle } from "../component/component-lifecycle";
+import { getBootstrapComponents } from "../../utils/module";
+import { getComponentConfig } from "../metadata/helper";
+import { getScopeFromControl } from "../../utils/scope";
 
 /**
- * Define all actions that could be done in the context of the execution (provided by dataverse).
- * The context is defined by the control type.
+ * Define all actions that could be done in the context of the execution (provided by D365).
+ * The context is defined by the current page contexte (form or grid).
  */
-export class Context implements MnContext {
-    private components: Component[] = [];
+export class Context {
     //TODO: Change !
     public controlType: ControlType;
+    private d365EventSubscriber: D365EventSubscriber;
+    private componentLifeCycle: ComponentLifeCycle;
 
     public static async new(
         extArgs: ExternalArgs,
         eventEnv: EventEnv,
-        moduleLoader: ModuleLoader): Promise<Context> {
+        moduleLoader: EsmLoader): Promise<Context> {
 
-        const module = new Context(eventEnv, moduleLoader, extArgs);
-        await module.init(extArgs);
-        return module;
+        const context = new Context(eventEnv, moduleLoader, extArgs);
+        await context.init(extArgs);
+        return context;
     }
 
     private constructor(
         private eventEnv: EventEnv,
-        private moduleLoader: ModuleLoader,
+        private esmLoader: EsmLoader,
         initialExtArgs: ExternalArgs) {
-        this.controlType = getControlType(initialExtArgs.primaryArgument) as ControlType;
+        this.controlType = getControlType(initialExtArgs.selectedControl) as ControlType;
+        this.d365EventSubscriber = new D365EventSubscriber(eventEnv.eventTypeRegister, initialExtArgs.primaryControl as Control);
+        this.componentLifeCycle = new ComponentLifeCycle(eventEnv.eventRegister);
+    }
+
+    // TODO: Move and improve
+    private hasEventIntegrityError(cb: ComponentBrowser): boolean {
+        const hasError = cb.events.some(e => {
+            const eventType = this.eventEnv.eventTypeRegister.getEventType(e.type);
+            const componentMetadata = getComponentConfig(cb.componentType as ComponentConstructor);
+            return !eventType?.supportedPageType.includes(componentMetadata?.scope.pageType as PageType);
+        });
+
+        return hasError || cb.subComponents.some(c => this.hasEventIntegrityError(c));
     }
 
     /**
@@ -36,29 +59,44 @@ export class Context implements MnContext {
      */
     private async init(extArgs: ExternalArgs) {
         try {
-            await this.loadComponents(extArgs);
-            this.components.forEach(component => component.onInit(this, extArgs));
+            debug(`Init ${this.controlType} context`);
+
+            const esmBrowser = await this.esmLoader.get();
+            const module = esmBrowser.module;
+
+            const bootstrapComponents = getBootstrapComponents(module);
+            const boostrapCBs = bootstrapComponents.map(c => new ComponentBrowser(c));
+
+            // Check events integrity
+            if (boostrapCBs.some(c => this.hasEventIntegrityError(c))) {
+                throw new Error(`One or more components have unauthorized events (Wrong page type)`);
+            }
+
+            const contextScope = await getScopeFromControl(extArgs.primaryControl as Control);
+
+            // Init DI
+            const rootContainer = new RootContainer(module);
+            rootContainer.applyMiddlewares(
+                new OnInitMiddleWare(this.componentLifeCycle),
+                new SubComponentMiddleware(this.componentLifeCycle, contextScope)
+            );
+
+            // Subscribe to D365 events
+            boostrapCBs.forEach(cb => cb.allEvents.forEach(e => this.d365EventSubscriber.subscribe(e)));
+
+            // Create and enable the boostrap components
+            bootstrapComponents.forEach(c => {
+                const componentActivator = new ComponentActivator(
+                    c,
+                    this.componentLifeCycle,
+                    rootContainer.container,
+                    contextScope
+                );
+                componentActivator.enable();
+            });
         }
         catch (except: any) {
             throw new Error(`Initialization error - ${except.message}. Exception: ${except.name}. Stack trace: ${except.stack}`);
-        }
-    }
-
-    /**
-     * Loads components for a given context. 
-     * @param eventCtx
-     */
-    private async loadComponents(extArgs: ExternalArgs) {
-        try {
-            // Indicate search specifications (entityName, formId, formName, gridName, gridId, that kind of thing) 
-            // Call a ComponentHelper which will take care of obtaining the concerned module and domain(s) in order to obtain the components
-            const controlScope = await ControlScope.new(extArgs.primaryArgument);
-            const moduleBrowser = await this.moduleLoader.get();
-            const domains = moduleBrowser.domainRegister.getDomains(controlScope);
-            this.components = domains.flatMap(d => d.components);
-        }
-        catch (except: any) {
-            throw new Error(`An error was occured during components loading: ${except.message}`);
         }
     }
 
@@ -67,57 +105,14 @@ export class Context implements MnContext {
      * @param eventType 
      * @param event 
      */
-    private checkEventType(eventType: EventType, event: MnEvent) {
-        if (isNullOrUndefined(eventType)) {
+    // TODO: Call to EventType.checkValidity instead
+    private checkEventType(eventType: EventType, event: Event) {
+        if (eventType == null) {
             throw new Error(`No event listener or event type ${event.type}`);
         }
 
-        if (eventType.controlNameRequired && isNullOrUndefined(event.targetName)) {
+        if (eventType.controlNameRequired && event.targetName == null) {
             throw new Error(`Event type ${event.type} required a control name`);
-        }
-
-        if (eventType.isUciRequired && isUci() == false) {
-            throw new Error(`Event type ${event.type} works only in Uci`);
-        }
-    }
-
-    /**
-     * Subscribe to an event.
-     * @param event 
-     * @param extArgs 
-     */
-    public subscribe(event: ComponentEvent, extArgs: ExternalArgs): void {
-        const eventType = this.eventEnv.eventTypeRegister.getEventType(event.type);
-
-        if (isNullOrUndefined(eventType)) {
-            throw new Error(`Event type ${event.type} unknow`);
-        }
-
-        if (eventType.supportedControls.some(f => f == this.controlType)) {
-            // TODO: Evite d'avoir des doublons d'abonnements. Etudier une meilleur gestion.
-            if (this.eventEnv.eventRegister.exist(event) == false) {
-                debug(`Subscribe ${event.type} event with target name ${event.targetName} on component ${event.component.name}`);
-                this.eventEnv.eventRegister.addEvent(event);
-                eventType.subscribe(extArgs.primaryArgument, event.targetName);
-            }
-        }
-    }
-
-    /**
-     * Unsubscribe an event
-     * @param event 
-     * @param extArgs 
-     */
-    public unsubscribe(event: ComponentEvent, extArgs: ExternalArgs): void {
-        const eventType = this.eventEnv.eventTypeRegister.getEventType(event.type);
-
-        if (isNullOrUndefined(eventType)) {
-            throw new Error(`Event type ${event.type} unknow`);
-        }
-
-        if (eventType?.supportedControls.some(f => f == this.controlType)) {
-            eventType.unsubscribe(extArgs.primaryArgument, event.targetName);
-            //this.eventEnv.eventRegister.removeEvent(event);
         }
     }
 
@@ -127,7 +122,7 @@ export class Context implements MnContext {
      * @param extArgs 
      * @returns 
      */
-    public triggerEvent(event: MnEvent, extArgs: ExternalArgs): unknown {
+    public triggerEvent(event: Event, extArgs: ExternalArgs): unknown {
         const eventType = this.eventEnv.eventTypeRegister.getEventType(event.type) as EventType;
         this.checkEventType(eventType, event);
 
@@ -136,4 +131,22 @@ export class Context implements MnContext {
         const eventArg = eventType.createEventArg(extArgs);
         return this.eventEnv.eventDispatcher.dispatchComponentEvent(event, eventArg);
     }
+
+    // /**
+    //  * Loads components for a given context. 
+    //  * @param eventCtx
+    //  */
+    // private async loadComponents(extArgs: ExternalArgs) {
+    //     try {
+    //         // Indicate search specifications (entityName, formId, formName, gridName, gridId, that kind of thing) 
+    //         // Call a ComponentHelper which will take care of obtaining the concerned module and domain(s) in order to obtain the components
+    //         const controlScope = await ControlScope.new(extArgs.selectedControl);
+    //         const moduleBrowser = await this.esmLoader.get();
+    //         //const domains = moduleBrowser.domainRegister.getDomains(controlScope);
+    //         //this.components = domains.flatMap(d => d.components);
+    //     }
+    //     catch (except: any) {
+    //         throw new Error(`An error was occured during components loading: ${except.message}`);
+    //     }
+    // }
 }

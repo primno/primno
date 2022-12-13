@@ -1,8 +1,8 @@
 import { CanBePromise, ExternalArgs } from "../../typing";
-import { getControlType, isNullOrUndefined } from "../../utils";
+import { assert, getControlType } from "../../utils";
 import { Context } from "./context";
 import { EventEnv } from "../events/event-env";
-import { ModuleLoader } from "../module/module-loader";
+import { EsmLoader } from "../esm/esm-loader";
 import { InitializeOptions } from "../primno";
 
 /**
@@ -10,12 +10,12 @@ import { InitializeOptions } from "../primno";
  */
 export class ContextInitializer {
     private contexts: Record<string, CanBePromise<Context>> = {};
-    private moduleLoader: ModuleLoader;
+    private moduleLoader: EsmLoader;
 
     public constructor(initOptions: InitializeOptions,
         private eventEnv: EventEnv)
     {
-        this.moduleLoader = new ModuleLoader(initOptions);
+        this.moduleLoader = new EsmLoader(initOptions);
     }
 
     /**
@@ -25,15 +25,17 @@ export class ContextInitializer {
      * @returns 
      */
     public getContext(extArgs: ExternalArgs): CanBePromise<Context> {
-        const controlType = getControlType(extArgs.primaryArgument);
+        const controlType = getControlType(extArgs.primaryControl);
 
-        if (isNullOrUndefined(controlType)) {
+        if (!controlType) {
             throw new Error("Unknow event type flow");
         }
 
-        if (!isNullOrUndefined(this.contexts[controlType])) {
+        if (this.contexts[controlType]) {
             return this.contexts[controlType];
         }
+
+        assert(Object.keys(this.contexts).length === 0, "Only one page context can be init.");
 
         return (async () => {
             // HACK : Attempt to return a promise during initialization if another call to the same context occurs during asynchronous init. 

@@ -3,7 +3,7 @@ import { EventType } from '../../typing';
 /**
  * Events types register.
  */
-export class EventTypeRegister /*implements EventSubscriber*/ {
+export class EventTypeRegister {
     private _eventTypes: EventType[] = [];
 
     public getEventType(typeName: string) : EventType | undefined {

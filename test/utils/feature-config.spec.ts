@@ -1,6 +1,6 @@
 import { expect } from "chai";
 import { XrmMockGenerator } from "xrm-mock";
-import { checkFormConfiguration, getFormContext, isUci } from "../../src/utils";
+import { checkFormConfiguration } from "../../src/utils";
 
 describe("Utils Feature Config", () => {
     describe("checkFeatureConfiguration", () => {

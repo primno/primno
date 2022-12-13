@@ -1,5 +1,5 @@
 import { CanBePromise } from '../typing';
-import { isNullOrUndefined, isPromise } from './common';
+import { isPromise } from './common';
 
 /**
  * Makes synchronous calls as much as possible, otherwise builds a promise of fulfillment.
@@ -20,12 +20,12 @@ export class MaybePromise<T> {
 
     private constructor(func: () => CanBePromise<T>, previousMaybePromise?: MaybePromise<any>) {
         try {
-            if (isNullOrUndefined(previousMaybePromise) || isNullOrUndefined(previousMaybePromise.syncException)) {
+            if (previousMaybePromise == null || previousMaybePromise.syncException == null) {
                 // Run func only if the previous call dont throw exception
                 this.returnValue = func();
             }
             
-            if (!isNullOrUndefined(previousMaybePromise?.syncException)) {
+            if (previousMaybePromise?.syncException != null) {
                 this.syncException = previousMaybePromise?.syncException;
             }
         }
@@ -49,7 +49,7 @@ export class MaybePromise<T> {
             const returnValue = this.returnValue;
             return new MaybePromise<T>(() => returnValue.catch(onrejected) as Promise<T>, this);
         }
-        else if (!isNullOrUndefined(this.syncException)) {
+        else if (this.syncException != null) {
             onrejected(this.syncException);
             return this;
         }

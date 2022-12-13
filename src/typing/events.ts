@@ -1,7 +1,9 @@
 import { Component } from "./component";
+import { PageType } from "./scope";
 
 export interface ExternalArgs {
-    primaryArgument: PrimaryArgument;
+    selectedControl: Control;
+    primaryControl: Control | undefined;
     args: unknown[];
 }
 
@@ -9,12 +11,12 @@ export interface EventArg {
     type: string;
 }
 
-export type EventHandler<TEventArg extends EventArg = EventArg> = (event: TEventArg) => unknown;
+//export type EventHandler<TEventArg extends EventArg = EventArg> = (event: TEventArg) => unknown;
 
 /**
- * Callback called when a specific event is trigger.
+ * Internal event handler called when a specific event is triggered.
  */
-export type EventCallBack = (targetName?: string, ...args: unknown[]) => unknown;
+export type EventHandler = (targetName?: string, ...args: unknown[]) => unknown;
 
 /**
  * Describes a type of event. 
@@ -23,27 +25,37 @@ export type EventCallBack = (targetName?: string, ...args: unknown[]) => unknown
  export interface EventType {
     name: string;
     controlNameRequired: boolean;
-    // TODO: Rename to compatible control ?
-    supportedControls: ControlType[];
-    isUciRequired: boolean;
+    supportedPageType: PageType[];
+    subscribable: boolean;
     
     createEventArg(extArgs: ExternalArgs): EventArg;
 
-    subscribe(primaryControl: PrimaryArgument, controlName?: string): void;
-    unsubscribe(primaryControl: PrimaryArgument, controlName?: string): void;
+    /**
+     * Subscribe at runtime to D365 event.
+     * This method will be called only if subscribable is set to true.
+     * @param selectedControl Control
+     * @param controlName Target name
+     */
+    subscribe(selectedControl: Control, controlName?: string): void;
+    /**
+     * Unsubscribe at runtime to D365 event.
+     * This method will be called only if subscribable is set to true.
+     * @param selectedControl Control
+     * @param controlName Target name
+     */
+    unsubscribe(selectedControl: Control, controlName?: string): void;
 
-    init(callBack: EventCallBack): void;
-}
+    /**
+     * Defines the event handler that should be called when the event occurs.
+     * This method will be called only if subscribable is set to true.
+     * @param eventHandler Callback to Primno
+     */
+    init(eventHandler: EventHandler): void;
 
-// TODO: Move ?
-
-// TODO: To Review
-export interface MnEventArg extends EventArg {
-    primaryControl: PrimaryArgument;
 }
 
 export interface CommandBarEventArg extends EventArg {
-    selectedControl: PrimaryArgument;
+    selectedControl: Control;
     extraArgs: unknown[];
 }
 
@@ -69,7 +81,7 @@ export enum EventTypes {
     LookupTagClick = "LookupTagClick",
     TabStateChange = "TabStateChange",
     PreSearch = "PreSearch",
-    ButtonPress = "ButtonPress",
+    CommandInvoke = "CommandInvoke",
     StageChange = "StageChange",
     PreStageChange = "PreStageChange",
     ProcessStatusChange = "ProcessStatusChange",
@@ -82,9 +94,9 @@ export enum EventTypes {
 }
 
 /**
- * Minimalist definition of an event. 
+ * Minimalist definition of an event.
  */
-export interface MnEvent {
+export interface Event {
     /**
      * Event type
      */
@@ -96,13 +108,14 @@ export interface MnEvent {
 }
 
 /**
- * Event to register
+ * Event targeting an event handler of a component.
+ * Registred in EventRegister.
  */
-export interface ComponentEvent extends MnEvent {
-    eventHandler: EventHandler;
+export interface ComponentEvent extends Event {
+    propertyName: string;
     component: Component;
 }
 
-export type PrimaryArgument = Xrm.Events.EventContext | Xrm.Controls.GridControl;
+export type Control = Xrm.Events.EventContext | Xrm.FormContext | Xrm.Controls.GridControl;
 
 export enum ControlType { form = "form", grid = "grid" }

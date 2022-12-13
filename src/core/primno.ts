@@ -1,12 +1,12 @@
-﻿import { notifyCriticalError, MaybePromise, isNullOrUndefined } from "../utils";
+﻿import { notifyCriticalError, MaybePromise } from "../utils";
 import { Configuration } from "./configuration";
-import { CanBePromise, ExternalArgs, MnEvent, Module, PrimaryArgument } from "../typing";
+import { CanBePromise, ExternalArgs, Event, Esm, Control } from "../typing";
 import { ContextInitializer } from "./context";
 import { EventEnv, initEventTypes } from "./events";
 
 export interface InitializeOptions {
     config: Configuration;
-    module: Module;
+    esm: Esm;
 }
 
 export class Primno {
@@ -18,28 +18,39 @@ export class Primno {
     }
 
     public constructor(options: InitializeOptions) {
-        if (isNullOrUndefined(options.config)) {
+        if (options.config == null) {
             throw new Error("Primno configuration must be set");
         }
 
         initEventTypes(this._eventEnv.eventTypeRegister, this);
         this._contextInitializer = new ContextInitializer(options, this._eventEnv);
+        
     }
 
     /**
      * Trigger an event.
      * @param event Event.
-     * @param primaryEventArg Associated execution context.
-     * @param args Additional optional arguments that will be passed to the event handler. 
+     * @param selectedControl Associated execution context.
+     * @param primaryControl Optionnal primary control. Must be set to undefined if there are other args.
+     * @param args Additional optional arguments that will be passed to the event handler.
      */
-    public triggerEvent(event: MnEvent, primaryEventArg: PrimaryArgument, ...args: unknown[]): CanBePromise<unknown> {
-        const extArgs: ExternalArgs = { primaryArgument: primaryEventArg, args: args };
+    public triggerEvent(event: Event, selectedControl: Control, primaryControl: Control | undefined, ...args: unknown[]): CanBePromise<unknown> {
+        const extArgs: ExternalArgs = {
+            selectedControl,
+            // To be compatible with form event. Only the first arg (selectedControl) is sent
+            // TODO: Make sure that has not side effect.
+            primaryControl : primaryControl ?? selectedControl,
+            args
+        };
 
-        return MaybePromise.new(() => this.contextInitializer.getContext(extArgs))
+        return MaybePromise
+            .new(() => this.contextInitializer.getContext(extArgs))
             .then((context) => context.triggerEvent(event, extArgs))
             .catch((except) => {
-                console.error(except);
-                notifyCriticalError(`An error was occured on ${event.type} event`, `${except.message}. Stack trace: ${except.stack}`);
+                notifyCriticalError(
+                    `An error was occured on ${event.type} event:\r\n${except.message}`,
+                    `Exception: ${except.name} => ${except.message}\r\n Stack trace: ${except.stack}`
+                );
             })
             .done();
     }

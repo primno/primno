@@ -1,4 +1,7 @@
-export type PageType = "record" | "list";
+export enum PageType { 
+    record = "record",
+    list = "list"
+}
 
 export interface AppScopeConfig {
     id: string;
@@ -6,12 +9,25 @@ export interface AppScopeConfig {
 
 export interface FormScopeConfig {
     id?: string;
+    /**
+     * @deprecated Use id instead
+     */
     name?: string;
 }
 
-export interface Scope {
-    entityName: string;
-    form?: FormScopeConfig;
+interface ScopeBase {
+    pageType: PageType;
+    entityName?: string | string[];
     app?: AppScopeConfig;
-    pageType?: PageType;
 }
+
+export interface RecordScope extends ScopeBase {
+    pageType: PageType.record;
+    form?: FormScopeConfig;
+}
+
+export interface ListScope extends ScopeBase {
+    pageType: PageType.list;
+}
+
+export type Scope = RecordScope | ListScope;
