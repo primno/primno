@@ -39,7 +39,7 @@ function isSameForm(first?: FormScopeConfig, second?: FormScopeConfig): boolean 
     return (
         (first == null || second == null) ||
         (first.id != null && second.id != null && isSameId(first.id, second.id)) ||
-        (first.name == second.name)
+        (first.name === second.name)
     );
 }
 
@@ -52,7 +52,7 @@ function isSameApp(first?: AppScopeConfig, second?: AppScopeConfig) {
 }
 
 function toArray<T>(elementOrArray: T | T[]) {
-    return Array.isArray(elementOrArray) ? elementOrArray : [elementOrArray];
+    return ([] as T[]).concat(elementOrArray);
 }
 
 function isSameEntityName(first?: string | string[], second?: string | string[]) {
