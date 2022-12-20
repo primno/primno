@@ -1,5 +1,6 @@
 import { ModuleConstructor } from "../../../typing/module";
 import { getBootstrapComponents } from "../../../utils/module";
+import { getBindFromProvider } from "../../../utils/provider";
 import { getModuleConfig, isModule } from "../../metadata/helper";
 import { Container, Middleware } from "./container";
 
@@ -38,7 +39,10 @@ import { Container, Middleware } from "./container";
     private bindModule(moduleType: ModuleConstructor) {
         const config = getModuleConfig(moduleType);
 
-        config?.providers?.forEach(p => this._container.bindService(p.provide, p.useClass));
+        config?.providers
+            ?.map(p => getBindFromProvider(p))
+            .forEach(p => this._container.bind(p));
+        
         config?.imports?.forEach(m => this.bindModule(m));
     }
 }

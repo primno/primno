@@ -5,7 +5,6 @@ import { MetadataDecoratorHelper } from "../reflection/decorator-helper";
 import { ModuleConfig } from "./module";
 import { Provider } from "./provider";
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface ComponentConfig extends Provider {
     scope: Scope;
 }
