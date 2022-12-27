@@ -1,1 +1,0 @@
-export type ModuleConstructor = new (...args: any) => any;
