@@ -64,7 +64,7 @@ export function isPromise(object: any): object is Promise<any> {
  * @param id2 Guid 2
  */
 export function isSameId(id1: string, id2: string): boolean {
-    return formatId(id1).toLowerCase() == formatId(id2).toLowerCase();
+    return formatId(id1).toLowerCase() === formatId(id2).toLowerCase();
 }
 
 /**

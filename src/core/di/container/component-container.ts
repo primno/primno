@@ -1,5 +1,6 @@
 import { ComponentConstructor } from "../../../typing/component";
 import { throwError } from "../../../utils";
+import { getBindFromProvider } from "../../../utils/provider";
 import { ComponentConfigInternal } from "../../metadata/component";
 import { getModuleConfig, getComponentConfig } from "../../metadata/helper";
 import { Container } from "./container";
@@ -52,7 +53,9 @@ export class ComponentContainer<T extends ComponentConstructor = ComponentConstr
             .forEach(c => this._container.bindComponent(c!));
 
         // Bind services declared in component
-        config.providers?.forEach(s => this._container.bindService(s.provide, s.useClass));
+        config.providers
+            ?.map(p => getBindFromProvider(p))
+            .forEach(p => this._container.bind(p));
     }
 
     /**

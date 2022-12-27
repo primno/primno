@@ -1,6 +1,7 @@
 import { Container as InvContainer, interfaces as InvInterfaces } from "inversify";
 import { ComponentConstructor } from "../../../typing/component";
 import { isComponent } from "../../metadata/helper";
+import { Bind } from "./bind";
 
 export interface Middleware {
     inherit: boolean;
@@ -63,6 +64,17 @@ export class Container {
         this.invContainer.applyMiddleware(...invMiddlewares.reverse());
     }
 
+    public bind(bind: Bind) {
+        switch(bind.type) {
+            case "class":
+                return this.bindClass(bind.token, bind.use);
+            case "factory":
+                return this.bindDynamicValue(bind.token, bind.use);
+            case "value":
+                return this.bindConstantValue(bind.token, bind.use);
+        }
+    }
+
     public bindComponent(componentType: ComponentConstructor) {
         this.invContainer
             .bind(componentType)
@@ -71,7 +83,7 @@ export class Container {
             .when(request => isComponent(request.serviceIdentifier as ComponentConstructor));
     }
 
-    public bindService(provider: any, value: any) {
+    public bindClass(provider: any, value: any) {
         this.invContainer
             .bind(provider)
             .to(value)

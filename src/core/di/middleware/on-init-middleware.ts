@@ -36,9 +36,7 @@ export class OnInitMiddleWare implements Middleware {
 
                 components
                     .reverse()
-                    .forEach(c => {
-                        this.componentLifeCycle.init(c);
-                });
+                    .forEach(c => this.componentLifeCycle.init(c));
             }
         }
 
