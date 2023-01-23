@@ -131,22 +131,4 @@ export class Context {
         const eventArg = eventType.createEventArg(extArgs);
         return this.eventEnv.eventDispatcher.dispatchComponentEvent(event, eventArg);
     }
-
-    // /**
-    //  * Loads components for a given context. 
-    //  * @param eventCtx
-    //  */
-    // private async loadComponents(extArgs: ExternalArgs) {
-    //     try {
-    //         // Indicate search specifications (entityName, formId, formName, gridName, gridId, that kind of thing) 
-    //         // Call a ComponentHelper which will take care of obtaining the concerned module and domain(s) in order to obtain the components
-    //         const controlScope = await ControlScope.new(extArgs.selectedControl);
-    //         const moduleBrowser = await this.esmLoader.get();
-    //         //const domains = moduleBrowser.domainRegister.getDomains(controlScope);
-    //         //this.components = domains.flatMap(d => d.components);
-    //     }
-    //     catch (except: any) {
-    //         throw new Error(`An error was occured during components loading: ${except.message}`);
-    //     }
-    // }
 }
