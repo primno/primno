@@ -1,4 +1,7 @@
-// Entry point for D365
+/**
+ * Entry point for Power Apps / D365.
+ * Contains the framework.
+ */
 
 import "reflect-metadata";
 import { InitializeOptions, Primno } from "./core/primno";

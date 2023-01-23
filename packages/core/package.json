@@ -7,6 +7,9 @@
   "main": "dist/primno.cjs.js",
   "module": "dist/primno.esm.js",
   "types": "dist/primno.d.ts",
+  "typedoc": {
+    "entryPoint": "src/primno-api.ts"
+  },
   "dist": {
     "d365-esm": "dist/primno-d365.esm.js"
   },

@@ -53,7 +53,7 @@ const onwarn = (warning, rollupWarn) => {
 export default [
     // Public API (cjs)
     {
-        input: 'src/primno.ts',
+        input: 'src/primno-api.ts',
         plugins,
         external,
         onwarn,
@@ -61,7 +61,7 @@ export default [
     },
     // Public API (dts)
     {
-        input: 'build/primno.d.ts',
+        input: 'build/primno-api.d.ts',
         plugins: [dts()],
         external,
         onwarn,
@@ -69,7 +69,7 @@ export default [
     },
     // Public API (esm)
     {
-        input: 'src/primno.ts',
+        input: 'src/primno-api.ts',
         plugins,
         external,
         onwarn,
