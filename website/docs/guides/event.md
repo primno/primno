@@ -11,18 +11,18 @@ When the event handler is called, an argument is passed. It can be of a differen
 The form load event is fired when a form is loaded and after a new record is created.
 To subscribe to this event, use the `@MnOnFormLoad()` decorator.
 
-Decorator signature:
+### Definition
 ```ts
 @MnOnFormLoad()
 ```
 
-Example:
+### Example
 ```ts
 @MnOnFormLoad()
 public onFormLoad(eventArg: FormEventArgs) {}
 ```
 
-:::warning
+:::info
 This event can't be automatically subscribed and must be manually registered in Power Apps / D365.
 :::
 
@@ -34,18 +34,20 @@ The column change event is fired when:
 
 To subscribe to this event, use the `@MnOnColumnChange()` decorator.
 
-Decorator signature:
+### Definition
 ```ts
 @MnOnColumnChange(columnName: string)
 ```
 
-Example with a column name:
+### Examples
+
+With a column name:
 ```ts
 @MnOnColumnChange('firstname')
 public onFirstNameChange(eventArg: FormEventArgs) {}
 ```
 
-Example with a column reference to component configuration:
+With a column reference to component configuration:
 ```ts
 @MnComponent()
 class MyComponent implements Config {

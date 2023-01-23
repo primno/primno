@@ -4,19 +4,19 @@ sidebar_position: 1
 
 # Introduction
 
-Primno is a Typescript framework for Model-Driven Apps of Power Apps / D365 that includes:
+Primno is a Typescript framework for **Model-Driven Apps** of Power Apps / D365 that includes:
 
 - A developer tool to build and deploy your javascript webresources to Power Apps / Dynamics 365
 - A component-based architecture (CBA) for building scalable javascript code.
 
-Primno works with the Power Apps, Dynamics 365 Online and Dynamics 365 On-Premises since version 9.0.
+Primno works with the Power Apps, Dynamics 365 Online and Dynamics 365 On-Premises since version 9.0 and require an application with UCI enabled.
 
 With Primno, you can write code for forms and grid. Eg: on form load, on command invoke.
 
 <table>
 <tr>
-<th>Before</th>
-<th>After</th>
+<th>Without Primno</th>
+<th>With Primno</th>
 </tr>
 <tr>
 <td>
