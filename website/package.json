@@ -1,9 +1,8 @@
 {
   "name": "website",
-  "version": "0.0.0",
+  "version": "0.5.0",
   "private": true,
   "scripts": {
-    "docusaurus": "docusaurus",
     "start": "docusaurus start",
     "build": "docusaurus build",
     "swizzle": "docusaurus swizzle",
@@ -23,7 +22,10 @@
     "react-dom": "^17.0.2"
   },
   "devDependencies": {
-    "@docusaurus/module-type-aliases": "2.2.0"
+    "@docusaurus/module-type-aliases": "2.2.0",
+    "docusaurus-plugin-typedoc": "^0.18.0",
+    "typedoc": "^0.23.24",
+    "typedoc-plugin-markdown": "^3.14.0"
   },
   "browserslist": {
     "production": [

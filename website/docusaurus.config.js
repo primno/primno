@@ -27,6 +27,22 @@ const config = {
     locales: ['en'],
   },
 
+  plugins: [
+    [
+      'docusaurus-plugin-typedoc',
+      {
+        entryPoints: ['../packages/core/'],
+        entryPointStrategy: 'packages',
+        out: 'reference',
+        sidebar: {
+          categoryLabel: 'Reference',
+          position: 100,
+          fullNames: true,
+        }
+      },
+    ],
+  ],
+
   presets: [
     [
       'classic',
@@ -39,13 +55,6 @@ const config = {
           editUrl:
             'https://github.com/primno/primno/tree/website/',
         },
-        // blog: {
-        //   showReadingTime: true,
-        //   // Please change this to your repo.
-        //   // Remove this to remove the "edit this page" links.
-        //   editUrl:
-        //     'https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/',
-        // },
         theme: {
           customCss: [
             require.resolve('./src/css/custom.css'),
