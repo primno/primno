@@ -1,6 +1,6 @@
 ﻿import { StringPropertyObject } from "../../typing";
 
-/** Proxy allowing shortcut access to the fields indicated in the configuration of the features. */
+/** Proxy allowing shortcut access to the columns indicated in the configuration of the features. */
 abstract class XrmHandler<T extends StringPropertyObject> implements ProxyHandler<T> {
     private _formCtx: Xrm.FormContext;
 
@@ -15,8 +15,8 @@ abstract class XrmHandler<T extends StringPropertyObject> implements ProxyHandle
     abstract get(target: T, prop: string, receiver: unknown): unknown;
 }
 
-/** Proxy returning the fields */
-export class XrmFieldHandler<T extends StringPropertyObject> extends XrmHandler<T> {
+/** Proxy returning the columns */
+export class XrmColumnHandler<T extends StringPropertyObject> extends XrmHandler<T> {
     constructor(formCtx: Xrm.FormContext) {
         super(formCtx);
     }
@@ -41,7 +41,7 @@ export class XrmControlHandler<T extends StringPropertyObject> extends XrmHandle
     }
 }
 
-/** Proxy returning the fields values */
+/** Proxy returning the columns values */
 export class XrmValueHandler<T extends StringPropertyObject> extends XrmHandler<T> {
     constructor(formCtx: Xrm.FormContext) {
         super(formCtx);

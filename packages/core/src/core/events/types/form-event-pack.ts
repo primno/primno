@@ -1,7 +1,7 @@
 import { EventType } from "../../../typing";
 import {
     DataLoadEventType,
-    FieldChangeEventType,
+    ColumnChangeEventType,
     FormLoadEventType,
     LookupTagClickEventType,
     PreProcessStatusChangeEventType,
@@ -18,7 +18,7 @@ export const formEventPack: EventType[] = [
     new FormLoadEventType(),
     new DataLoadEventType(),
     new SaveEventType(),
-    new FieldChangeEventType(),
+    new ColumnChangeEventType(),
     new PreSearchEventType(),
     new LookupTagClickEventType(),
     new TabStateEventType(),

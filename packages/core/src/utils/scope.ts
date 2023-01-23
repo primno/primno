@@ -12,7 +12,7 @@ export async function getScopeFromControl(control: Control): Promise<Scope> {
 
         const scope: Scope = {
             pageType: getPageType(),
-            entityName,
+            table: entityName,
             app: {
                 id: await getAppId()
             }
@@ -84,7 +84,7 @@ function isSameEntityName(first?: string | string[], second?: string | string[])
             assertions.push(isSameForm(first.form, (second as any).form));
             
             if (second.pageType === PageType.record) {
-                assertions.push(isSameEntityName(first.entityName, second.entityName));
+                assertions.push(isSameEntityName(first.table, second.table));
             }
             
             break;
@@ -92,7 +92,7 @@ function isSameEntityName(first?: string | string[], second?: string | string[])
             // Only list in second scope allowed
             assertions.push(first.pageType === second.pageType);
 
-            assertions.push(isSameEntityName(first.entityName, second.entityName));
+            assertions.push(isSameEntityName(first.table, second.table));
 
             break;
     }

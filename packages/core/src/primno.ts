@@ -18,7 +18,7 @@ export {
     MnConfig
 } from "./core/metadata"
 
-// MnOnFormLoad, MnOnFieldChange, etc.
+// MnOnFormLoad, MnOnColumnChange, etc.
 export * from "./core/metadata/events";
 
 export {

@@ -17,7 +17,7 @@ export interface FormScopeConfig {
 
 interface ScopeBase {
     pageType: PageType;
-    entityName?: string | string[];
+    table?: string | string[];
     app?: AppScopeConfig;
 }
 

@@ -80,9 +80,9 @@ export class SaveEventType extends FormEventType<SaveEventArg> {
     }
 }
 
-export class FieldChangeEventType extends FormEventType {
+export class ColumnChangeEventType extends FormEventType {
     constructor() {
-        super(EventTypes.FieldChange, true);
+        super(EventTypes.ColumnChange, true);
     }
 
     public subscribe(selectedControl: Control, controlName?: string): void {

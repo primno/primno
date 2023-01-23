@@ -17,31 +17,31 @@ describe("Utils Feature Config", () => {
             expect(() => checkFormConfiguration(formCtx, <any>undefined)).to.throw(throwError);
         });
 
-        it("must not throw exception when field or tab is null", () => {
+        it("must not throw exception when column or tab is null", () => {
             expect(() => checkFormConfiguration(formCtx, {})).to.not.throw();
         });
 
-        it("must throw exception when field or tab field is null", () => {
-            expect(() => checkFormConfiguration(formCtx, { fields: { test: <any>null } })).to.throw("The field test is not set in configuration");
+        it("must throw exception when column or tab column is null", () => {
+            expect(() => checkFormConfiguration(formCtx, { columns: { test: <any>null } })).to.throw("The column test is not set in configuration");
             expect(() => checkFormConfiguration(formCtx, { tabs: { test: <any>null } })).to.throw("The tab test is not set in configuration");
         });
 
-        it("must throw exception when field or tab is not on form", () => {
-            expect(() => checkFormConfiguration(formCtx, { fields: { accountNumber: "accountnumber" } })).to.throw("The field accountNumber / accountnumber is not on this form");
+        it("must throw exception when column or tab is not on form", () => {
+            expect(() => checkFormConfiguration(formCtx, { columns: { accountNumber: "accountnumber" } })).to.throw("The column accountNumber / accountnumber is not on this form");
             expect(() => checkFormConfiguration(formCtx, { tabs: { general: "generalTab" } })).to.throw("The tab general / generalTab is not on this form");
         });
 
-        it("must not throw exception when field or tab is on form", () => {
-            XrmMockGenerator.Attribute.createString("nullvaluefield", <any>null);
-            XrmMockGenerator.Attribute.createString("stringfield", "Text");
+        it("must not throw exception when column or tab is on form", () => {
+            XrmMockGenerator.Attribute.createString("nullvaluecolumn", <any>null);
+            XrmMockGenerator.Attribute.createString("stringcolumn", "Text");
             XrmMockGenerator.Tab.createTab("generalTab", "General");
             XrmMockGenerator.Tab.createTab("mainTab");
 
             expect(() => checkFormConfiguration(formCtx, {
-                fields:
+                columns:
                 {
-                    nullValueField: "nullvaluefield",
-                    stringField: "stringfield"
+                    nullValueColumn: "nullvaluecolumn",
+                    stringColumn: "stringcolumn"
                 }
             })).to.not.throw();
             expect(() => checkFormConfiguration(formCtx, { tabs: { general: "generalTab", main: "mainTab" } })).to.not.throw();

@@ -18,7 +18,7 @@ export function getControlType(context: any): ControlType | undefined {
     }
 
     if (context?.getFormContext != null) {
-        // Form execution context. The event comes from form (field change, onload, etc).
+        // Form execution context. The event comes from form (column change, onload, etc).
         return ControlType.form;
     }
 

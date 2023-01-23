@@ -1,58 +1,58 @@
-﻿import { FieldType, FieldTypePropertyObject, FormConfig, StringPropertyObject } from "../typing";
+﻿import { ColumnType, ColumnTypePropertyObject, FormConfig, StringPropertyObject } from "../typing";
 import { isNullOrEmpty } from "./common";
 
 /**
- * Converts Dataverse field type to Primno field type.
+ * Converts Dataverse column type to Primno column type.
  * @param xrmAttributeType 
  * @returns 
  */
-function convertToFieldType(xrmAttributeType: Xrm.Attributes.AttributeType): FieldType {
+function convertToColumnType(xrmAttributeType: Xrm.Attributes.AttributeType): ColumnType {
     switch (xrmAttributeType){
-        case "boolean": return FieldType.boolean;
-        case "datetime": return FieldType.datetime;
+        case "boolean": return ColumnType.boolean;
+        case "datetime": return ColumnType.datetime;
         case "decimal":
         case "double":   
-        case "integer": return FieldType.number;
-        case "lookup":  return FieldType.lookup;
+        case "integer": return ColumnType.number;
+        case "lookup":  return ColumnType.lookup;
         case "memo": 
-        case "string": return FieldType.string;
-        case "money": return FieldType.number;
-        case "optionset": return FieldType.optionset;
-        default: throw new Error("Unknow field type");
+        case "string": return ColumnType.string;
+        case "money": return ColumnType.number;
+        case "optionset": return ColumnType.optionset;
+        default: throw new Error("Unknow column type");
     }
 }
 
 /**
- * Checks the consistency of a field configuration. Check field types if fieldMetadata is given.
+ * Checks the consistency of a column configuration. Check column types if columnMetadata is given.
  * @param formCtx 
- * @param fields 
- * @param fieldsMetadata 
+ * @param columns 
+ * @param columnsMetadata 
  * @returns 
  */
-function checkFields(formCtx: Xrm.FormContext, fields?: StringPropertyObject, fieldsMetadata?: FieldTypePropertyObject) {
-    if (fields == null) {
+function checkColumns(formCtx: Xrm.FormContext, columns?: StringPropertyObject, columnsMetadata?: ColumnTypePropertyObject) {
+    if (columns == null) {
         return;
     }
     
-    for (const fieldKey in fields) {
-        const fieldValue = fields[fieldKey];
+    for (const columnKey in columns) {
+        const columnValue = columns[columnKey];
 
-        if (isNullOrEmpty(fieldValue)) {
-            throw new Error(`The field ${fieldKey} is not set in configuration`);
+        if (isNullOrEmpty(columnValue)) {
+            throw new Error(`The column ${columnKey} is not set in configuration`);
         }
 
-        const xrmAttr = formCtx.getAttribute(fieldValue as string);
+        const xrmAttr = formCtx.getAttribute(columnValue as string);
 
         if (xrmAttr == null) {
-            throw new Error(`The field ${fieldKey} / ${fieldValue} is not on this form`);
+            throw new Error(`The column ${columnKey} / ${columnValue} is not on this form`);
         }
         
-        if (fieldsMetadata != null) {
-            const xrmFieldType = convertToFieldType(xrmAttr.getAttributeType());
-            const fieldType = (fieldsMetadata as FieldTypePropertyObject)[fieldKey];
+        if (columnsMetadata != null) {
+            const xrmColumnType = convertToColumnType(xrmAttr.getAttributeType());
+            const columnType = (columnsMetadata as ColumnTypePropertyObject)[columnKey];
 
-            if (fieldType !== xrmFieldType) {
-                throw new Error(`The field type of ${fieldValue} does not match. ${fieldType} was expected but found ${xrmFieldType}.`);
+            if (columnType !== xrmColumnType) {
+                throw new Error(`The column type of ${columnValue} does not match. ${columnType} was expected but found ${xrmColumnType}.`);
             }
         }
     }
@@ -86,11 +86,11 @@ function checkTabs(formCtx: Xrm.FormContext, tabs: FormConfig["tabs"]) {
  * @param feature
  * @param formCtx
  */
-export function checkFormConfiguration(formCtx: Xrm.FormContext, config: FormConfig, fieldsMetadata?: FieldTypePropertyObject): void {
+export function checkFormConfiguration(formCtx: Xrm.FormContext, config: FormConfig, columnsMetadata?: ColumnTypePropertyObject): void {
     if (config == null) {
         throw new Error("Configuration is null");
     }
 
-    checkFields(formCtx, config["fields"], fieldsMetadata);
+    checkColumns(formCtx, config["columns"], columnsMetadata);
     checkTabs(formCtx, config["tabs"]);
 }

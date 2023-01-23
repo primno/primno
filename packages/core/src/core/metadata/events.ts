@@ -34,10 +34,10 @@ export function MnOnEnableRule(name: ValueOrConfigPropertyMapper<string>) {
     });
 }
 
-export function MnOnFieldChange(fieldName: ValueOrConfigPropertyMapper<string>) {
+export function MnOnColumnChange(columnName: ValueOrConfigPropertyMapper<string>) {
     return makeEventDecorator({
-        type: EventTypes.FieldChange,
-        target: fieldName
+        type: EventTypes.ColumnChange,
+        target: columnName
     });
 }
 

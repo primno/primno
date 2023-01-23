@@ -1,6 +1,6 @@
 ﻿export type StringPropertyObject = { [key: string]: string | undefined };
-export type NoUndefinedField<T> = { [P in keyof T]-?: NoUndefinedField<NonNullable<T[P]>> };
-export type RecursiveNoUndefined<T> = NonNullable<NoUndefinedField<T>>;
+export type NoUndefinedColumn<T> = { [P in keyof T]-?: NoUndefinedColumn<NonNullable<T[P]>> };
+export type RecursiveNoUndefined<T> = NonNullable<NoUndefinedColumn<T>>;
 export type IfElse<TValue, TExtends, TTrue, TFalse> = TValue extends TExtends ? TTrue : TFalse;
 
 /**

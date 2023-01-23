@@ -77,7 +77,7 @@ export enum EventTypes {
     FormLoad = "FormLoad",
     DataLoad = "DataLoad",
     Save = "Save",
-    FieldChange = "FieldChange",
+    ColumnChange = "ColumnChange",
     LookupTagClick = "LookupTagClick",
     TabStateChange = "TabStateChange",
     PreSearch = "PreSearch",
