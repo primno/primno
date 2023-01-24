@@ -1,0 +1,10 @@
+{
+    "allReflectionsHaveOwnDocument": true,
+    "cleanOutputDir": true,
+    "readme": "docs/reference-index.md",
+    "name": "Reference",
+    "categorizeByGroup": true,
+    "categoryOrder": [
+        "*"
+    ]
+}
