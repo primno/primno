@@ -2,6 +2,9 @@ import { EventTypes } from "../../typing";
 import { ValueOrConfigPropertyMapper } from "../../typing/component";
 import { MetadataDecoratorHelper } from "../reflection/decorator-helper";
 
+/**
+ * Event configuration.
+ */
 export interface EventConfig {
     target?: ValueOrConfigPropertyMapper<string>;
     type: EventTypes;
@@ -14,6 +17,33 @@ function makeEventDecorator(eventConfig: EventConfig) {
     }
 }
 
+/**
+ * Decorator that marks a method as an event handler for command invoke event.
+ * This event must be registered manually in Power Apps / D365.
+ * Available for the record and list page.
+ * You can use RibbanWorkbench to register this event or the CommandBarEditor of PowerApps.
+ * 
+ * @category Event
+ * 
+ * @example
+ * ```ts
+ * @MnComponent({
+ *    scope: {
+ *      pageType: PageType.record,
+ *      entityName: "contact"
+ * })
+ * export class PhoneCallComponent {
+ *   @MnOnCommandInvoke("call")
+ *  onCall() {
+ *   Xrm.Navigation.openUrl({ url: "tel:123456789" });
+ * }
+ * ```
+ * 
+ * :::note
+ * This event must be registered manually in Power Apps / D365.
+ * :::
+ * @param commandName Name of the command or callback function that returns the name of the command from the component configuration.
+ */
 export function MnOnCommandInvoke(commandName: ValueOrConfigPropertyMapper<string>) {
     return makeEventDecorator({
         type: EventTypes.CommandInvoke,
@@ -21,12 +51,57 @@ export function MnOnCommandInvoke(commandName: ValueOrConfigPropertyMapper<strin
     });
 }
 
+/**
+ * Decorator that marks a method as an event handler for data load event.
+ * This event is fired when the data is loaded.
+ * Only available for the record page.
+ * 
+ * @category Event
+ * @example Data Load
+ * ```ts
+ * @MnComponent({
+ *   scope: {
+ *    pageType: PageType.record,
+ *   entityName: "account"
+ * })
+ * export class MyComponent {
+ *  @MnOnDataLoad()
+ * onDataLoad() {
+ *  Xrm.Navigation.openAlertDialog({ text: "Data loaded" });
+ * }
+ * ```
+ */
 export function MnOnDataLoad() {
     return makeEventDecorator({
         type: EventTypes.DataLoad
     });
 }
 
+/**
+ * Decorator that marks a method as an event handler for enable rule event.
+ * This event is fired when the state of the associated command is checked by Power Apps.
+ * Available for the record and list page.
+ *
+ * @param name Name of the enable rules or callback function that returns the name of the enable rule from the component configuration.
+ * @category Event
+ * @example Enable Rule
+ * ```ts
+ * @MnComponent({
+ *  scope: {
+ *   pageType: PageType.record,
+ *  entityName: "contact"
+ * })
+ * export class PhoneCallComponent {
+ *    @MnOnEnableRule("callEnableRules")
+ *    canCall(eventArg: CommandBarEventArg) {
+ *       return eventArg.selectedControl.getAttribute("telephone1").getValue() != null;
+ *    }
+ * }
+ * :::note
+ * This event must be registered manually in Power Apps / D365.
+ * :::
+ * ```
+ */
 export function MnOnEnableRule(name: ValueOrConfigPropertyMapper<string>) {
     return makeEventDecorator({
         type: EventTypes.EnableRule,
@@ -34,6 +109,28 @@ export function MnOnEnableRule(name: ValueOrConfigPropertyMapper<string>) {
     });
 }
 
+/**
+ * Decorator that marks a method as an event handler for column change event.
+ * This event is fired when the value of a column is changed.
+ * Only available for the record page.
+ * 
+ * @param columnName Name of the column or callback function that returns the name of the column from the component configuration.
+ * @category Event
+ * @example Column Change
+ * ```ts
+ * @MnComponent({
+ *  scope: {
+ *     pageType: PageType.record,
+ *     entityName: "contact"
+ * })
+ * export class MyComponent {
+ *    @MnOnColumnChange("firstname")
+ *    onFirstNameChange() {
+ *       Xrm.Navigation.openAlertDialog({ text: "First name changed" });
+ *    }
+ * }
+ * ```
+ */
 export function MnOnColumnChange(columnName: ValueOrConfigPropertyMapper<string>) {
     return makeEventDecorator({
         type: EventTypes.ColumnChange,
@@ -41,14 +138,61 @@ export function MnOnColumnChange(columnName: ValueOrConfigPropertyMapper<string>
     });
 }
 
+/**
+ * Decorator that marks a method as an event handler for form load event.
+ * This event is fired when the form is loaded.
+ * Only available for the record page.
+ * 
+ * @category Event
+ * @example Form Load
+ * ```ts
+ * @MnComponent({
+ *    scope: {
+ *       pageType: PageType.record,
+ *       entityName: "account"
+ *   }
+ * })
+ * export class MyComponent {
+ *    @MnOnFormLoad()
+ *    onFormLoad() {
+ *       Xrm.Navigation.openAlertDialog({ text: "Form loaded" });
+ *    }
+ * }
+ * ```
+ */
 export function MnOnFormLoad() {
     return makeEventDecorator({ type: EventTypes.FormLoad });
 }
 
-export function MnOnGridLoad() {
-    return makeEventDecorator({ type: EventTypes.GridLoad });
+/**
+ * Decorator that marks a method as an event handler for grid load event.
+ * This event is fired when a grid control is loaded.
+ * Only available for the record page.
+ * 
+ * @category Event
+ * @example Grid Load
+ * ```ts
+ * @MnComponent({
+ *   scope: {
+ *    pageType: PageType.record,
+ *    entityName: "account"
+ * })
+ * export class MyComponent {
+ *   @MnOnGridLoad()
+ *   onGridLoad() {
+ *      Xrm.Navigation.openAlertDialog({ text: "Grid loaded" });
+ *   }
+ * }
+ * ```
+ * @param controlName Name of the grid control or callback function that returns the name of the grid control from the component configuration.
+ */
+export function MnOnGridLoad(controlName: ValueOrConfigPropertyMapper<string>) {
+    return makeEventDecorator({ type: EventTypes.GridLoad, target: controlName });
 }
 
+/**
+ * @deprecated
+ * */
 export function MnOnIframeLoaded(controlName: ValueOrConfigPropertyMapper<string>) {
     return makeEventDecorator({
         type: EventTypes.IframeLoaded,
@@ -56,6 +200,28 @@ export function MnOnIframeLoaded(controlName: ValueOrConfigPropertyMapper<string
     });
 }
 
+/**
+ * Decorator that marks a method as an event handler for lookup tag click event.
+ * This event is fired when a lookup tag is clicked.
+ * Only available for the record page.
+ * 
+ * @category Event
+ * @example Grid Load
+ * ```ts
+ * @MnComponent({
+ *   scope: {
+ *    pageType: PageType.record,
+ *    entityName: "account"
+ * })
+ * export class MyComponent {
+ *   @MnOnLookupTagClick()
+ *   onLookupTagClick() {
+ *     Xrm.Navigation.openAlertDialog({ text: "Lookup tag clicked" });
+ *   }
+ * }
+ * ```
+ * @param controlName Name of the lookup control or callback function that returns the name of the lookup control from the component configuration.
+ */
 export function MnOnLookupTagClick(controlName: ValueOrConfigPropertyMapper<string>) {
     return makeEventDecorator({
         type: EventTypes.LookupTagClick,
