@@ -25,7 +25,46 @@ export interface ComponentConfigInternal extends ComponentConfig {
  * Decorator that marks a class as a component and provides metadata
  * that indicates where the component must be enabled at runtime.
  * @category Component
+ * @typeparam T Component type
  * @param config Component configuration
+ * @example Component that runs on all forms of the contact table.
+ * ```ts
+ * @MnComponent({
+ *   scope: {
+ *    pageType: PageType.record,
+ *    table: "contact"
+ *  }
+ * })
+ * export class ContactRecordComponent { }
+ * ```
+ * @example Component that runs on a specific form of the account table .
+ * ```ts
+ * @MnComponent({
+ *   scope: {
+ *     pageType: PageType.record,
+ *     table: "account",
+ *     form: {
+ *       id: "00000000-0000-0000-0000-000000000000"
+ *     }
+ *   }
+ * })
+ * export class AccountFormComponent { }
+ * ```
+ * @example Component that uses a service as dependency.
+ * ```ts
+ * @Injectable()
+ * export class AccountService { }
+ * 
+ * @MnComponent({
+ *   scope: {
+ *     pageType: PageType.record,
+ *     table: "account"
+ *   },
+ *   providers: [{ provide: "accountService", useClass: AccountService }]
+ * })
+ * export class AccountComponent { }
+ * ```
+ * For more information, see [depency injection](/docs/guides/dependency-injection)
  */
 export function MnComponent<T extends Constructor>(config: ComponentConfig) {
     return function (target: T) {
