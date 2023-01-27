@@ -6,6 +6,7 @@ import { ComponentBrowser } from "./component-browser";
 
 /**
  * Performs the necessary behavior to activate and deactivate a component.
+ * @internal
  */
 export class ComponentLifeCycle {
     public constructor(private eventRegister: ComponentEventRegister) {

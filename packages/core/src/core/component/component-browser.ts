@@ -15,6 +15,7 @@ export interface EventMetadata extends Event {
 /**
  * ComponentBrowser allows to navigate in the component tree.
  * It resolves the input, config et event value.
+ * @internal
  */
 export class ComponentBrowser {
     private _config: any | undefined;

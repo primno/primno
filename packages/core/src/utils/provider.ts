@@ -1,6 +1,11 @@
 import { Bind } from "../core/di/container/bind";
 import { ProviderConfig } from "../core/metadata/provider";
 
+/**
+ * Get bind from provider configuration.
+ * @param providerConfig 
+ * @returns 
+ */
 export function getBindFromProvider(providerConfig: ProviderConfig): Bind {
     if (providerConfig.provide != null) {
         if (providerConfig.useFactory != null) {

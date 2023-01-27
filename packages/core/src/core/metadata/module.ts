@@ -7,6 +7,7 @@ import { Provider } from "./provider";
 
 /**
  * Module decorator configuration
+ * @category Module
  */
  export interface ModuleConfig extends Provider {
     /**

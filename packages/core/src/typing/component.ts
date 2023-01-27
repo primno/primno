@@ -14,6 +14,7 @@ type ConfigPropertyMapper<T> = (cfg: any | unknown | never) => string;
 
 /**
  * Value or value mapper from component config.
+ * @category Component
  */
 export type ValueOrConfigPropertyMapper<T> = T | ConfigPropertyMapper<T>;
 
@@ -21,11 +22,13 @@ export type ValueOrConfigPropertyMapper<T> = T | ConfigPropertyMapper<T>;
 
 /**
  * Resolve the input value from the config of the parent component.
+ * @category Component
  */
 export type InputMapper<T extends object> = (i: any | unknown | never) => InputOf<T>;
 
 /**
- * Input value or input mapper 
+ * Input value or input mapper.
+ * @category Component
  */
 export type InputOrInputMapper<T extends Constructor, TInstance extends InstanceType<T> = InstanceType<T>> = InputOf<TInstance> | InputMapper<TInstance>;
 
@@ -33,6 +36,7 @@ export type InputOrInputMapper<T extends Constructor, TInstance extends Instance
 
 /**
  * Obtain config type from a component.
+ * @category Component
  */
  export type ConfigOf<TComponent extends Component> = TComponent extends Config ? Readonly<TComponent["config"]> : never;
 

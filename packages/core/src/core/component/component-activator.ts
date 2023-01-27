@@ -7,6 +7,12 @@ import { getComponentConfig } from "../metadata/helper";
 import { ComponentBrowser } from "./component-browser";
 import { ComponentLifeCycle } from "./component-lifecycle";
 
+/**
+ * Represents a sub-component that can be enabled or disabled.
+ * Must be used in conjunction with the {@link @MnSubComponent} decorator.
+ * @category Component
+ * @typeparam T Component type
+ */
 export interface SubComponent<T extends Component> {
     readonly enabled: boolean;
     enable(): void;
@@ -15,6 +21,9 @@ export interface SubComponent<T extends Component> {
     //readonly output: OutputOf<T> | undefined;
 }
 
+/**
+ * @internal
+ */
 export class ComponentActivator<T extends Component> implements SubComponent<T> {
     public constructor(
         private componentType: ComponentConstructor,

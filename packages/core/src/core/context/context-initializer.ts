@@ -7,6 +7,7 @@ import { InitializeOptions } from "../primno";
 
 /**
  * Creates or gives the execution context of Primno for a given D365 event.
+ * @internal
  */
 export class ContextInitializer {
     private contexts: Record<string, CanBePromise<Context>> = {};

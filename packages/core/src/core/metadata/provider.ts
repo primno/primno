@@ -34,6 +34,7 @@ export type ProviderConfig = ClassProvider | ValueProvider | FactoryProvider | a
 
 /**
  * Interface for the `providers` array in {@link ModuleConfig} or {@link ComponentConfig}.
+ * @category Dependency Injection
  */
 export interface Provider {
     /**

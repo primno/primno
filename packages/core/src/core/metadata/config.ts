@@ -5,6 +5,7 @@ import { MetadataDecoratorHelper } from "../reflection/decorator-helper";
 
 /**
  * Decorator that mark the property as component config.
+ * @category Component
  * @returns 
  */
  export function MnConfig<TComp extends Component = Component>(config: ConfigOrConfigMapper<TComp>) {

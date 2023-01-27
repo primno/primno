@@ -16,6 +16,7 @@ import { getScopeFromControl } from "../../utils/scope";
 /**
  * Define all actions that could be done in the context of the execution (provided by D365).
  * The context is defined by the current page contexte (form or grid).
+ * @internal
  */
 export class Context {
     //TODO: Change !
