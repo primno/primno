@@ -30,15 +30,26 @@ const config = {
   plugins: [
     [
       'docusaurus-plugin-typedoc',
+      // {
+      //   entryPoints: ['../packages/core/'],
+      //   entryPointStrategy: 'packages',
+      //   out: 'reference',
+      //   sidebar: {
+      //     categoryLabel: 'Reference',
+      //     position: 100,
+      //     fullNames: true,
+      //   }
+      // },
       {
-        entryPoints: ['../packages/core/'],
-        entryPointStrategy: 'packages',
+        entryPoints: ['../packages/core/src/primno-api.ts'],
         out: 'reference',
         sidebar: {
           categoryLabel: 'Reference',
           position: 100,
           fullNames: true,
-        }
+        },
+        tsconfig: '../packages/core/tsconfig.json',
+        watch: process.env.TYPEDOC_WATCH ?? false,
       },
     ],
   ],
