@@ -33,6 +33,7 @@ import { Provider } from "./provider";
 
 /**
  * Decorator that mark a class as module.
+ * @category Module
  * @param moduleConfig Configuration of the module.
  */
 export function MnModule<T>(moduleConfig: ModuleConfig) {

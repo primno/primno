@@ -19,7 +19,8 @@ export type RecursiveNoUndefined<T> = NonNullable<NoUndefinedColumn<T>>;
 export type IfElse<TValue, TExtends, TTrue, TFalse> = TValue extends TExtends ? TTrue : TFalse;
 
 /**
- * Replaces the property types of the object with the one specified in TReplace. 
+ * Replaces the property types of the object with the one specified in TReplace.
+ * @internal
  */
 export type PropertyTypeReplacer<TObject extends Record<string, unknown>, TNewType> = { [P in keyof TObject]: TNewType };
 
