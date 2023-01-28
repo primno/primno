@@ -4,12 +4,19 @@ import { MetadataDecoratorHelper } from "../reflection/decorator-helper";
 
 /**
  * Event configuration.
+ * @category Event
+ * @internal
  */
 export interface EventConfig {
     target?: ValueOrConfigPropertyMapper<string>;
     type: EventTypes;
 }
 
+/**
+ * Make a property decorator for an event.
+ * @param eventConfig 
+ * @returns 
+ */
 function makeEventDecorator(eventConfig: EventConfig) {
     return function (target: any, key: any, descriptor: PropertyDescriptor) {
         const primnoTarget = new MetadataDecoratorHelper(target, key);

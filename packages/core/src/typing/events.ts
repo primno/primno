@@ -3,6 +3,8 @@ import { PageType } from "./scope";
 
 /**
  * Power Apps arguments.
+ * @category Event
+ * @internal
  */
 export interface ExternalArgs {
     selectedControl: Control;
@@ -30,6 +32,7 @@ export type EventHandler = (targetName?: string, ...args: unknown[]) => unknown;
  * Describes a type of event. 
  * Provides the generation of the event parameter (eventarg) and actions to be performed when subscribing to this event.
  * @category Event
+ * @internal
  */
  export interface EventType {
     name: string;
@@ -112,7 +115,10 @@ export type StageSelectedEventArg = FormEventArg<Xrm.Events.StageSelectedEventCo
  */
 export type StageChangeEventArg = FormEventArg<Xrm.Events.StageChangeEventContext>;
 
-// TODO: Explode and put in the event types.
+/**
+ * TODO: Explode and put in the event types.
+ * @internal
+ */
 export enum EventTypes {
     FormLoad = "FormLoad",
     DataLoad = "DataLoad",
@@ -135,6 +141,7 @@ export enum EventTypes {
 
 /**
  * Minimalist definition of an event.
+ * @internal
  */
 export interface Event {
     /**
@@ -150,6 +157,7 @@ export interface Event {
 /**
  * Event targeting an event handler of a component.
  * Registred in {@link EventRegister}
+ * @internal
  */
 export interface ComponentEvent extends Event {
     propertyName: string;
@@ -157,11 +165,13 @@ export interface ComponentEvent extends Event {
 }
 
 /**
- * Power Apps control. Can be a form or a grid.
+ * Power Apps control. Can be a form context, an event context or a grid control.
+ * @category Event
  */
 export type Control = Xrm.Events.EventContext | Xrm.FormContext | Xrm.Controls.GridControl;
 
 /**
  * Type of Power Apps control.
+ * @internal
  */
 export enum ControlType { form = "form", grid = "grid" }

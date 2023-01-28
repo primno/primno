@@ -1,8 +1,11 @@
 {
+    "$schema": "https://typedoc.org/schema.json",
     "allReflectionsHaveOwnDocument": true,
     "cleanOutputDir": true,
     "readme": "docs/reference-index.md",
     "name": "Reference",
+    "excludeInternal": true,
+    "excludePrivate": true,
     "categorizeByGroup": true,
     "categoryOrder": [
         "*"

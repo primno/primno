@@ -56,6 +56,7 @@ export interface ListScope extends ScopeBase {
 
 /**
  * Component scope.
+ * Define where the component is loaded.
  * @category Component
  */
 export type Scope = RecordScope | ListScope;
