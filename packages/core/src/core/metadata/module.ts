@@ -33,6 +33,37 @@ import { Provider } from "./provider";
 
 /**
  * Decorator that mark a class as module.
+ * 
+ * A module is a container of components. It define the components and depencencies that be usable by its own components.
+ * 
+ * @remarks
+ * A component must be declared in a module with the `declarations` property to be usable and only one module can associate to a component.
+ * 
+ * @example A boostrap module nammed `AppModule` that will run `AppComponent` on startup, make `AccountComponent` usable by `AppComponent`.
+ * Provide `AccountService` to `AccountComponent` and `AppComponent`.
+ * ```ts
+ * @MnModule({
+ *    bootstrap: AppComponent,
+ *    declarations: [AccountComponent],
+ *    providers: [AccountService]
+ * })
+ * export class AppModule {}
+ * ```
+ * @example A `AppModule` module that import the submodule `CommonModule` and make its exported components available to the `ContactComponent`.
+ * `GridComponent` is not exported by `CommonModule` so it is not available to `ContactComponent`.
+ * ```ts
+ * @MnModule({
+ *    exports: [FormComponent],
+ *    declarations: [FormComponent, GridComponent],
+ * })
+ * export class CommonModule {}
+ * 
+ * @MnModule({
+ *   imports: [CommonModule],
+ *   declarations: [ContactComponent],
+ * })
+ * export class AppModule {}
+ * ```
  * @category Module
  * @param moduleConfig Configuration of the module.
  */

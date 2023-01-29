@@ -17,6 +17,9 @@ export interface ExternalArgs {
  * @category Event
  */
 export interface EventArg {
+    /**
+     * Event type. Eg: "FormLoad", "ColumnChange", etc.
+     */
     type: string;
 }
 
@@ -93,7 +96,15 @@ export interface PopulateQueryEventArg extends CommandBarEventArg {
  * @category Event
  */
 export interface FormEventArg<TEventCtx extends Xrm.Events.EventContext = Xrm.Events.EventContext> extends EventArg {
+    /**
+     * Event context transmitted by Power Apps.
+     */
     eventCtx: TEventCtx;
+
+    /**
+     * Form context of the form.
+     * Obtained from the event context.
+     */
     formCtx: Xrm.FormContext,
 }
 

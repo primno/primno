@@ -26,13 +26,18 @@ function makeEventDecorator(eventConfig: EventConfig) {
 
 /**
  * Decorator that marks a method as an event handler for command invoke event.
- * This event must be registered manually in Power Apps / D365.
+ * 
+ * This event is fired when a button is pressed on the command bar, the associated command is executed.
+ * 
  * Available for the record and list page.
- * You can use RibbanWorkbench to register this event or the CommandBarEditor of PowerApps.
+ * 
+ * This event must be manually registered. You can use `Ribban Workbench` to register this event or the Command Bar Editor of Power Apps.
+ * 
+ * For more information, see [Microsoft doc](https://learn.microsoft.com/en-us/power-apps/developer/model-driven-apps/define-ribbon-commands)
  * 
  * @category Event
  * 
- * @example
+ * @example Call a phone number when `call` command is invoked on a contact record.
  * ```ts
  * @MnComponent({
  *    scope: {
@@ -45,11 +50,8 @@ function makeEventDecorator(eventConfig: EventConfig) {
  *   Xrm.Navigation.openUrl({ url: "tel:123456789" });
  * }
  * ```
- * 
- * :::note
- * This event must be registered manually in Power Apps / D365.
- * :::
- * @param commandName Name of the command or callback function that returns the name of the command from the component configuration.
+ * @param commandName Name of the command or
+ * callback function that returns the name of the command from the component configuration.
  */
 export function MnOnCommandInvoke(commandName: ValueOrConfigPropertyMapper<string>) {
     return makeEventDecorator({
@@ -60,8 +62,17 @@ export function MnOnCommandInvoke(commandName: ValueOrConfigPropertyMapper<strin
 
 /**
  * Decorator that marks a method as an event handler for data load event.
- * This event is fired when the data is loaded.
+ * 
+ * This event is fired :
+ * - On initial load of the form.
+ * - When `refresh()` method is called.
+ * - When the user clicks the `Refresh` button on the form.
+ * 
  * Only available for the record page.
+ * 
+ * Automatically registered at runtime.
+ * 
+ * For more information, see [Microsoft doc](https://docs.microsoft.com/en-us/powerapps/developer/model-driven-apps/clientapi/reference/events/form-data-onload)
  * 
  * @category Event
  * @example Data Load
@@ -86,8 +97,15 @@ export function MnOnDataLoad() {
 
 /**
  * Decorator that marks a method as an event handler for enable rule event.
+ * 
  * This event is fired when the state of the associated command is checked by Power Apps.
+ * 
+ * @remarks
  * Available for the record and list page.
+ * 
+ * This event must be manually registered. You can use `Ribban Workbench` to register this event or the Command Bar Editor of Power Apps.
+ * 
+ * For more information, see [Microsoft doc](https://learn.microsoft.com/en-us/power-apps/developer/model-driven-apps/define-ribbon-enable-rules)
  *
  * @param name Name of the enable rules or callback function that returns the name of the enable rule from the component configuration.
  * @category Event
@@ -104,9 +122,6 @@ export function MnOnDataLoad() {
  *       return eventArg.selectedControl.getAttribute("telephone1").getValue() != null;
  *    }
  * }
- * :::note
- * This event must be registered manually in Power Apps / D365.
- * :::
  * ```
  */
 export function MnOnEnableRule(name: ValueOrConfigPropertyMapper<string>) {
@@ -118,8 +133,15 @@ export function MnOnEnableRule(name: ValueOrConfigPropertyMapper<string>) {
 
 /**
  * Decorator that marks a method as an event handler for column change event.
+ * 
  * This event is fired when the value of a column is changed.
+ * 
+ * @remarks
  * Only available for the record page.
+ * 
+ * Automatically registered at runtime.
+ * 
+ * For more information, see [Microsoft Client API Reference](https://learn.microsoft.com/en-us/power-apps/developer/model-driven-apps/clientapi/reference/events/attribute-onchange)
  * 
  * @param columnName Name of the column or callback function that returns the name of the column from the component configuration.
  * @category Event
@@ -147,8 +169,15 @@ export function MnOnColumnChange(columnName: ValueOrConfigPropertyMapper<string>
 
 /**
  * Decorator that marks a method as an event handler for form load event.
+ * 
  * This event is fired when the form is loaded.
+ * 
+ * @remarks
  * Only available for the record page.
+ * 
+ * Must be manually registered.
+ * 
+ * For more information, see [Microsoft Client API Reference](https://docs.microsoft.com/en-us/powerapps/developer/model-driven-apps/clientapi/reference/events/form-onload)
  * 
  * @category Event
  * @example Form Load
@@ -173,20 +202,27 @@ export function MnOnFormLoad() {
 
 /**
  * Decorator that marks a method as an event handler for grid load event.
- * This event is fired when a grid control is loaded.
+ * 
+ * This event is fired when a grid control is refreshed including when the user sort the values of a column.
+ * 
+ * @remarks
  * Only available for the record page.
  * 
+ * Automatically registered at runtime.
+ * 
+ * For more information, see [Microsoft Client API Reference](https://learn.microsoft.com/en-us/power-apps/developer/model-driven-apps/clientapi/reference/events/subgrid-onload)
+ * 
  * @category Event
- * @example Grid Load
+ * @example Notify that the grid nammed "mysubgrid" is loaded
  * ```ts
  * @MnComponent({
  *   scope: {
  *    pageType: PageType.record,
  *    entityName: "account"
  * })
- * export class MyComponent {
- *   @MnOnGridLoad()
- *   onGridLoad() {
+ * export class NotifyGridLoadedComponent {
+ *   @MnOnGridLoad("mysubgrid")
+ *   onGridLoad(eventArg: CommandBarEventArg) {
  *      Xrm.Navigation.openAlertDialog({ text: "Grid loaded" });
  *   }
  * }
@@ -198,7 +234,8 @@ export function MnOnGridLoad(controlName: ValueOrConfigPropertyMapper<string>) {
 }
 
 /**
- * @deprecated
+ * @deprecated Use getContentWindow() on a iframe control instead.
+ * @ignore
  * */
 export function MnOnIframeLoaded(controlName: ValueOrConfigPropertyMapper<string>) {
     return makeEventDecorator({
@@ -210,24 +247,35 @@ export function MnOnIframeLoaded(controlName: ValueOrConfigPropertyMapper<string
 /**
  * Decorator that marks a method as an event handler for lookup tag click event.
  * This event is fired when a lookup tag is clicked.
+ * 
+ * @remarks
  * Only available for the record page.
  * 
+ * Automatically registered at runtime.
+ * 
+ * For more information, see [Microsoft Client API Reference](https://learn.microsoft.com/en-us/power-apps/developer/model-driven-apps/clientapi/reference/events/onlookuptagclick)
+ * 
  * @category Event
- * @example Grid Load
+ * @example Prevent save if the tag name of the primary contact starts with A
  * ```ts
  * @MnComponent({
  *   scope: {
  *    pageType: PageType.record,
  *    entityName: "account"
  * })
- * export class MyComponent {
- *   @MnOnLookupTagClick()
- *   onLookupTagClick() {
- *     Xrm.Navigation.openAlertDialog({ text: "Lookup tag clicked" });
+ * export class PreventSaveOfContactStartingWithAComponent {
+ *   @MnOnLookupTagClick("primarycontactid")
+ *   onLookupTagClick(eventArg: FormEventArg) {
+ *      const args = eventArg.eventCtx.getEventArgs();
+ *      // Prevent save if the tag name starts with A
+ *      if (args.getTagValue()?.name?.startWith("A") {
+ *         args.preventDefault();
+ *      }
  *   }
  * }
  * ```
- * @param controlName Name of the lookup control or callback function that returns the name of the lookup control from the component configuration.
+ * @param controlName Name of the lookup control or
+ * callback function that returns the name of the lookup control from the component configuration.
  */
 export function MnOnLookupTagClick(controlName: ValueOrConfigPropertyMapper<string>) {
     return makeEventDecorator({
@@ -236,6 +284,20 @@ export function MnOnLookupTagClick(controlName: ValueOrConfigPropertyMapper<stri
     });
 }
 
+/**
+ * Decorator that marks a method as an event handler for populate query event.
+ * 
+ * This event is fired when a command bar menu need to be populated with his commands.
+ * 
+ * @remarks
+ * Available for the record and list page.
+ * 
+ * This event must be manually registered. You can use `Ribban Workbench` to register this event or the Command Bar Editor of Power Apps.
+ * 
+ * @param name Name of the command bar menu or
+ * callback function that returns the name of the command bar menu from the component configuration.
+ * @category Event
+ */
 export function MnOnPopulateQuery(name: ValueOrConfigPropertyMapper<string>) {
     return makeEventDecorator({
         type: EventTypes.PopulateQuery,
@@ -243,12 +305,88 @@ export function MnOnPopulateQuery(name: ValueOrConfigPropertyMapper<string>) {
     });
 }
 
+/**
+ * Decorator that marks a method as an event handler for pre-process status change event.
+ * 
+ * This event is fired when before the Business Process Flow status is changed.
+ * 
+ * @remarks
+ * Only available for the record page.
+ * 
+ * Automatically registered at runtime.
+ * 
+ * For more information, see [Microsoft Client API Reference](https://learn.microsoft.com/en-us/power-apps/developer/model-driven-apps/clientapi/reference/events/onpreprocessstatuschange)
+ * @example Confirm business process flow termination
+ * ```ts
+ * @MnComponent({
+ *  scope: {
+ *   pageType: PageType.record,
+ *   entityName: "opportunity"
+ * })
+ * export class ConfirmBPFTerminationComponent {
+ *    @MnOnPreProcessStatusChange()
+ *    async onPreProcessStatusChange(eventArg: FormEventArg) {
+ *       const args = eventArg.eventCtx.getEventArgs();
+ *       const result = await Xrm.Navigation.openConfirmDialog({
+ *          text: "Are you sure you want to terminate the business process flow?"
+ *       });
+ *       if (!result.confirmed) {
+ *          args.preventDefault();
+ *       }
+ *    }
+ * }
+ * ```
+ * @category Event
+ */
 export function MnOnPreProcessStatusChange() {
     return makeEventDecorator({
         type: EventTypes.PreProcessStatusChange
     });
 }
 
+/**
+ * Decorator that marks a method as an event handler for pre-search event.
+ * 
+ * This event is fired when a lookup column search is executed.
+ * It allows to modify the search query by adding filters.
+ * 
+ * @remarks
+ * Only available for the record page.
+ * 
+ * Automatically registered at runtime.
+ * 
+ * For more information, see [Microsoft Client API Reference](https://learn.microsoft.com/en-us/power-apps/developer/model-driven-apps/clientapi/reference/events/presearch)
+ * 
+ * @example Filter a multi-lookup of type `customer` (specific D365 lookup type)
+ * to only allow accounts and disable the search of contacts.
+ * ```ts
+ * @MnComponent({
+ *    scope: {
+ *       pageType: PageType.record
+ *   }
+ * })
+ * export class AccountOnlyInCustomerLookupComponent {
+ *    @MnInput()
+ *    input: {
+ *       customerLookup: string;
+ *    }
+ * 
+ *    @MnConfig(i => i)
+ *    config: {
+ *      customerLookup: string
+ *    }
+ * 
+ *    @MnOnPreSearch(c => c.config.customerLookup)
+ *    disallowContactSearch(eventArg: FormEventArg) {
+ *       const customerCtrl = eventArg.formCtx.getControl<Xrm.Controls.LookupControl>('customer');
+ *       customerCtrl.addCustomFilter('<filter type="and"><condition attribute="contactid" operator="null"/></filter>', 'contact');
+ *    }
+ * }
+ * ```
+ * @param controlName Name of the lookup control or
+ * callback function that returns the name of the lookup control from the component configuration.
+ * @category Event
+ */
 export function MnOnPreSearch(controlName: ValueOrConfigPropertyMapper<string>) {
     return makeEventDecorator({
         type: EventTypes.PreSearch,
@@ -256,37 +394,217 @@ export function MnOnPreSearch(controlName: ValueOrConfigPropertyMapper<string>) 
     });
 }
 
+/**
+ * Decorator that marks a method as an event handler for pre-stage change event.
+ * 
+ * This event is fired before the stage of a business process flow changed.
+ * 
+ * @remarks
+ * Only available for the record page.
+ * 
+ * Automatically registered at runtime.
+ * 
+ * For more information, see [Microsoft Client API Reference](https://learn.microsoft.com/en-us/power-apps/developer/model-driven-apps/clientapi/reference/events/onprestagechange)
+ * 
+ * @example Confirm business process flow stage change
+ * ```ts
+ * @MnComponent({
+ *    scope: {
+ *       pageType: PageType.record,
+ *       entityName: "opportunity"
+ * })
+ * export class ConfirmBPFStageChangeComponent {
+ *    @MnOnPreStageChange()
+ *    async onPreStageChange(eventArg: FormEventArg) {
+ *       const args = eventArg.eventCtx.getEventArgs();
+ *       const result = await Xrm.Navigation.openConfirmDialog({
+ *          text: "Are you sure you want to change the business process flow stage?"
+ *       });
+ *       if (!result.confirmed) {
+ *          args.preventDefault();
+ *       }
+ *    }
+ * }
+ * ```
+ * @category Event
+ */
 export function MnOnPreStageChange() {
     return makeEventDecorator({
         type: EventTypes.PreStageChange
     });
 }
 
+/**
+ * Decorator that marks a method as an event handler for process status change event.
+ * 
+ * This event is fired when the business process flow status changed.
+ * 
+ * @remarks
+ * Only available for the record page.
+ * 
+ * Automatically registered at runtime.
+ * 
+ * For more information, see [Microsoft Client API Reference](https://learn.microsoft.com/en-us/power-apps/developer/model-driven-apps/clientapi/reference/events/onprocessstatuschange)
+ * 
+ * @example Notify on form that the business process flow status changed
+ * ```ts
+ * @MnComponent({
+ *   scope: {
+ *     pageType: PageType.record,
+ *     entityName: "opportunity"
+ *   }
+ * })
+ * export class NotifyOnBPFStatusChangeComponent {
+ *    @MnOnProcessStatusChange()
+ *    onProcessStatusChange(eventArg: FormEventArg) {
+ *       eventArg.formContext.ui.setFormNotification("Business process flow status changed", "INFO", "BPFStatusChange");
+ *    }
+ * }
+ * ```
+ * @category Event
+ */
 export function MnOnProcessStatusChange() {
     return makeEventDecorator({
         type: EventTypes.ProcessStatusChange
     });
 }
 
+/**
+ * Decorator that marks a method as an event handler for save event.
+ * 
+ * This event is fired when:
+ * - The user clicks the save button.
+ * - save() method is called.
+ * - Auto save is triggered.
+ * - refresh(true) method is called.
+ * 
+ * @remarks
+ * Only available for the record page.
+ * 
+ * Automatically registered at runtime.
+ * 
+ * For more information, see [Microsoft Client API Reference](https://learn.microsoft.com/en-us/power-apps/developer/model-driven-apps/clientapi/reference/events/form-onsave)
+ * 
+ * @example Prevent auto save
+ * ```ts
+ * @MnComponent({
+ *    scope: {
+ *     pageType: PageType.record
+ *    }
+ * })
+ * export class PreventAutoSaveComponent {
+ *    @MnOnSave()
+ *    onSave(eventArg: FormEventArg) {
+ *       const args = eventArg.eventCtx.getEventArgs();
+ *       if (args.getSaveMode() === XrmEnum.SaveMode.AutoSave) {
+ *          args.preventDefault();
+ *       }
+ *    }
+ * }
+ * ```
+ * @category Event
+ */
 export function MnOnSave() {
     return makeEventDecorator({
         type: EventTypes.Save
     });
 }
 
+/**
+ * Decorator that marks a method as an event handler for stage changed.
+ * 
+ * This event is fired when the stage of a business process flow changed.
+ * 
+ * @remarks
+ * Only available for the record page.
+ * 
+ * For more information, see [Microsoft Client API Reference](https://learn.microsoft.com/en-us/power-apps/developer/model-driven-apps/clientapi/reference/events/onstagechange)
+ * 
+ * @example Notify on form that the business process flow stage changed
+ * ```ts
+ * @MnComponent({
+ *    scope: {
+ *       pageType: PageType.record,
+ *       entityName: "opportunity"
+ * })
+ * export class NotifyOnBPFStageChangeComponent {
+ *    @MnOnStageChange()
+ *    onStageChange(eventArg: FormEventArg) {
+ *       eventArg.formContext.ui.setFormNotification("Business process flow stage changed", "INFO", "BPFStageChange");
+ *   }
+ * }
+ * ```
+ * @category Event
+ */
 export function MnOnStageChange() {
     return makeEventDecorator({
         type: EventTypes.StageChange
     });
 }
 
+/**
+ * Decorator that marks a method as an event handler for stage selected.
+ * 
+ * This event is fired when the stage of a business process flow is selected.
+ * 
+ * @remarks
+ * Only available for the record page.
+ * 
+ * For more information, see [Microsoft Client API Reference](https://learn.microsoft.com/en-us/power-apps/developer/model-driven-apps/clientapi/reference/events/onstageselected)
+ * @example Notify on form that the business process flow stage is selected
+ * ```ts
+ * @MnComponent({
+ *    scope: {
+ *       pageType: PageType.record,
+ *       entityName: "opportunity"
+ *    }
+ * })
+ * export class NotifyOnBPFStageSelectedComponent {
+ *    @MnOnStageSelected()
+ *    onStageSelected(eventArg: FormEventArg) {
+ *       eventArg.formContext.ui.setFormNotification("Business process flow stage selected", "INFO", "BPFStageSelected");
+ *   }
+ * }
+ * ```
+ * @category Event
+ */
 export function MnOnStageSelected() {
     return makeEventDecorator({
         type: EventTypes.StageSelected
     });
 }
 
-export function MnOnTabState(tabName: ValueOrConfigPropertyMapper<string>) {
+/**
+ * Decorator that marks a method as an event handler for tab state change event.
+ * 
+ * This event is fired when the tab state changed.
+ * 
+ * @remarks
+ * Only available for the record page.
+ * 
+ * For more information, see [Microsoft Client API Reference](https://learn.microsoft.com/en-us/power-apps/developer/model-driven-apps/clientapi/reference/events/tabstatechange)
+ * 
+ * @param tabName The name of the tab or
+ * a callback function that returns the name of the tab from the component configuration.
+ * 
+ * @example Notify on form that the tab state changed
+ * ```ts
+ * @MnComponent({
+ *    scope: {
+ *       pageType: PageType.record,
+ *       entityName: "contact"
+ *    }
+ * })
+ * export class NotifyOnTabStateChangeComponent {
+ *    @MnOnTabStateChange("tab_name")
+ *    onTabStateChange(eventArg: FormEventArg) {
+ *       eventArg.formContext.ui.setFormNotification("Tab state changed", "INFO", "TabStateChange");
+ *    }
+ * }
+ * ```
+ * @category Event
+ */
+export function MnOnTabStateChange(tabName: ValueOrConfigPropertyMapper<string>) {
     return makeEventDecorator({
         type: EventTypes.TabStateChange,
         target: tabName
