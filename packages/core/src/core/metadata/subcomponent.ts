@@ -38,9 +38,11 @@ interface SubComponentConfigInput<T extends ComponentConstructor = ComponentCons
 export type SubComponentConfig<T extends ComponentConstructor = ComponentConstructor> = InstanceType<T> extends Input ? SubComponentConfigInput<T> : SubComponentConfigNone<T>;
 
 /**
- * Decorator that mark a property as a sub component.
- * The sub component is a component that is used inside another component.
- * The sub component property must be of type {@link ComponentActivator} to be able to enable/disable the sub component.
+ * Decorator that mark a property as a sub-component.
+ * 
+ * A sub-component is a component that is used inside another component. It provides a way to split a component into smaller components by doing composition.
+ * 
+ * The sub-component property must be of type {@link SubComponent} to be able to enable/disable the sub component.
  * @param config Configuration of the sub component. Specify the component and the optional input. See {@link SubComponentConfig}
  * @category Component
  * @example Add 2 phone call components to a record page linked to the telephone1 and telephone2 columns.
@@ -85,7 +87,7 @@ export type SubComponentConfig<T extends ComponentConstructor = ComponentConstru
  *          phoneCommand: "callPhone1"
  *       }
  *    })
- *    phoneCall1Component: ComponentActivator<PhoneCallComponent>;
+ *    phoneCall1Component: SubComponent<PhoneCallComponent>;
  * 
  *    @MnSubComponent({
  *       component: PhoneCallComponent,
@@ -94,8 +96,44 @@ export type SubComponentConfig<T extends ComponentConstructor = ComponentConstru
  *          phoneCommand: "callPhone2"
  *       }
  *    })
- *    phoneCall2Component: ComponentActivator<PhoneCallComponent>;
+ *    phoneCall2Component: SubComponent<PhoneCallComponent>;
  * }
+ * ```
+ * @example Transmits the input from the parent component to the sub component.
+ * Uses {@link ConfigOf} to get the type of the parent component configuration during transmition.
+ * ```ts
+ * @MnComponent({
+ *    scope: {
+ *       pageType: PageType.record
+ *    }
+ * })
+ * class ParentComponent implements Config {
+ *    @MnConfig({
+ *       value1: "hello",
+ *       value2: 123
+ *    })
+ *    config: {
+ *       value1: string;
+ *       value2: number;
+ *    }
+ *    
+ *    @MnSubComponent({
+ *       component: ChildComponent,
+ *       input: (c: ConfigOf<ParentComponent> => { text: c.value1 })
+ *    })
+ *    childComponent: SubComponent<ChildComponent>;
+ * }
+ * 
+ * @MnComponent({
+ *    scope: {
+ *       pageType: PageType.record
+ *    }
+ * })
+ * class ChildComponent implements Input {
+ *    @MnInput()
+ *    input: {
+ *       text: string;
+ *    }
  * ```
  */
 export function MnSubComponent<T extends ComponentConstructor>(config: SubComponentConfig<T>) {

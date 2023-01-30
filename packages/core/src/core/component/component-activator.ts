@@ -9,13 +9,26 @@ import { ComponentLifeCycle } from "./component-lifecycle";
 
 /**
  * Represents a sub-component that can be enabled or disabled.
- * Must be used in conjunction with the {@link @MnSubComponent} decorator.
+ * Must be used in conjunction with the {@link MnSubComponent} decorator.
+ * 
+ * For example usage see {@link MnSubComponent}.
  * @category Component
  * @typeparam T Component type
  */
 export interface SubComponent<T extends Component> {
+    /**
+     * State of the component. true if enabled
+     */
     readonly enabled: boolean;
+
+    /**
+     * Enable the component. The component will be created if it is not already created.
+     */
     enable(): void;
+
+    /**
+     * Disable the component. The component will be destroyed if it is not already destroyed.
+     */
     disable(): void;
 
     //readonly output: OutputOf<T> | undefined;
