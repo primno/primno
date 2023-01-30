@@ -42,10 +42,10 @@ const config = {
       // },
       {
         entryPoints: ['../packages/core/src/primno-api.ts'],
-        out: 'reference',
+        out: 'api-reference',
         sidebar: {
-          categoryLabel: 'Reference',
-          position: 100,
+          categoryLabel: 'API Reference',
+          position: 5,
           fullNames: true,
         },
         tsconfig: '../packages/core/tsconfig.json',
@@ -99,6 +99,11 @@ const config = {
             docId: 'intro',
             position: 'left',
             label: 'Docs',
+          },
+          {
+            to: '/docs/api-reference',
+            position: 'left',
+            label: 'API',
           },
           {
             href: 'https://github.com/primno/primno',
