@@ -7,6 +7,7 @@ import { Provider } from "./provider";
 
 /**
  * Component configuration of {@link MnComponent}.
+ * @category Component
  */
 export interface ComponentConfig extends Provider {
     scope: Scope;

@@ -6,7 +6,7 @@ import { MetadataDecoratorHelper } from "../reflection/decorator-helper";
 import { Provider } from "./provider";
 
 /**
- * Module decorator configuration
+ * Module configuration of {@link MnModule}.
  * @category Module
  */
  export interface ModuleConfig extends Provider {

@@ -11,11 +11,17 @@ export {
 
 export {
     MnComponent,
+    ComponentConfig,
     MnInput,
     MnModule,
+    ModuleConfig,
     MnOutput,
     MnSubComponent,
-    MnConfig
+    MnConfig,
+    
+    ProviderConfig,
+    ClassProvider,
+    ValueProvider
 } from "./core/metadata"
 
 // MnOnFormLoad, MnOnColumnChange, etc.

@@ -1,5 +1,9 @@
 import { Constructor } from "../../typing";
 
+/**
+ * Provider configuration for a class.
+ * @category Dependency Injection
+ */
 export interface ClassProvider {
     /**
      * Token to which the `useClass` will be bound.
@@ -11,6 +15,10 @@ export interface ClassProvider {
     useClass: Constructor;
 }
 
+/**
+ * Provider configuration for a value.
+ * @category Dependency Injection
+ */
 export interface ValueProvider {
     /**
      * Token to which the `useValue` will be bound.
@@ -20,6 +28,10 @@ export interface ValueProvider {
     useValue: any;
 }
 
+/**
+ * Provider configuration for a factory function.
+ * @category Dependency Injection
+ */
 export interface FactoryProvider {
     /** Token to which the `useFactory` will be bound. */
     provide: any;
@@ -29,6 +41,7 @@ export interface FactoryProvider {
 
 /**
  * Type of the `providers` array in {@link ModuleConfig} or {@link ComponentConfig}.
+ * @category Dependency Injection
  */
 export type ProviderConfig = ClassProvider | ValueProvider | FactoryProvider | any;
 
