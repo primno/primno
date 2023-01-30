@@ -15,13 +15,13 @@ To use Primno, you need to install the following tools:
 - [Node.js 16 or higher](https://nodejs.org/en/download/)
 - [Visual Studio Code](https://code.visualstudio.com/download)
 
-You should also have a Power Apps / Dynamics 365 environment.
+You should also have a Power Apps or a Dynamics 365 CE environment.
 
 :::info
 You can use the [free trial](https://powerapps.microsoft.com/en-us/pricing/) of Power Apps to test Primno.
 :::
 
-You should have a basic understanding of Typescript / JavaScript and Dynamics 365.
+You should have a basic knowledge of Typescript / JavaScript and [Client API Reference](https://learn.microsoft.com/en-us/power-apps/developer/model-driven-apps/clientapi/reference).
 
 ## Installation
 

@@ -213,7 +213,7 @@ export function MnOnFormLoad() {
  * For more information, see [Microsoft Client API Reference](https://learn.microsoft.com/en-us/power-apps/developer/model-driven-apps/clientapi/reference/events/subgrid-onload)
  * 
  * @category Event
- * @example Notify that the grid nammed "mysubgrid" is loaded
+ * @example Notify that the grid named "mysubgrid" is loaded
  * ```ts
  * @MnComponent({
  *   scope: {

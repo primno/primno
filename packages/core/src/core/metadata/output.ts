@@ -1,7 +1,7 @@
 /**
  * Decorator that mark a property as output (EventEmiter).
  * @category Component
- * @returns 
+ * @ignore
  */
  export function MnOutput() {
     // eslint-disable-next-line @typescript-eslint/no-empty-function

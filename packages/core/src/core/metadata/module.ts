@@ -39,7 +39,7 @@ import { Provider } from "./provider";
  * @remarks
  * A component must be declared in a module with the `declarations` property to be usable and only one module can associate to a component.
  * 
- * @example A boostrap module nammed `AppModule` that will run `AppComponent` on startup, make `AccountComponent` usable by `AppComponent`.
+ * @example A boostrap module named `AppModule` that will run `AppComponent` on startup, make `AccountComponent` usable by `AppComponent`.
  * Provide `AccountService` to `AccountComponent` and `AppComponent`.
  * ```ts
  * @MnModule({
