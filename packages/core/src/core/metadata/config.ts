@@ -60,7 +60,7 @@ import { MetadataDecoratorHelper } from "../reflection/decorator-helper";
  * ```
  * 
  * @category Component
- * @returns 
+ * @param config Configuration values or a function that returns the configuration values from the input.
  */
  export function MnConfig<TComp extends Component = Component>(config: ConfigOrConfigMapper<TComp>) {
     // TODO: Make decorator helper
