@@ -36,10 +36,6 @@ jobs:
           
       - name: Install Dependencies, Build, Test and make bundle
         run: |
-          npm install
-          npm run build
-          npm run test
+          npm ci
           npm run bundle
-        
-        
-        
+          npm run test

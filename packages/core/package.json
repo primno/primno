@@ -46,9 +46,8 @@
     "node": ">=18.0.0"
   },
   "scripts": {
-    "build": "tsc --build",
     "lint": "eslint . --ext .ts",
-    "bundle": "npm run build & rollup -c",
+    "build": "tsc --build & rollup -c",
     "watch": "rollup -c -w",
     "test": "nyc mocha -a -r ts-node/register test/**/*.spec.ts"
   },
