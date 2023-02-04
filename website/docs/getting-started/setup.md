@@ -4,7 +4,7 @@ sidebar_position: 1
 
 # Setup
 
-This guide will help you to get the first steps with Primno by building a simple behavior to account entity.
+This guide will help you to get the first steps with Primno by building and deploy a simple behavior to account entity.
 
 In this part, we will setup the environment.
 
@@ -13,19 +13,21 @@ In this part, we will setup the environment.
 To use Primno, you need to install the following tools:
 
 - [Node.js 16 or higher](https://nodejs.org/en/download/)
-- [Visual Studio Code](https://code.visualstudio.com/download)
+- [Visual Studio Code](https://code.visualstudio.com/download) or an other IDE / text editor of your choice.
 
-You should also have a Power Apps or a Dynamics 365 CE environment.
+In this guide, we will use Visual Studio Code.
+
+You must have a Power Apps or a Dynamics 365 CE environment and a user with administrator or customizer role.
 
 :::info
 You can use the [free trial](https://powerapps.microsoft.com/en-us/pricing/) of Power Apps to test Primno.
 :::
 
-You should have a basic knowledge of Typescript / JavaScript and [Client API Reference](https://learn.microsoft.com/en-us/power-apps/developer/model-driven-apps/clientapi/reference).
+It is recommended to have a basic knowledge of Typescript / JavaScript and [Client API Reference](https://learn.microsoft.com/en-us/power-apps/developer/model-driven-apps/clientapi/reference).
 
 ## Installation
 
-Once you have installed the pre-requisites, install primno cli with the following command:
+Once you have installed the pre-requisites, install primno cli globally with the following command:
 
 ```bash
 npm install @primno/cli -g
