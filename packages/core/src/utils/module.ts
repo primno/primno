@@ -1,16 +1,20 @@
-import { getModuleConfig } from "../core/metadata/helper";
-import { ModuleConstructor } from "../typing";
+import { getAllImportedModuleConfig, getModuleConfig } from "../core/metadata/helper";
+import { ComponentConstructor, ModuleConstructor } from "../typing";
 
 /**
  * Gets the bootstrap components from a module.
  * @param module Module
  */
 export function getBootstrapComponents(module: ModuleConstructor) {
-    const moduleConfig = getModuleConfig(module);
+    const moduleConfigs = getAllImportedModuleConfig(module);
 
-    if (moduleConfig?.bootstrap == null) {
+    const bootstraps: ComponentConstructor[] = moduleConfigs
+        .flatMap(m => m.bootstrap)
+        .filter(c => c != null) as ComponentConstructor[];
+
+    if (bootstraps.length === 0) {
         throw new Error("Bootstap component(s) not found in module");
     }
 
-    return Array.isArray(moduleConfig.bootstrap) ? moduleConfig.bootstrap : [moduleConfig?.bootstrap];
+    return bootstraps;
 }

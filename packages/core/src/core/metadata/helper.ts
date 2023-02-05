@@ -7,6 +7,27 @@ function isConstructorOrObject(value: ConstructorOrObject) {
     return typeof value === "function" || typeof value === "object";
 }
 
+/**
+ * Gets all modules config from a module, imported modules included.
+ * @param module Module
+ * @returns All modules config
+ */
+export function getAllImportedModuleConfig(module: ModuleConstructor): ModuleConfig[] {
+    const moduleConfig = getModuleConfig(module);
+
+    if (moduleConfig == null) {
+        return [];
+    }
+
+    if (moduleConfig.imports == null) {
+        return [moduleConfig];
+    }
+
+    const subModules = Array.isArray(moduleConfig.imports) ? moduleConfig.imports : [moduleConfig?.imports];
+
+    return [moduleConfig, ...subModules.flatMap(m => getAllImportedModuleConfig(m))];
+}
+
 export function getModuleConfig(module: ModuleConstructor) {
     if (!isConstructorOrObject(module)) {
         return undefined;

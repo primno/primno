@@ -66,6 +66,7 @@ export class Context {
             const module = esmBrowser.module;
 
             const bootstrapComponents = getBootstrapComponents(module);
+            // TODO: Ensure that the bootstrap components doesn't have input.
             const boostrapCBs = bootstrapComponents.map(c => new ComponentBrowser(c));
 
             // Check events integrity
