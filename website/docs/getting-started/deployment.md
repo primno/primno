@@ -1,5 +1,6 @@
 ---
 sidebar_position: 3
+description: Link the project to Power Apps environment and deploy it.
 ---
 
 # Deploy
@@ -33,7 +34,7 @@ Example of primno.env.json file:
 
 ### Solution
 
-The deployment of the project is done in a solution.
+The deployment of the project is done by uploading the JS webresource in a solution.
 
 Create a solution in Power Apps and copy the solution unique name.
 

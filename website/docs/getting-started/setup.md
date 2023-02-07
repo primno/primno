@@ -1,10 +1,9 @@
 ---
 sidebar_position: 1
+description: Install required tools and setup the environment.
 ---
 
 # Setup
-
-This guide will help you to get the first steps with Primno by building and deploy a simple behavior to account entity.
 
 In this part, we will setup the environment.
 
