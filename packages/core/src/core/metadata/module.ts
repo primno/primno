@@ -16,7 +16,7 @@ import { Provider } from "./provider";
     imports?: ModuleConstructor[];
 
     /**
-     * Components usables by others components in with module.
+     * Components usables by others components in this module.
      */
     declarations?: ComponentConstructor[];
     
@@ -26,7 +26,7 @@ import { Provider } from "./provider";
     exports?: ComponentConstructor[];
 
     /**
-     * Bootstrap component(s).
+     * Bootstrap component(s). This component(s) will be started when the module is loaded.
      */
     bootstrap?: ComponentConstructor | ComponentConstructor[];
 }
