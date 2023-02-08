@@ -29,7 +29,7 @@ export default function HomepageHeader() {
               </div>
             </div>
             <div className={clsx("col col--6", styles.hero_image)}>
-              <ReactPlayer url={HomeMovieUrl} muted={true} height={405} width={540} controls={true} />
+              <ReactPlayer url={HomeMovieUrl} muted={true} height={480} width={640} controls={true} />
             </div>
           </div>
         </div>
