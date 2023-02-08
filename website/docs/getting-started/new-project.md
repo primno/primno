@@ -52,3 +52,5 @@ myproject
 ├── .gitignore
 └── tsconfig.json
 ```
+
+Each file is highly commented to explain its functioning and purpose.

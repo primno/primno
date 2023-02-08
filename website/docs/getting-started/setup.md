@@ -5,7 +5,9 @@ description: Install required tools and setup the environment.
 
 # Setup
 
-In this part, we will setup the environment.
+:::info
+Make sure you have read the [introduction](../intro.md) and [getting started overview](index.mdx) before starting this chapter.
+:::
 
 ## Pre-requisites
 
@@ -33,3 +35,14 @@ npm install @primno/cli -g
 ```
 
 Primno CLI is a command line tool that will help you to create, debug and deploy your projects.
+
+## Customization
+
+This project required an active account form with a sub-grid of contacts.
+
+The following fields must be present on the account form:
+- `name`
+- `telephone1`
+
+The screenshot below is an example of expected customization.
+![Account form](/img/getting-started/customization.png)

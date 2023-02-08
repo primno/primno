@@ -77,15 +77,26 @@ Where
 
 For example, if you choose the default editor prefix `new`, your webresource will be named `new_/myproject/js/app.js`.
 
-## Add JS to form
+## Add events handlers
+
+Now that the javascript web resource is uploaded, the Primno's events handlers need to be associated to an account form and a button command to the contact sub-grid.
+
+### Account form
 
 The JS web resource must be added to the `account` form to be usable and the `onload` event handler must be set to initialize Primno.
 
-The function name to call is `mn_app.onFormLoad`.
+The column change event handler of the `name` and `telephone1` columns don't need to be added because Primno will add them automatically at runtime.
+
+To find out more about the events automatically subscribed by Primno see [Events](/docs/guides/events) page.
+
+To register the `onload` event handler, the function name to call is `mn_app.onFormLoad`.
 
 :::caution
 Ensure to check the `Pass execution context as first parameter` checkbox.
 :::
+
+Below is an example of on load event handler added to an `account` form.
+![Customization of account form](/img/getting-started/account-onload-customization.png)
 
 :::info
 Running the command `mn deploy` show the function name to call.
@@ -95,3 +106,26 @@ Running the command `mn deploy` show the function name to call.
 To learn about how to add a event handler function to event, see [Add a event handler](https://learn.microsoft.com/en-us/power-apps/developer/model-driven-apps/clientapi/events-forms-grids?tabs=add-event-handlers-unified-interface) page of Microsoft documentation.
 :::
 
+At this point, you can open a `account` record and see:
+1. `Welcome from Primno` alert message on form load.
+2. `The value of the column name changed from {oldValue} to {newValue}` message when the `name` column value is changed.
+3. `The value of the column telephone1 changed from {oldValue} to {newValue}` message when the `telephone1` column value is changed.
+
+### Contact sub-grid button
+
+The event handler `mn_app.onCommandInvoke` must be register on a button command of the `contact` sub-grid.
+
+The following parameters must be set:
+- `hello` as string parameter.
+- SelectedControl.
+- PrimaryControl.
+
+:::info
+To learn about how to add a button command, see [Customize commands and ribbons](https://learn.microsoft.com/en-us/power-apps/developer/model-driven-apps/customize-commands-ribbon) page of Microsoft documentation.
+This is can be done via [Ribbon Workbench](https://www.xrmtoolbox.com/plugins/RibbonWorkbench2016/) or the new [Command Designer](https://learn.microsoft.com/en-us/power-apps/maker/model-driven-apps/use-command-designer) tool.
+:::
+
+Below is an example of a button command added to the `contact` sub-grid with the Command Designer.
+![Contact sub-grid button](/img/getting-started/command-bar.png)
+
+Now, when you click on the button, you should see the following message: `Hello from Primno!`.
