@@ -4,7 +4,7 @@ import clsx from 'clsx';
 import Link from '@docusaurus/Link';
 import styles from './index.module.css';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
-//import FeaturesMovieUrl from '@site/static/video/features.webm';
+import HomeMovieUrl from '@site/static/mov/home.mp4';
 
 export default function HomepageHeader() {
     const { siteConfig } = useDocusaurusContext();
@@ -29,7 +29,7 @@ export default function HomepageHeader() {
               </div>
             </div>
             <div className={clsx("col col--6", styles.hero_image)}>
-              {/* <ReactPlayer url={FeaturesMovieUrl} loop={true} playing={true} muted={true} /> */}
+              <ReactPlayer url={HomeMovieUrl} muted={true} height={405} width={540} controls={true} />
             </div>
           </div>
         </div>

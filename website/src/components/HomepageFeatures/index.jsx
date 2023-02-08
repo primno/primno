@@ -13,7 +13,7 @@ const FeatureList = [
     ),
   },
   {
-    title: 'Reload on save',
+    title: 'Save & See',
     Svg: require('@site/static/img/features/reload.svg').default,
     description: (
       <>

@@ -2,6 +2,9 @@
 title: Getting Started
 sidebar_position: 2
 ---
+import GettingStartedMovieUrl from '@site/static/mov/getting-started.mp4';
+import ReactPlayer from 'react-player';
+import DocCardList from '@theme/DocCardList';
 
 # Getting Started
 
@@ -14,8 +17,10 @@ You will create a project that:
 - Notify the user that some columns changed on a `account` form.
 - Show a alert when a button on a `contact` grid is clicked.
 
-## Modules
+Below you can see a video that shows the final result of this guide.
 
-import DocCardList from '@theme/DocCardList';
+<ReactPlayer url={GettingStartedMovieUrl} height={405} width={540} muted={true} controls={true} />
+
+## Modules
 
 <DocCardList />
