@@ -1,0 +1,35 @@
+---
+sidebar_position: 4
+description: Run the developer mode and see immediately your changes in the browser.
+---
+import HomeMovieUrl from '@site/static/mov/home.mp4';
+import ReactPlayer from 'react-player';
+
+# Develop
+
+To run the developer mode, execute the following command in your project folder:
+
+```bash
+mn start
+```
+
+This command will build and deploy a special version of Primno that will use your local files instead of the files in Power Apps.
+Local files are loaded through a local web server started on port 12357.
+
+:::important
+The website starts with a self-signed certificate. The certificate is automatically regenerated every 30 days.
+
+You must accept it in your browser by browsing to https://localhost:12357.
+:::
+
+This command also starts a watcher that will automatically rebuild your project when you change a file.
+
+## Try it
+
+Try to change the text displayed when loading the form in `src/record/account.component.ts` to something else then save the file.
+
+After refreshing the browser, you will see the new text.
+
+Below is a video that shows the developer mode in action.
+
+<ReactPlayer url={HomeMovieUrl} muted={true} height={480} width={640} controls={true} />
