@@ -17,7 +17,7 @@ const FeatureList = [
     Svg: require('@site/static/img/features/reload.svg').default,
     description: (
       <>
-        Develop your project locally, save and see immedialty what you have done.
+        Develop your project locally, save and see immediately what you have done.
       </>
     ),
   },

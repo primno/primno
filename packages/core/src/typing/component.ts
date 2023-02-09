@@ -58,7 +58,7 @@ export type InputOrInputMapper<T extends Constructor, TInstance extends Instance
 // ----
 
 /**
- * Obtain config type from a component by extracting the `config` property type.
+ * Gets config type from a component by extracting the `config` property type.
  * Can be used in conjunction with the {@link @MnSubComponent} decorator
  * to obtain the config type of the current component
  * when resolve the input of the sub-component from the config of the parent component.

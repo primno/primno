@@ -34,7 +34,7 @@ Example of primno.env.json file:
 
 ### Solution
 
-The deployment of the project is done by uploading the JS webresource in a solution.
+The deployment of the project is done by uploading the JS web-resource in a solution.
 
 Create a solution in Power Apps and copy the solution unique name.
 
@@ -63,9 +63,9 @@ To deploy the project, run the following command:
 mn deploy
 ```
 
-This command build and deploy the `app` entry point as JS webresource in the solution configured in the `primno.config.json` file.
+This command build and deploy the `app` entry point as JS web-resource in the solution configured in the `primno.config.json` file.
 
-The webresource is added with a name following this format:
+The web-resource is added with a name following this format:
 
 ```text
 {editorPrefix}_/{projectName}/js/app.js
@@ -75,7 +75,7 @@ Where
 - `{editorPrefix}` is the prefix of the editor in the selected solution.
 - `{projectName}` is the name of the project. Here `myproject`.
 
-For example, if you choose the default editor prefix `new`, your webresource will be named `new_/myproject/js/app.js`.
+For example, if you choose the default editor prefix `new`, your web-resource will be named `new_/myproject/js/app.js`.
 
 ## Add events handlers
 

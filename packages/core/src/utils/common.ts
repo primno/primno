@@ -78,7 +78,7 @@ export function hasMethod(obj: Record<string | symbol, any>, methodName: string)
 }
 
 /**
- * Obtains all methods of an object (prototype include).
+ * Gets all methods of an object (prototype include).
  * @param obj 
  * @returns 
  */

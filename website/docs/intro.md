@@ -4,8 +4,8 @@ sidebar_position: 1
 
 # Introduction
 
-Primno is a modern Typescript framework for building faster scalables javascripts customizations for Model-Driven Apps of Power Apps that provides:
-- A developer tool to build, develop and deploy your javascript webresources to Power Apps / Dynamics 365.
+Primno is a modern Typescript framework for building faster scalable JavaScript customizations for Model-Driven Apps of Power Apps that provides:
+- A developer tool to build, develop and deploy your javascript web-resources to Power Apps / Dynamics 365.
 - A component-based architecture framework for building scalable javascript code.
 
 Primno works with:
@@ -15,7 +15,7 @@ Primno works with:
 
 ## Overview
 
-Primno provides a framework to customize Model-Driven Apps by javascript code. The javascript code is deployed as a webresource and executed by the browser when the user interacts with a form or grid.
+Primno provides a framework to customize Model-Driven Apps by javascript code. The javascript code is deployed as a web-resource and executed by the browser when the user interacts with a form or grid.
 
 The framework provides:
 - A component-based architecture to write code in a modular way.
@@ -79,7 +79,7 @@ export class ContactComponent {
 
 To learn more about components, see [Components](/docs/guides/components).
 
-### Depencency injection
+### Dependency injection
 
 Dependency injection system enables a component to utilize a dependency without instantiating it. Primno will automatically instantiate the dependency and pass it to the component. This allows you to write loosely coupled code that is easier to test.
 

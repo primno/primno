@@ -59,7 +59,7 @@ export class ComponentContainer<T extends ComponentConstructor = ComponentConstr
     }
 
     /**
-     * Obtains instance of component from this container.
+     * Gets instance of component from this container.
      * @returns 
      */
     public get(): InstanceType<T> {

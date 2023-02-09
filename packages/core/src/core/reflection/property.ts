@@ -38,7 +38,7 @@ export class PropertyMetadata implements MetadataAccessor {
     }
 
     /**
-     * Obtain the properties metadata of a type or object.
+     * Gets the properties metadata of a type or object.
      * @param target Constructor or object
      * @returns 
      */
