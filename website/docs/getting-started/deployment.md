@@ -19,7 +19,7 @@ Primno uses a dataverse [connection string](https://learn.microsoft.com/en-us/po
 A easy way to get a connection string is to use the [XrmToolBox](https://www.xrmtoolbox.com/) tool.
 :::
 
-To learn more about supported connection string, see [Connection string](/docs/guides/configuration#connection-string) page.
+To learn more about supported connection string, see [Connection string](/docs/guides/configuration/environment#connection-string) page.
 
 Example of primno.env.json file:
 
