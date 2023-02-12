@@ -107,18 +107,24 @@ To learn about how to add a event handler function to event, see [Add a event ha
 :::
 
 At this point, you can open a `account` record and see:
-1. `Welcome from Primno` alert message on form load.
-2. `The value of the column name changed from {oldValue} to {newValue}` message when the `name` column value is changed.
-3. `The value of the column telephone1 changed from {oldValue} to {newValue}` message when the `telephone1` column value is changed.
+
+| Event | Column | Message |
+| --- | --- | --- |
+| Loading | - | `Welcome from Primno` |
+| Column change | name | `The value of the column name changed from {oldValue} to {newValue}` |
+| Column change | telephone1 | `The value of the column telephone1 changed from {oldValue} to {newValue}` |
 
 ### Contact sub-grid button
 
 The event handler `mn_app.onCommandInvoke` must be register on a button command of the `contact` sub-grid.
 
 The following parameters must be set:
-- `hello` as string parameter.
-- SelectedControl.
-- PrimaryControl.
+
+| Parameter | Value |
+| --- | --- |
+| String parameter | `hello` |
+| SelectedControl | - |
+| PrimaryControl | - |
 
 :::info
 To learn about how to add a button command, see [Customize commands and ribbons](https://learn.microsoft.com/en-us/power-apps/developer/model-driven-apps/customize-commands-ribbon) page of Microsoft documentation.
