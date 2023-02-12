@@ -106,13 +106,13 @@ export function onPopulateQuery(
 }
 
 /**
- * "onEnableRuleCheck" event handler. Must be called by Dynamics 365 when a js button enable rule is triggered. 
+ * "onEnableRule" event handler. Must be called by Dynamics 365 when a js button enable rule is triggered. 
  * @param enableRuleName 
  * @param selectedControl 
  * @param args 
  * @returns 
  */
-export function onEnableRuleCheck(
+export function onEnableRule(
     enableRuleName: string,
     selectedControl: Control,
     primaryControl: Control,

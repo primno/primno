@@ -147,25 +147,25 @@ This table lists all the events that can be subscribed to with Primno.
 - **External function**: The event handler function to call from Power Apps during registration. It must be prefixed with a prefix. See [Manual registration](#manual-registration).
 :::
 
-:::note
+:::tip
 Open the decorator link to see the full documentation of the event.
 :::
 
 Decorator | Trigger | Type | Manual registration | External function |
 | --- | --- | --- | --- | --- |
 [`@MnOnFormLoad`](../api-reference/functions/MnOnFormLoad.md) | Form is loaded. | Record | Yes | `onFormLoad` |
-[`@MnOnDataLoad`](../api-reference/functions/MnOnDataLoad.md) | Form data is loaded | Record | No | `onDataLoad` |
-[`@MnOnColumnChange`](../api-reference/functions/MnOnColumnChange.md) | Column value is changed. | Record | No | `onColumnChange` |
-[`@MnOnSave`](../api-reference/functions/MnOnSave.md) | Form is saved. | Record | No | `onSave` |
+[`@MnOnDataLoad`](../api-reference/functions/MnOnDataLoad.md) | Form data is loaded | Record | No | - |
+[`@MnOnColumnChange`](../api-reference/functions/MnOnColumnChange.md) | Column value is changed. | Record | No | - |
+[`@MnOnSave`](../api-reference/functions/MnOnSave.md) | Form is saved. | Record | No | - |
 [`@MnOnCommandInvoke`](../api-reference/functions/MnOnCommandInvoke.md) | Command is invoked by a button on command-bar. | Record & List | Yes | `onCommandInvoke` |
 [`@MnOnEnableRule`](../api-reference/functions/MnOnEnableRule.md) | Enable rule is evaluated on the command-bar. | Record & List | Yes | `onEnableRule` |
-[`@MnOnGridLoad`](../api-reference/functions/MnOnGridLoad.md) | Grid is loaded. | Record | Yes | `onGridLoad` |
-[`@MnOnLookupTagClick`](../api-reference/functions/MnOnLookupTagClick.md) | Lookup tag is clicked. | Record | No | `onLookupTagClick` |
+[`@MnOnGridLoad`](../api-reference/functions/MnOnGridLoad.md) | Grid is loaded. | Record | Yes | - |
+[`@MnOnLookupTagClick`](../api-reference/functions/MnOnLookupTagClick.md) | Lookup tag is clicked. | Record | No | - |
 [`@MnOnPopulateQuery`](../api-reference/functions/MnOnPopulateQuery.md) | A flyout button must be populated on the command-bar. | Record & List | Yes | `onPopulateQuery` |
-[`@MnOnPreProcessStatusChange`](../api-reference/functions/MnOnPreProcessStatusChange.md) | BPF status is about to change. | Record | No | `onPreProcessStatusChange` |
-[`@MnOnPreSearch`](../api-reference/functions/MnOnPreSearch.md) | Search on a lookup is about to be executed. | Record | No | `onPreSearch` |
-[`@MnOnPreStageChange`](../api-reference/functions/MnOnPreStageChange.md) | Stage of BPF is about to change. | Record | No | `onPreStageChange` |
-[`@MnOnProcessStatusChange`](../api-reference/functions/MnOnProcessStatusChange.md) | BPF status is changed. | Record | No | `onProcessStatusChange` |
-[`@MnOnStageChange`](../api-reference/functions/MnOnStageChange.md) | Stage of BPF is changed. | Record | No | `onStageChange` |
-[`@MnOnStageSelected`](../api-reference/functions/MnOnStageSelected.md) | Stage of BPF is selected. | Record | No | `onStageSelected` |
-[`@MnOnTabStateChange`](../api-reference/functions/MnOnTabStateChange.md) | Tab state is changed. | Record | No | `onTabStateChange` |
+[`@MnOnPreProcessStatusChange`](../api-reference/functions/MnOnPreProcessStatusChange.md) | BPF status is about to change. | Record | No | - |
+[`@MnOnPreSearch`](../api-reference/functions/MnOnPreSearch.md) | Search on a lookup is about to be executed. | Record | No | - |
+[`@MnOnPreStageChange`](../api-reference/functions/MnOnPreStageChange.md) | Stage of BPF is about to change. | Record | No | - |
+[`@MnOnProcessStatusChange`](../api-reference/functions/MnOnProcessStatusChange.md) | BPF status is changed. | Record | No | - |
+[`@MnOnStageChange`](../api-reference/functions/MnOnStageChange.md) | Stage of BPF is changed. | Record | No | - |
+[`@MnOnStageSelected`](../api-reference/functions/MnOnStageSelected.md) | Stage of BPF is selected. | Record | No | - |
+[`@MnOnTabStateChange`](../api-reference/functions/MnOnTabStateChange.md) | Tab state is changed. | Record | No | - |
