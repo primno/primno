@@ -20,7 +20,7 @@ In this guide, we will use Visual Studio Code.
 
 You must have a Power Apps or a Dynamics 365 CE environment and a user with administrator or customizer role.
 
-:::info
+:::tip
 You can use the [free trial](https://powerapps.microsoft.com/en-us/pricing/) of Power Apps to test Primno.
 :::
 

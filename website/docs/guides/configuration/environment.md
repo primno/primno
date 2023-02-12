@@ -44,7 +44,7 @@ To learn more about connection string, see:
 - [Dataverse connection string](https://learn.microsoft.com/en-us/power-apps/developer/data-platform/xrm-tooling/use-connection-strings-xrm-tooling-connect).
 - [Dynamics 365 (on-premise) connection string](https://learn.microsoft.com/en-us/dynamics365/customerengagement/on-premises/developer/xrm-tooling/use-connection-strings-xrm-tooling-connect?view=op-9-1).
 
-:::info
+:::tip
 A easy way to get a connection string is to use the [XrmToolBox](https://www.xrmtoolbox.com/) tool.
 
 Create a new connection by the wizard and copy the connection string though the `Show the connection string of this connection` button.

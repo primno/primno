@@ -15,7 +15,7 @@ To link the project to a Power Apps environnement, you need to configure the env
 
 Primno uses a dataverse [connection string](https://learn.microsoft.com/en-us/power-apps/developer/data-platform/xrm-tooling/use-connection-strings-xrm-tooling-connect) to connect to the environment.
 
-:::info
+:::tip
 A easy way to get a connection string is to use the [XrmToolBox](https://www.xrmtoolbox.com/) tool.
 :::
 
@@ -98,7 +98,7 @@ Ensure to check the `Pass execution context as first parameter` checkbox.
 Below is an example of on load event handler added to an `account` form.
 ![Customization of account form](/img/getting-started/account-onload-customization.png)
 
-:::info
+:::tip
 Running the command `mn deploy` show the function name to call.
 :::
 

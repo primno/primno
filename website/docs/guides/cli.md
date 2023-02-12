@@ -44,7 +44,7 @@ This command deploy a special version of Primno that will load the entry points 
 
 The loading of entry points is done by starting a local web server. The port of the web server is 12357 by default.
 
-:::info
+:::important
 If you use the self-signed certificate (enabled by default), you will need to accept it in your browser.
 :::
 
