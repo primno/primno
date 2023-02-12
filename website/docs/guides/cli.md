@@ -60,7 +60,9 @@ The `entry point` is the name of the entry point that you want build. If not spe
 
 #### Options
 
-- `--production` or `-p`: Build the project in production mode. It will minify the bundle and remove the source map.
+| Option | Alias | Description |
+| --- | --- | --- |
+| `--production` | `-p` | Build the project in production mode. It will minify the bundle and remove the source map. |
 
 ### watch
 
@@ -86,7 +88,9 @@ mn deploy [options]
 
 #### Options
 
-- `--production` or `-p`: Deploy the project in production mode. It will minify the bundle and remove the source map.
+| Option | Alias | Description |
+| --- | --- | --- |
+| `--production` | `-p` | Deploy the project in production mode. It will minify the bundle and remove the source map. |
 
 ### help
 
