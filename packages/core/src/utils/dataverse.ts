@@ -57,8 +57,8 @@ export function getPageEntityName() {
  */
 export function getPageType(): PageType {
     switch (Xrm.Utility.getPageContext().input.pageType) {
-        case "entitylist": return PageType.list;
-        case "entityrecord": return PageType.record
+        case "entitylist": return "list";
+        case "entityrecord": return "record"
         default: throw new Error("Unknown page type");
     }
 }

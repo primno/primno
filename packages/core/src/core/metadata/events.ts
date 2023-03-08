@@ -41,7 +41,7 @@ function makeEventDecorator(eventConfig: EventConfig) {
  * ```ts
  * @MnComponent({
  *    scope: {
- *      pageType: PageType.record,
+ *      pageType: "record",
  *      entityName: "contact"
  * })
  * export class PhoneCallComponent {
@@ -79,7 +79,7 @@ export function MnOnCommandInvoke(commandName: ValueOrConfigPropertyMapper<strin
  * ```ts
  * @MnComponent({
  *   scope: {
- *    pageType: PageType.record,
+ *    pageType: "record",
  *   entityName: "account"
  * })
  * export class MyComponent {
@@ -113,7 +113,7 @@ export function MnOnDataLoad() {
  * ```ts
  * @MnComponent({
  *  scope: {
- *   pageType: PageType.record,
+ *   pageType: "record",
  *  entityName: "contact"
  * })
  * export class PhoneCallComponent {
@@ -149,7 +149,7 @@ export function MnOnEnableRule(name: ValueOrConfigPropertyMapper<string>) {
  * ```ts
  * @MnComponent({
  *  scope: {
- *     pageType: PageType.record,
+ *     pageType: "record",
  *     entityName: "contact"
  * })
  * export class MyComponent {
@@ -184,7 +184,7 @@ export function MnOnColumnChange(columnName: ValueOrConfigPropertyMapper<string>
  * ```ts
  * @MnComponent({
  *    scope: {
- *       pageType: PageType.record,
+ *       pageType: "record",
  *       entityName: "account"
  *   }
  * })
@@ -217,7 +217,7 @@ export function MnOnFormLoad() {
  * ```ts
  * @MnComponent({
  *   scope: {
- *    pageType: PageType.record,
+ *    pageType: "record",
  *    entityName: "account"
  * })
  * export class NotifyGridLoadedComponent {
@@ -260,7 +260,7 @@ export function MnOnIframeLoaded(controlName: ValueOrConfigPropertyMapper<string
  * ```ts
  * @MnComponent({
  *   scope: {
- *    pageType: PageType.record,
+ *    pageType: "record",
  *    entityName: "account"
  * })
  * export class PreventSaveOfContactStartingWithAComponent {
@@ -320,7 +320,7 @@ export function MnOnPopulateQuery(name: ValueOrConfigPropertyMapper<string>) {
  * ```ts
  * @MnComponent({
  *  scope: {
- *   pageType: PageType.record,
+ *   pageType: "record",
  *   entityName: "opportunity"
  * })
  * export class ConfirmBPFTerminationComponent {
@@ -362,7 +362,7 @@ export function MnOnPreProcessStatusChange() {
  * ```ts
  * @MnComponent({
  *    scope: {
- *       pageType: PageType.record
+ *       pageType: "record"
  *   }
  * })
  * export class AccountOnlyInCustomerLookupComponent {
@@ -410,7 +410,7 @@ export function MnOnPreSearch(controlName: ValueOrConfigPropertyMapper<string>) 
  * ```ts
  * @MnComponent({
  *    scope: {
- *       pageType: PageType.record,
+ *       pageType: "record",
  *       entityName: "opportunity"
  * })
  * export class ConfirmBPFStageChangeComponent {
@@ -450,7 +450,7 @@ export function MnOnPreStageChange() {
  * ```ts
  * @MnComponent({
  *   scope: {
- *     pageType: PageType.record,
+ *     pageType: "record",
  *     entityName: "opportunity"
  *   }
  * })
@@ -489,7 +489,7 @@ export function MnOnProcessStatusChange() {
  * ```ts
  * @MnComponent({
  *    scope: {
- *     pageType: PageType.record
+ *     pageType: "record"
  *    }
  * })
  * export class PreventAutoSaveComponent {
@@ -524,7 +524,7 @@ export function MnOnSave() {
  * ```ts
  * @MnComponent({
  *    scope: {
- *       pageType: PageType.record,
+ *       pageType: "record",
  *       entityName: "opportunity"
  * })
  * export class NotifyOnBPFStageChangeComponent {
@@ -555,7 +555,7 @@ export function MnOnStageChange() {
  * ```ts
  * @MnComponent({
  *    scope: {
- *       pageType: PageType.record,
+ *       pageType: "record",
  *       entityName: "opportunity"
  *    }
  * })
@@ -591,7 +591,7 @@ export function MnOnStageSelected() {
  * ```ts
  * @MnComponent({
  *    scope: {
- *       pageType: PageType.record,
+ *       pageType: "record",
  *       entityName: "contact"
  *    }
  * })

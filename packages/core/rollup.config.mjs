@@ -59,6 +59,7 @@ export default [
         onwarn,
         output: { format: 'cjs', file: pkg.main, sourcemap },
     },
+    // TODO: Try to remove this
     // Public API (dts)
     {
         input: 'build/primno-api.d.ts',

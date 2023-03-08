@@ -43,19 +43,19 @@ export abstract class CmdBarEventType implements EventType {
 
 export class CommandInvokeEventType extends CmdBarEventType {
     constructor(){
-        super(EventTypes.CommandInvoke, [PageType.record, PageType.list], true);
+        super(EventTypes.CommandInvoke, ["record", "list"], true);
     }
 }
 
 export class EnableRuleEventType extends CmdBarEventType {
     constructor(){
-        super(EventTypes.EnableRule, [PageType.record, PageType.list], true);
+        super(EventTypes.EnableRule, ["record", "list"], true);
     }
 }
 
 export class PopulateQueryEventType extends CmdBarEventType {
     constructor() {
-        super(EventTypes.PopulateQuery, [PageType.record, PageType.list], true);
+        super(EventTypes.PopulateQuery, ["record", "list"], true);
     }
 
     public createEventArg(extArgs: ExternalArgs): EventArg {

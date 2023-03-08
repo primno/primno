@@ -44,7 +44,7 @@ Example:
 ```ts
 @MnComponent({
     scope: {
-        pageType: PageType.Record,
+        pageType: "record",
         table: 'account'
     }
 })

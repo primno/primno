@@ -20,7 +20,7 @@ import { MetadataDecoratorHelper } from "../reflection/decorator-helper";
  * ```ts
  * @MnComponent({
  *   scope: {
- *    pageType: PageType.record
+ *    pageType: "record"
  *  }
  * })
  * export class MyComponent implements Config {
@@ -39,7 +39,7 @@ import { MetadataDecoratorHelper } from "../reflection/decorator-helper";
  * ```ts
  * @MnComponent({
  *    scope: {
- *       pageType: PageType.record
+ *       pageType: "record"
  *    }
  * })
  * export class MyComponent implements Input, Config {

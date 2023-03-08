@@ -2,10 +2,7 @@
  * Page type.
  * @category Component
  */
-export enum PageType { 
-    record = "record",
-    list = "list"
-}
+export type PageType = "record" | "list";
 
 /**
  * App scope configuration.
@@ -42,7 +39,7 @@ interface ScopeBase {
  * @category Component
  */
 export interface RecordScope extends ScopeBase {
-    pageType: PageType.record;
+    pageType: "record";
     form?: FormScopeConfig;
 }
 
@@ -51,7 +48,7 @@ export interface RecordScope extends ScopeBase {
  * @category Component
  */
 export interface ListScope extends ScopeBase {
-    pageType: PageType.list;
+    pageType: "list";
 }
 
 /**

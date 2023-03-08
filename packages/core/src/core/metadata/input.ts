@@ -14,7 +14,7 @@ import { Inject } from "../di/inject";
  * ```ts
  * @MnComponent({
  *    scope: {
- *       pageType: PageType.record
+ *       pageType: "record"
  *    }
  * })
  * class ParentComponent {
@@ -30,7 +30,7 @@ import { Inject } from "../di/inject";
  * 
  * @MnComponent({
  *    scope: {
- *       pageType: PageType.record
+ *       pageType: "record"
  *    }
  * })
  * class ChildComponent implements Input {

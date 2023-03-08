@@ -8,7 +8,7 @@ import { optional } from "inversify";
  * ```ts
  * @MnComponent({
  *    scope: {
- *       pageType: PageType.record
+ *       pageType: "record"
  *    }
  * })
  * export class MyComponent {

@@ -14,7 +14,7 @@ import { injectable } from "inversify";
  * 
  * @MnComponent({
  *    scope: {
- *       pageType: PageType.record
+ *       pageType: "record"
  *    }
  * })
  * export class MyComponent {

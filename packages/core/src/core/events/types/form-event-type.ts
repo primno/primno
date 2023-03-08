@@ -6,7 +6,7 @@ export abstract class FormEventType<TEventArg extends FormEventArg = FormEventAr
 
     constructor(name: string, controlNameRequired: boolean) {
         this.name = name;
-        this.supportedPageType = [PageType.record];
+        this.supportedPageType = ["record"];
         this.controlNameRequired = controlNameRequired;
         this.subscribable = true;
     }

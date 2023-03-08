@@ -43,7 +43,7 @@ import { MnComponent, PageType } from '@primno/core';
 @MnComponent({
     scope: {
         // This component will be available only in the forms pages of the contact table.
-        pageType: PageType.record,
+        pageType: "record",
         table: 'contact'
     }
 })
@@ -60,7 +60,7 @@ import { MnComponent, MnOnLoad, MnOnColumnChange, FormEventArgs, PageType } from
 
 @MnComponent({
     scope: {
-        pageType: PageType.record,
+        pageType: "record",
         table: 'contact'
     }
 })
@@ -100,7 +100,7 @@ export class MyService {
 
 @MnComponent({
     scope: {
-        pageType: PageType.record
+        pageType: "record"
     }
 })
 export class MyComponent {

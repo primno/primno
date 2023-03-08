@@ -49,7 +49,7 @@ export type SubComponentConfig<T extends ComponentConstructor = ComponentConstru
  * ```ts
  * @MnComponent({
  *    scope: {
- *       pageType: PageType.record,
+ *       pageType: "record",
  *    }
  * })
  * export class PhoneCallComponent implements Input, Config {
@@ -75,7 +75,7 @@ export type SubComponentConfig<T extends ComponentConstructor = ComponentConstru
  * 
  * @MnComponent({
  *    scope: {
- *       pageType: PageType.record,
+ *       pageType: "record",
  *       entityName: "contact"
  *    }
  * })
@@ -104,7 +104,7 @@ export type SubComponentConfig<T extends ComponentConstructor = ComponentConstru
  * ```ts
  * @MnComponent({
  *    scope: {
- *       pageType: PageType.record
+ *       pageType: "record"
  *    }
  * })
  * class ParentComponent implements Config {
@@ -126,7 +126,7 @@ export type SubComponentConfig<T extends ComponentConstructor = ComponentConstru
  * 
  * @MnComponent({
  *    scope: {
- *       pageType: PageType.record
+ *       pageType: "record"
  *    }
  * })
  * class ChildComponent implements Input {

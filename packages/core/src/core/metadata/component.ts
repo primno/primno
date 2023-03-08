@@ -32,7 +32,7 @@ export interface ComponentConfigInternal extends ComponentConfig {
  * ```ts
  * @MnComponent({
  *   scope: {
- *    pageType: PageType.record,
+ *    pageType: "record",
  *    table: "contact"
  *  }
  * })
@@ -42,7 +42,7 @@ export interface ComponentConfigInternal extends ComponentConfig {
  * ```ts
  * @MnComponent({
  *   scope: {
- *     pageType: PageType.record,
+ *     pageType: "record",
  *     table: "account",
  *     form: {
  *       id: "00000000-0000-0000-0000-000000000000"
@@ -58,14 +58,14 @@ export interface ComponentConfigInternal extends ComponentConfig {
  * 
  * @MnComponent({
  *   scope: {
- *     pageType: PageType.record,
+ *     pageType: "record",
  *     table: "account"
  *   },
  *   providers: [{ provide: "accountService", useClass: AccountService }]
  * })
  * export class AccountComponent { }
  * ```
- * For more information, see [depency injection](/docs/guides/dependency-injection)
+ * For more information, see [dependency injection](/docs/guides/dependency-injection)
  */
 export function MnComponent<T extends Constructor>(config: ComponentConfig) {
     return function (target: T) {
