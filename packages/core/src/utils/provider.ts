@@ -7,8 +7,8 @@ import { ProviderConfig } from "../core/metadata/provider";
  * @returns 
  */
 export function getBindFromProvider(providerConfig: ProviderConfig): Bind {
-    if (providerConfig.provide != null) {
-        if (providerConfig.useFactory != null) {
+    if ("provide" in providerConfig) {
+        if ("useFactory" in providerConfig) {
             return {
                 type: "factory",
                 token: providerConfig.provide,
@@ -16,7 +16,7 @@ export function getBindFromProvider(providerConfig: ProviderConfig): Bind {
             };
         }
 
-        if (providerConfig.useClass != null) {
+        if ("useClass" in providerConfig) {
             return {
                 type: "class",
                 token: providerConfig.provide,
@@ -24,21 +24,20 @@ export function getBindFromProvider(providerConfig: ProviderConfig): Bind {
             };
         }
 
-        if (providerConfig.useValue != null) {
+        if ("useValue" in providerConfig) {
             return {
                 type: "value",
                 token: providerConfig.provide,
-                use: providerConfig.useClass
+                use: providerConfig.useValue
             };
         }
 
         throw new Error("Invalid provider");
     }
-    else {
-        return {
-            type: "class",
-            token: providerConfig,
-            use: providerConfig
-        };
-    }
+    
+    return {
+        type: "class",
+        token: providerConfig,
+        use: providerConfig
+    };
 }

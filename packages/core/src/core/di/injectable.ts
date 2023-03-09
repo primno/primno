@@ -1,7 +1,7 @@
 import { injectable } from "inversify";
 
 /**
- * Decorator that marks a class providable as a depencency.
+ * Decorator that marks a class providable as a dependency.
  * 
  * @example Mark `MyService` as a dependency.
  * ```ts

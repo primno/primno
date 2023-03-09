@@ -40,10 +40,15 @@ export interface FactoryProvider {
 }
 
 /**
+ * Type of a class to provide.
+ */
+export type TypeProvider = Constructor;
+
+/**
  * Type of the `providers` array in {@link ModuleConfig} or {@link ComponentConfig}.
  * @category Dependency Injection
  */
-export type ProviderConfig = ClassProvider | ValueProvider | FactoryProvider | any;
+export type ProviderConfig = TypeProvider | ClassProvider | ValueProvider | FactoryProvider;
 
 /**
  * Interface for the `providers` array in {@link ModuleConfig} or {@link ComponentConfig}.
