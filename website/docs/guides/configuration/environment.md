@@ -75,6 +75,10 @@ If you don't want to authenticate each time you run the CLI, you must enable per
 
 The token is stored encrypted in the file and will be used for the next authentication.
 
+:::tip
+If you switch between environments, but use the same account, set the same `UserName` and `TokenCacheStorePath` properties to connect without re-authentication.
+:::
+
 ### Register an application
 
 #### Dataverse
