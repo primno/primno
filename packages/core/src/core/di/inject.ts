@@ -1,7 +1,7 @@
 import { inject } from "inversify";
 
 /**
- * Decorator on a dependency that specifies the identifier for that depencency.
+ * Decorator on a dependency that specifies the identifier for that dependency.
  * 
  * @example Inject `MyService` into `MyComponent` using the identifier (token) "ServiceIdentifier".
  * ```ts

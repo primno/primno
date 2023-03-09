@@ -13,12 +13,17 @@ import { injectable } from "inversify";
  * }
  * 
  * @MnComponent({
- *    scope: {
- *       pageType: "record"
- *    }
+ *   scope: {
+ *     pageType: "record"
+ *     },
+ *     providers: [
+ *       MyService
+ *   ]
  * })
  * export class MyComponent {
- *    myService: MyService;
+ *   constructor(myService: MyService) {
+ *     myService.doSomething();
+ *   }
  * }
  * 
  * ```

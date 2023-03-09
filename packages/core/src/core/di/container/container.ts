@@ -4,9 +4,24 @@ import { isComponent } from "../../metadata/helper";
 import { Bind } from "./bind";
 
 export interface Middleware {
+    /**
+     * If true, the middleware will be inherited by child containers.
+     */
     inherit: boolean;
+
+    /**
+     * Called before the construction of an instance.
+     */
     onPreConstruct(identifier: any, key?: string | symbol | number): void;
+
+    /**
+     * Called after the construction of an instance.
+     */
     onPostConstruct(instance: unknown, container: Container): unknown;
+
+    /**
+     * Called when an error is thrown during the construction of an instance.
+     */
     onError(errorMsg: string): void;
 }
 

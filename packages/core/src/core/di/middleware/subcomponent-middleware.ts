@@ -8,7 +8,7 @@ import { Container, Middleware } from "../container/container";
 
 /**
  * Create the ComponentActivator for each sub components of a component.
- * Prepare the subcomponent to be enabled/disabled with his container.
+ * Prepare the sub-component to be enabled/disabled with his container.
  */
 export class SubComponentMiddleware implements Middleware {
     get inherit(): boolean {
@@ -31,7 +31,7 @@ export class SubComponentMiddleware implements Middleware {
         const componentBrowser = new ComponentBrowser(instance, instance.input);
         componentBrowser.subComponents
             .forEach(c => {
-                verbose(`Subcomponent ${c.name} find in ${componentBrowser.name} for ${c.keyName} property.`);
+                verbose(`Sub-component ${c.name} find in ${componentBrowser.name} for ${c.keyName} property.`);
 
                 const componentActivator = new ComponentActivator(
                     c.componentType as ComponentConstructor,

@@ -1,10 +1,10 @@
 import { optional } from "inversify";
 
 /**
- * Decorator that marks an optionnal depencency.
+ * Decorator that marks an optional dependency.
  * Null will be injected if the dependency is not found.
  * 
- * @example Mark `MyService` as an optionnal dependency.
+ * @example Mark `MyService` as an optional dependency.
  * ```ts
  * @MnComponent({
  *    scope: {
