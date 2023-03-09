@@ -39,6 +39,10 @@ A target can be a column, control or command name. For example, `MnOnColumnChang
 
 The target is specified in the decorator as a string argument or function that returns a string from the component configuration. See [Component configuration](./components#configuration).
 
+:::tip
+Use the `ConfigOf` type to get the type of the configuration of a component.
+:::
+
 Example:
 
 ```ts

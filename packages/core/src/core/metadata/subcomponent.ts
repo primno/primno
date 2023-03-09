@@ -100,7 +100,7 @@ export type SubComponentConfig<T extends ComponentConstructor = ComponentConstru
  * }
  * ```
  * @example Transmits the input from the parent component to the sub component.
- * Uses {@link ConfigOf} to get the type of the parent component configuration during transmition.
+ * Uses {@link ConfigOf} to get the type of the parent component configuration during transmission.
  * ```ts
  * @MnComponent({
  *    scope: {
