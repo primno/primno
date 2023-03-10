@@ -1,15 +1,14 @@
 # Components
 
 Components are the key concept in Primno, they are the building blocks of an application.
-
 Each component is a independent unit of code that provide a specific functionality.
 
-They can be [composed](#sub-component) of other components and reused, like Lego blocks.
+They can be [composed](#sub-component) of other components and reused, like Lego blocks. They can be packaged in [modules](modules.md) to improve application structure and be shared between projects.
 
 Components can subscribe to [events](#events) emitted by Power Apps to perform wanted actions.
 
 In Primno, a component is a class using the [`@MnComponent`](../api-reference/functions/MnComponent) decorator.
-The `@MnComponent` decorator provides metadata that Primno use to know where the component can be used and how to instantiate it.
+This decorator provides metadata that Primno use to know where the component can be used and how to instantiate it.
 
 ```ts title="Example of a component"
 @MnComponent({
@@ -46,7 +45,7 @@ They are 2 types of scope:
 Each page type have its own component tree.
 You can't compose a component with a `record` scope in a component with a `list` scope, and vice versa.
 
-To use both in the same web resource, you need to create 2 components, one for each page type and add them as bootstrap components in the root [module](#module). See [getting started](../getting-started) for an example.
+To use both in the same web resource, you need to create 2 components, one for each page type and add them as bootstrap components in the root [module](modules). See [getting started](../getting-started) for an example.
 
 ### Record
 

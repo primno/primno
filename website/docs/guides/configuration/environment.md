@@ -63,11 +63,11 @@ To authenticate though OAuth, you must [register an application](#register-an-ap
 
 The OAuth flow is determined by the parameters of the connection string.
 
-| Parameters | Flow | Description |
-|-----------|--------|-------------|
-| `UserName` and `Password` | User password | Authenticate with a user name and a password. |
-| `ClientId` and `ClientSecret` | Client credential | Authenticate as a service principal, not a user. |
-| `UserName` only | Device code | Authenticate by a url and a code. |
+| Parameters | Flow | MFA support | Description |
+|-----------|--------|-----|-------------|
+| `UserName` and `Password` | User password | No | Authenticate with a user name and a password. |
+| `ClientId` and `ClientSecret` | Client credential | NC | Authenticate as a service principal, not a user. |
+| `UserName` only | Device code | Yes | Authenticate by a url and a code. |
 
 ### Token cache
 
@@ -92,7 +92,7 @@ Sandboxes provides a pre-registered application that will be used if you don't s
 
 #### On-premises
 
-In on-premises environment, you must have a CBA (Claim-Based Authentication) configured or a [IFD (Internet Facing Deployment)](https://learn.microsoft.com/en-us/dynamics365/customerengagement/on-premises/deploy/configure-ifd-for-dynamics-365?view=op-9-1) configured by using ADFS 2019+ with [OAuth 2.0 support enabled](https://learn.microsoft.com/en-us/dynamics365/customerengagement/on-premises/deploy/update-deployment-configuration-settings?view=op-9-1#oauthclaimssettings).
+In on-premises environment, you must have set CBA (Claim-Based Authentication) configured or [IFD (Internet Facing Deployment)](https://learn.microsoft.com/en-us/dynamics365/customerengagement/on-premises/deploy/configure-ifd-for-dynamics-365?view=op-9-1) by using ADFS 2019+ with [OAuth 2.0 support enabled](https://learn.microsoft.com/en-us/dynamics365/customerengagement/on-premises/deploy/update-deployment-configuration-settings?view=op-9-1#oauthclaimssettings).
 
 To register an application in ADFS, see [Add-AdfsClient](https://learn.microsoft.com/en-us/powershell/module/adfs/add-adfsclient?view=windowsserver2022-ps) and [Grant-AdfsApplicationPermission](https://learn.microsoft.com/en-us/powershell/module/adfs/grant-adfsapplicationpermission?view=windowsserver2022-ps) PowerShell commands.
 

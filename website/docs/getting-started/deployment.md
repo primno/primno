@@ -9,28 +9,26 @@ In this part, we will deploy the project to a Power Apps environment.
 
 ## Configuration
 
+Before deploying the project, you need to configure it to link it to your environment and solution.
+
 ### Environment
 
-To link the project to a Power Apps environnement, you need to configure the environment in the `primno.env.json` file.
+To link the project to your environnement, you need to modify the `primno.env.json` file at the root of the project.
 
 Primno uses a dataverse [connection string](https://learn.microsoft.com/en-us/power-apps/developer/data-platform/xrm-tooling/use-connection-strings-xrm-tooling-connect) to connect to the environment.
 
-:::tip
-A easy way to get a connection string is to use the [XrmToolBox](https://www.xrmtoolbox.com/) tool.
-:::
-
-To learn more about supported connection string, see [Connection string](/docs/guides/configuration/environment#connection-string) page.
-
-Example of primno.env.json file:
+If you are using an online sandbox environment, you can quickly setup your `primno.env.json` by using the following. Replace the `Username` and `Url` with your own values. It will use `device code` OAuth flow that will ask you to login in a browser.
 
 ```json title="primno.env.json"
 [
     {
         "name": "dev",
-        "connectionString": "AuthType=OAuth;Username=jsmith@contoso.onmicrosoft.com;Password=passcode;Url=https://contosotest.crm.dynamics.com;AppId=51f81489-12ee-4a9e-aaae-a2591f45987d;RedirectUri=app://58145B91-0C36-4500-8554-080854F2AC97;"
+        "connectionString": "AuthType=OAuth;Username=jsmith@contoso.onmicrosoft.com;Url=https://contosotest.crm.dynamics.com;TokenCacheStorePath=./cache/token.json"
     }
 ]
 ```
+
+If you are using an other environment type, or if you want to use a different authentication method, see [connection string](/docs/guides/configuration/environment#connection-string) page for more information.
 
 ### Solution
 

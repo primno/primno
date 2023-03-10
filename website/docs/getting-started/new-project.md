@@ -42,7 +42,7 @@ myproject
 │   │   ├── account # Account component and its sub-components
 │   │   │   ├── account.component.ts # Component that runs when on account form
 │   │   │   └── notify-column-change.component.ts # Sub-component of AccountComponent
-│   │   └── record.module.ts # Main module of the components tree of page type "list"
+│   │   └── record.module.ts # Main module of the components tree of page type "record"
 │   └── entry-point # Entry points for Power Apps (JS web-resources)
 │       └── main.ts # Main entry point with its main module. Load list and record modules
 ├── package.json
