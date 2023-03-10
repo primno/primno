@@ -7,17 +7,21 @@ They can be [composed](#sub-component) of other components and reused, like Lego
 
 Components can subscribe to [events](#events) emitted by Power Apps to perform wanted actions.
 
+When you create a component, you must add it to a [module](modules) to be able to use it.
+
+## Metadata
+
 In Primno, a component is a class using the [`@MnComponent`](../api-reference/functions/MnComponent) decorator.
 This decorator provides metadata that Primno use to know where the component can be used and how to instantiate it.
 
-```ts title="Example of a component"
+```ts title="Simple account component"
 @MnComponent({
     scope: {
-        pageType: "record",
-        table: 'account'
+        pageType: "record", // Available in form records
+        table: 'account' // Available in the account table
     }
 })
-export class MyComponent {
+export class AccountComponent {
     // ...
 }
 ```
@@ -29,7 +33,7 @@ export class MyComponent {
 | `scope` | Where the component can be used. See [Scope](#scope). |
 | `providers` | Providers that will be instantiated by the injector. See [Providers](#providers). |
 
-## Scope
+### Scope
 
 The scope defines where a component can be run.
 
@@ -47,7 +51,7 @@ You can't compose a component with a `record` scope in a component with a `list`
 
 To use both in the same web resource, you need to create 2 components, one for each page type and add them as bootstrap components in the root [module](modules). See [getting started](../getting-started) for an example.
 
-### Record
+#### Record
 
 Below is the list of the available properties for a component with a `record` scope.
 
@@ -61,7 +65,7 @@ To learn more, see [RecordScope](../api-reference/interfaces/RecordScope).
 | `app` | Application object with the `id` property. | `{ id: '00000000-0000-0000-0000-000000000000' }` |
 | `form` | The form object with the `id` property. | `{ id: '00000000-0000-0000-0000-000000000000' }` |
 
-```ts title="Example of a component with a Record scope"
+```ts title="Component with a record scope"
 @MnComponent({
     scope: {
         pageType: "record",
@@ -79,7 +83,7 @@ export class MyComponent {
 }
 ```
 
-### List
+#### List
 
 Below is the list of the available properties for a component with a List scope.
 
@@ -92,7 +96,7 @@ To learn more, see [ListScope](../api-reference/interfaces/ListScope).
 | `table` | Table(s) name(s). | `account` or `['account', 'contact']` |
 | `app` | Application object with the `id` property. | `{ id: '00000000-0000-0000-0000-000000000000' }` |
 
-## Providers
+### Providers
 
 A component can have his own providers.
 When providers are defined in a component, they are instantiated by the injector and are available only in this component and his sub-components.
@@ -101,7 +105,7 @@ If an associated or parent module defines the same providers, then the one of th
 
 To learn more about providers, see [Dependency injection](dependency-injection).
 
-```ts title="Example of a component with providers"
+```ts title="Component with providers"
 export abstract class CatService {
     abstract meow(): void;
 }
@@ -148,7 +152,7 @@ Input is data that is passed to a component by its parent component. See [sub-co
 The associated property **must be** named `input`. It is recommended to inherit from the `Input` interface.
 :::
 
-```ts title="Example of an input that requires a name"
+```ts title="Input that requires a name"
 @MnComponent(/* ... */)
 export class MyComponent implements Input {
     @MnInput()
@@ -189,7 +193,7 @@ export class MyComponent implements Config {
 
 The value can be set by the component itself:
 
-```ts title="Example of a self-configured component"
+```ts title="Self-configured component"
 @MnComponent(/* ... */)
 export class MyComponent implements Config {
     @MnConfig({
@@ -212,7 +216,7 @@ Add the generic type to the decorator to have the input type in the callback.
 ```
 :::
 
-```ts title="Example of an input-configured component"
+```ts title="Input-configured component"
 @MnComponent(/* ... */)
 export class MyComponent implements Input, Config {
     @MnInput()
@@ -231,7 +235,7 @@ export class MyComponent implements Input, Config {
 
 Configuration can also be partially set by the input.
 
-```ts title="Example of a partially input-configured component"
+```ts title="Partially input-configured component"
 @MnComponent(/* ... */)
 export class MyComponent implements Input, Config {
     @MnInput()
@@ -256,7 +260,7 @@ A component can listen to events emitted by Power Apps with decorators prefixed 
 
 For example, a component can listen to the `onload` event to perform an action when the component is loaded.
 
-```ts title="Example of an onload event"
+```ts title="Component that subscribe to onload event"
 @MnComponent(/* ... */)
 export class MyComponent {
     @MnOnFormLoad()
@@ -276,7 +280,7 @@ It is the way to build complex applications with small and reusable components.
 [`MnSubComponent`](../api-reference/functions/MnSubComponent) decorator is used to a property of a component to add a sub-component.
 The associated property must be of type `SubComponent`.
 
-```ts title="Example of a sub-component"
+```ts title="Parent and child components"
 @MnComponent(/* ... */)
 class ChildComponent {
     // ...
@@ -294,7 +298,16 @@ export class ParentComponent {
 ### Enable / Disable
 
 A sub-component can be enabled or disabled using the `enable()` and `disable()` method of `SubComponent`.
-By default, a sub-component is enabled.
+
+By default, a sub-component is enabled. You can change the default behavior by setting the `enabled` property of the decorator.
+
+```ts title="Disable a sub-component by default"
+@MnSubComponent({
+    component: ChildComponent,
+    enabled: false
+})
+mySubComponent: SubComponent<ChildComponent>;
+```
 
 #### Enable
 
@@ -324,7 +337,7 @@ When a component is deactivated it is destroyed and the subscribed [events](even
 
 A sub-component can receive data from its parent component.
 
-```ts title="Example of a sub-component with static transmission"
+```ts title="Sub-component with static transmission"
 @MnComponent(/* ... */)
 class ChildComponent {
     @MnInput()
@@ -351,7 +364,7 @@ This data can be set from the parent component configuration with a callback.
 Use the [`ConfigOf`](../api-reference/types/ConfigOf.md) type to get the configuration type of a component.
 :::
 
-```ts title="Example of transmission from config"
+```ts title="Transmission from config"
 @MnComponent(/* ... */)
 class ChildComponent implements Config {
     @MnInput()
@@ -376,7 +389,6 @@ export class ParentComponent implements Config {
 }
 ```
 
-
 ## Lifecycle
 
 Primno provides lifecycle hooks to run registered code when they occur.
@@ -388,7 +400,7 @@ Primno provides lifecycle hooks to run registered code when they occur.
 
 Example:
 
-```ts title="Example of a component with onInit and onDestroy lifecycle"
+```ts title="Component with onInit and onDestroy lifecycle"
 @MnComponent(/* ... */)
 export class MyComponent implements OnInit, OnDestroy {
     mnOnInit(): void {

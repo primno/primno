@@ -40,7 +40,7 @@ A target can be a column, control or command name. For example, `MnOnColumnChang
 The target is specified in the decorator as a string argument or function that returns a string from the component configuration. See [Component configuration](./components#configuration).
 
 :::tip
-Use the `ConfigOf` type to get the type of the configuration of a component.
+Use the [`ConfigOf`](../api-reference/types/ConfigOf.md) type to get the type of the configuration of a component.
 :::
 
 Example:
@@ -152,7 +152,7 @@ This table lists all the events that can be subscribed to with Primno.
 :::
 
 :::tip
-Open the decorator link to see the full documentation of the event.
+Open the decorator link to see the full documentation of the event with usage examples.
 :::
 
 Decorator | Trigger | Type | Manual registration | External function |
