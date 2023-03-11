@@ -1,3 +1,8 @@
+---
+sidebar_position: 2
+description: Building your application with small reusable components.
+---
+
 # Components
 
 Components are the key concept in Primno, they are the building blocks of an application.

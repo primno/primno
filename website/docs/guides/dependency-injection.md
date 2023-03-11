@@ -1,3 +1,8 @@
+---
+sidebar_position: 5
+description: Decouple your code from its dependencies.
+---
+
 # Dependency injection
 
 Dependency injection is a design pattern that allows you to decouple your code from its dependencies. It allow to write more flexible and more easily testable code.

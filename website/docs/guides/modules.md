@@ -1,3 +1,8 @@
+---
+sidebar_position: 3
+description: Organize the structure of your application with modules.
+---
+
 # Modules
 
 Primno provides its modularity system to organize the structure of your application with modules. Modules are containers for a dedicated application domain that can contain components, service providers and related code.

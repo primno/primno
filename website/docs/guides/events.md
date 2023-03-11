@@ -1,4 +1,5 @@
 ---
+sidebar_position: 4
 description: Subscribe to Power Apps events in a component.
 ---
 
