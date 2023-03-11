@@ -1,6 +1,5 @@
 ﻿import { nodeResolve } from '@rollup/plugin-node-resolve';
 import typescript from "@rollup/plugin-typescript";
-import dts from 'rollup-plugin-dts';
 import pkg from './package.json' assert { type: 'json' };
 import path from 'path';
 import { fileURLToPath } from 'url';
@@ -58,15 +57,6 @@ export default [
         external,
         onwarn,
         output: { format: 'cjs', file: pkg.main, sourcemap },
-    },
-    // TODO: Try to remove this
-    // Public API (dts)
-    {
-        input: 'build/primno-api.d.ts',
-        plugins: [dts()],
-        external,
-        onwarn,
-        output: { format: 'cjs', file: pkg.types },
     },
     // Public API (esm)
     {

@@ -6,7 +6,7 @@
   "version": "0.6.0-beta",
   "main": "dist/primno.cjs.js",
   "module": "dist/primno.esm.js",
-  "types": "dist/primno.d.ts",
+  "types": "dist/primno-api.d.ts",
   "typedoc": {
     "entryPoint": "src/primno-api.ts"
   },
@@ -34,7 +34,6 @@
     "nyc": "^15.1.0",
     "reflect-metadata": "^0.1.13",
     "rollup": "^3.19.1",
-    "rollup-plugin-dts": "^5.2.0",
     "@rollup/plugin-terser": "^0.4.0",
     "sinon": "^10.0.0",
     "ts-node": "^10.9.1",
