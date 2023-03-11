@@ -81,11 +81,11 @@ const config = {
     ({
       colorMode: {
         defaultMode: 'dark',
-        respectPrefersColorScheme: false,
+        respectPrefersColorScheme: true,
         disableSwitch: false
       },
 
-      metadata: [{name: 'keywords', content: 'primno, framework, powerapps, model driven, typescript, javascript'}],
+      metadata: [{name: 'keywords', content: 'primno, framework, power-apps, model driven, typescript, javascript'}],
 
       navbar: {
         title: 'Primno',
@@ -144,15 +144,22 @@ const config = {
       // },
 
       footer: {
-        // style: 'dark',
         links: [
           {
             title: 'Docs',
             items: [
               {
-                label: 'Tutorial',
-                to: '/docs/intro',
+                label: 'Getting Started',
+                to: '/docs/getting-started',
               },
+              {
+                label: 'Guides',
+                to: '/docs/guides',
+              },
+              {
+                label: 'API Reference',
+                to: '/docs/api-reference',
+              }
             ],
           },
           {

@@ -17,12 +17,12 @@ export default function HomepageHeader() {
               <p className={clsx(styles.hero_subtitle)}>{siteConfig.tagline}</p>
               <div className={styles.buttons}>
                 <Link
-                  className={clsx("button button--secondary button--lg", styles.button, styles.button_getstarted)}
+                  className={clsx("button button--secondary button--lg", styles.button)}
                   to="/docs/intro">
                   Get started
                 </Link>
                 <Link
-                  className={clsx("button button--secondary button--outline button--lg", styles.button)}
+                  className={clsx("button button--secondary button--outline button--lg", styles.button, styles.buttonLearnMore)}
                   to="/features">
                   Learn more
                 </Link>
