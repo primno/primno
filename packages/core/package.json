@@ -1,0 +1,69 @@
+{
+  "name": "@primno/core",
+  "repository": "github:primno/primno",
+  "author": "Xavier Monin",
+  "description": "Typescript framework for model driven Power Apps (D365).",
+  "version": "0.6.0-beta",
+  "main": "dist/primno.cjs.js",
+  "module": "dist/primno.esm.js",
+  "types": "dist/primno-api.d.ts",
+  "typedoc": {
+    "entryPoint": "src/primno-api.ts"
+  },
+  "dist": {
+    "d365-esm": "dist/primno-d365.esm.js"
+  },
+  "files": [
+    "dist"
+  ],
+  "devDependencies": {
+    "@rollup/plugin-node-resolve": "^15.0.1",
+    "@rollup/plugin-typescript": "^11.0.0",
+    "@types/chai": "^4.3.4",
+    "@types/mocha": "^10.0.1",
+    "@types/node": "^18.11.18",
+    "@types/sinon": "^10.0.13",
+    "@types/xrm": "^9.0.70",
+    "@typescript-eslint/eslint-plugin": "^5.48.2",
+    "@typescript-eslint/parser": "^5.48.2",
+    "chai": "^4.3.4",
+    "eslint": "^8.32.0",
+    "eslint-plugin-security": "^1.6.0",
+    "inversify": "^6.0.1",
+    "mocha": "^10.2.0",
+    "nyc": "^15.1.0",
+    "reflect-metadata": "^0.1.13",
+    "rollup": "^3.19.1",
+    "@rollup/plugin-terser": "^0.4.0",
+    "sinon": "^10.0.0",
+    "ts-node": "^10.9.1",
+    "tslib": "^2.5.0",
+    "typescript": "^4.9.5",
+    "xrm-mock": "^3.5.7"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "scripts": {
+    "lint": "eslint . --ext .ts",
+    "build": "tsc --build & rollup -c",
+    "watch": "rollup -c -w",
+    "test": "nyc mocha -a -r ts-node/register test/**/*.spec.ts"
+  },
+  "keywords": [
+    "primno",
+    "framework",
+    "power apps",
+    "model-driven",
+    "dynamics 365",
+    "dataverse",
+    "component-based architecture",
+    "typescript"
+  ],
+  "license": "MIT",
+  "eslintIgnore": [
+    "build",
+    "dist",
+    "node_modules"
+  ]
+}
