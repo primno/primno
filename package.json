@@ -2,13 +2,14 @@
   "name": "primno",
   "repository": "github:primno/primno",
   "author": "Xavier Monin",
-  "description": "Typescript framework for model driven Power Apps (D365).",
+  "description": "Typescript framework for Model-Driven Apps of Power Apps (D365).",
+  "private": true,
   "workspaces": [
     "website",
     "packages/*"
   ],
   "engines": {
-    "node": ">=14.5.0"
+    "node": ">=16.0.0"
   },
   "license": "MIT"
 }
