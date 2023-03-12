@@ -91,7 +91,7 @@ const config = {
 
       announcementBar: {
         id: 'beta',
-        content: 'Primno is in beta. Please send us your <a target="_blank" href="https://github.com/primno/primno/issues/new">feedback and issues</a>.'
+        content: 'Primno is in beta. Please send us your <a target="_blank" href="https://github.com/primno/primno/issues/new/choose">feedback and issues</a>.'
       },
 
       navbar: {
