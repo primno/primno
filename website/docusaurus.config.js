@@ -89,6 +89,11 @@ const config = {
 
       metadata: [{name: 'keywords', content: 'primno, framework, power-apps, model driven, typescript, javascript'}],
 
+      announcementBar: {
+        id: 'beta',
+        content: 'Primno is in beta. Please send us your <a target="_blank" href="https://github.com/primno/primno/issues/new">feedback and issues</a>.'
+      },
+
       navbar: {
         title: 'Primno',
         logo: {
