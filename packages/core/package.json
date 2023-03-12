@@ -2,8 +2,8 @@
   "name": "@primno/core",
   "repository": "github:primno/primno",
   "author": "Xavier Monin",
-  "description": "Typescript framework for model driven Power Apps (D365).",
-  "version": "0.6.0-beta",
+  "description": "Typescript framework for Model-Driven Apps of Power Apps (D365).",
+  "version": "0.6.0-beta.0",
   "main": "dist/primno.cjs.js",
   "module": "dist/primno.esm.js",
   "types": "dist/primno-api.d.ts",
@@ -42,7 +42,7 @@
     "xrm-mock": "^3.5.7"
   },
   "engines": {
-    "node": ">=18.0.0"
+    "node": ">=16.0.0"
   },
   "scripts": {
     "lint": "eslint . --ext .ts",
@@ -65,5 +65,9 @@
     "build",
     "dist",
     "node_modules"
-  ]
+  ],
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  }
 }
