@@ -1,10 +1,34 @@
 # Primno
 
-Primno is a Typescript framework for Model-Driven Apps of Power Apps / Dynamics 365 that includes:
+[![npm](https://img.shields.io/npm/v/@primno/core.svg)](https://www.npmjs.com/package/@primno/core)
+[![npm](https://img.shields.io/npm/l/@primno/core.svg)](https://github.com/primno/core/blob/main/LICENSE)
 
-- A developer tool to build and deploy your javascript webresources to Power Apps / Dynamics 365
-- A component-based architecture (CBA) for building scalable javascript code.
+Primno is a modern Typescript framework for building faster scalable JavaScript customizations for Model-Driven Apps of Power Apps and Dynamics 365 that provides:
 
-Primno works with the Power Apps, Dynamics 365 Online and Dynamics 365 On-Premises since version 9.0.
+- A developer tool to build, develop and deploy your javascript web-resources to Power Apps / Dynamics 365.
+- A component-based architecture framework for building scalable javascript code.
 
-To learn more about Primno, visit [https://primno.com](https://primno.com).
+> **Important**
+> primno is in beta stage and subject to change.
+
+## Documentation
+
+The documentation can be found on [https://primno.io](https://primno.io).
+
+- [Getting Started](https://primno.io/docs/getting-started)
+- [Guides](https://primno.io/docs/guides)
+- [API Reference](https://primno.io/docs/api-reference)
+
+## Quick Start
+
+Install Primno CLI:
+
+```bash
+npm install -g @primno/cli
+```
+
+Create a new project:
+
+```bash
+mn create my-project
+```
