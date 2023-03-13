@@ -106,7 +106,7 @@ To learn more, see [ListScope](../api-reference/interfaces/ListScope).
 A component can have his own providers.
 When providers are defined in a component, they are instantiated by the injector and are available only in this component and his sub-components.
 
-If an associated or parent module defines the same providers, then the one of the component will be used in priority.
+If the associated [module](modules.md) defines the same providers, then the one of the component will be used in priority.
 
 To learn more about providers, see [Dependency injection](dependency-injection).
 
@@ -263,19 +263,19 @@ export class MyComponent implements Input, Config {
 
 A component can listen to events emitted by Power Apps with decorators prefixed by `MnOn`.
 
-For example, a component can listen to the `onload` event to perform an action when the component is loaded.
+For example, a component can listen to the `onformload` event to perform an action when the form is loaded.
 
 ```ts title="Component that subscribe to onload event"
 @MnComponent(/* ... */)
 export class MyComponent {
     @MnOnFormLoad()
-    onLoad(): void {
-        console.log('My component is loaded!');
+    onFormLoad(): void {
+        console.log('Form is loaded!');
     }
 }
 ```
 
-See the [dedicated section](events) to learn more.
+See [Events](events) to learn more.
 
 ## Sub-component
 

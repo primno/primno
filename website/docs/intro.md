@@ -77,7 +77,7 @@ export class ContactComponent {
 }
 ```
 
-To learn more about components, see [Components](/docs/guides/components).
+To learn more see [Components](/docs/guides/components) and [Events](/docs/guides/events).
 
 ### Dependency injection
 
@@ -85,7 +85,7 @@ Dependency injection system enables a component to utilize a dependency without 
 
 The decorator `Injectable()` marks a class as a dependency that can be injected into a component.
 
-The following example shows how to use the dependency injection system to share a service between components.
+The following example shows how to use the dependency injection system to inject a service into a component.
 
 ```ts
 import { MnComponent, MnInject, Injectable } from '@primno/core';
