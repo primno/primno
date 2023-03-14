@@ -8,7 +8,7 @@ const FeatureList = [
     Svg: require('@site/static/img/features/cba.svg').default,
     description: (
       <>
-        Create components and apply them to your entities (form and grid).
+        Create components and apply them to your tables (form and grid).
       </>
     ),
   },
@@ -26,7 +26,7 @@ const FeatureList = [
     Svg: require('@site/static/img/features/event.svg').default,
     description: (
       <>
-        Set events that you need in your code, they will be automatically subscribed to D365.
+        Register events that you need in your code, they will be automatically subscribed to Power Apps.
       </>
     ),
   },
@@ -35,7 +35,7 @@ const FeatureList = [
     Svg: require('@site/static/img/features/deploy.svg').default,
     description: (
       <>
-        Deploy your project to Dynamics 365 in one command line.
+        Deploy your project to Power Apps in one command line.
       </>
     ),
   },

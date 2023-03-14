@@ -9,8 +9,8 @@ export default function Home() {
 
   return (
     <Layout
-      title={`Typescript framework for model driven apps of Power Apps/Dynamics 365`}
-      description="Primno, a typescript framework for model driven apps of Power Apps / Dynamics 365">
+      title={siteConfig.tagline}
+      description="Front-end framework for Model-Driven Apps of Power Apps and Dynamics 365. Provides a component-based architecture and development tools.">
       <HomepageHeader />
       <main>
         <HomepageFeatures />

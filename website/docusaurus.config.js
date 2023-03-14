@@ -7,12 +7,12 @@ const darkCodeTheme = require('prism-react-renderer/themes/vsDark');
 /** @type {import('@docusaurus/types').Config} */
 const config = {
   title: 'Primno',
-  tagline: 'Typescript framework for Model Driven Apps of Power Apps / Dynamics 365',
+  tagline: 'Front-end framework for Model-Driven Apps of Power Apps and Dynamics 365',
   url: 'https://primno.io',
   baseUrl: '/',
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'throw',
-  favicon: 'img/favicon.svg',
+  favicon: 'img/favicon.png',
 
   // GitHub pages deployment config.
   // If you aren't using GitHub pages, you don't need these.
@@ -87,11 +87,11 @@ const config = {
         disableSwitch: false
       },
 
-      metadata: [{name: 'keywords', content: 'primno, framework, power-apps, model driven, typescript, javascript'}],
+      metadata: [{name: 'keywords', content: 'primno, framework, power-apps, dynamics, d365, model-driven, front-end, typescript, javascript'}],
 
       announcementBar: {
         id: 'beta',
-        content: 'Primno is in beta. Please send your <a target="_blank" href="https://github.com/primno/primno/issues/new/choose">feedback and issues</a>.'
+        content: 'Primno is in beta. Please send your <a target="_blank" rel="noopener" href="https://github.com/primno/primno/issues/new/choose">feedback and issues</a>.'
       },
 
       navbar: {

@@ -101,7 +101,7 @@ Running the command `mn deploy` show the function name to call.
 :::
 
 :::info
-To learn about how to add a event handler function to event, see [Add a event handler](https://learn.microsoft.com/en-us/power-apps/developer/model-driven-apps/clientapi/events-forms-grids?tabs=add-event-handlers-unified-interface) page of Microsoft documentation.
+To learn more about how to add a event handler function to an event, see [Add a event handler](https://learn.microsoft.com/en-us/power-apps/developer/model-driven-apps/clientapi/events-forms-grids?tabs=add-event-handlers-unified-interface) page of Microsoft documentation.
 :::
 
 At this point, you can open a `account` record and see:

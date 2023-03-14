@@ -4,18 +4,24 @@ sidebar_position: 1
 
 # Introduction
 
-Primno is a modern Typescript framework for building faster scalable JavaScript customizations for Model-Driven Apps of Power Apps that provides:
-- A developer tool to build, develop and deploy your javascript web-resources to Power Apps / Dynamics 365.
-- A component-based architecture framework for building scalable javascript code.
+Primno is a development platform for customizing Model-Driven Apps of Power Apps and Dynamics 365 Apps that provides:
+
+- A component-based architecture framework for building scalable Javascript code.
+- A developer tool to build, develop and deploy your Javascript web-resources to Power Apps / Dynamics 365.
 
 Primno works with:
 - [Model-Driven Apps](https://learn.microsoft.com/en-us/power-apps/maker/model-driven-apps/) of Power Apps.
 - Dynamics 365 Apps Online.
 - [Dynamics 365 Customer Engagement](https://learn.microsoft.com/en-us/dynamics365/customerengagement/on-premises/overview?view=op-9-1) (on-premises) since version 9.0.
 
+:::info
+Primno is built on [Typescript](https://www.typescriptlang.org/), a superset of Javascript.
+If you are not familiar with Typescript, you can read this [5 minutes tutorial](https://www.typescriptlang.org/docs/handbook/typescript-in-5-minutes.html) to learn the basics.
+:::
+
 ## Overview
 
-Primno provides a framework to customize Model-Driven Apps by javascript code. The javascript code is deployed as a web-resource and executed by the browser when the user interacts with a form or grid.
+Primno produces javascript code that is deployed as a web resource and executed by the browser when the user interacts with a form or grid.
 
 The framework provides:
 - A component-based architecture to write code in a modular way.
@@ -38,7 +44,7 @@ The scope describes where the component can be run, eg: form, grid, app, table, 
 The following example shows a component that can be executed in all the forms of the contact table.
 
 ```ts
-import { MnComponent, PageType } from '@primno/core';
+import { MnComponent } from '@primno/core';
 
 @MnComponent({
     scope: {
@@ -56,7 +62,7 @@ A component can subscribe to Power App events with specific decorators.
 Primno automatically subscribes the component to the events and execute the method when it is fired by Power Apps.
 
 ```ts
-import { MnComponent, MnOnLoad, MnOnColumnChange, FormEventArgs, PageType } from '@primno/core';
+import { MnComponent, MnOnLoad, MnOnColumnChange, FormEventArgs } from '@primno/core';
 
 @MnComponent({
     scope: {
@@ -131,3 +137,7 @@ Example of the CLI commands:
 | `mn watch`  | Watch the project for changes and build.               |
 
 To learn more about the Primno CLI, see [CLI](/docs/guides/cli).
+
+## Next steps
+
+You can now create your first project by following the [Getting Started](/docs/getting-started) guide.
