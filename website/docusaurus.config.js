@@ -66,7 +66,7 @@ const config = {
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
           editUrl:
-            'https://github.com/primno/primno/tree/website/',
+            'https://github.com/primno/primno/tree/main/website/',
         },
         theme: {
           customCss: [
