@@ -1,15 +1,15 @@
 /* Navbar */
 
-.navbar {
-  backdrop-filter: blur(10px);
-}
+@supports (backdrop-filter: none) {
+  .navbar {
+    backdrop-filter: blur(10px);
+  }
 
-.docs-wrapper .navbar {
-  background-color: rgba(var(--ifm-navbar-background-color-rgb), 0.3);
-}
-
-[data-theme='dark'] .navbar {
-  background-color: rgba(var(--ifm-navbar-background-color-rgb), 0.8);
+  .docs-wrapper .navbar,
+  [data-theme='dark'] .navbar
+   {
+    background-color: transparent;
+  }
 }
 
 .header-github-link:hover {
