@@ -48,7 +48,7 @@ export function onEvent(
     ...args: unknown[]
 ): CanBePromise<unknown> {
     if (!isUci()) {
-        notifyCriticalError("Primno support Uci only");
+        notifyCriticalError("Primno can only be used in UCI");
         return;
     }
 
