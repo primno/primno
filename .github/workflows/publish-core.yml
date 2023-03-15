@@ -1,4 +1,4 @@
-name: Publish Core
+name: Publish @primno/core
 
 on:
   release:
