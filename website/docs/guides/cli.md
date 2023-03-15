@@ -1,4 +1,5 @@
 ---
+title: Command-Line Interface
 sidebar_position: 6
 description: Tool of Primno to manage your project from a terminal.
 ---

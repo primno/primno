@@ -1,4 +1,5 @@
 ---
+title: Components
 sidebar_position: 2
 description: Building your application with small reusable components.
 ---

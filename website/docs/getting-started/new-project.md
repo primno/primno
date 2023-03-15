@@ -1,9 +1,10 @@
 ---
 sidebar_position: 2
+title: Create a new project
 description: Create a new project and understand its structure.
 ---
 
-# Create project
+# Create a new project
 
 :::info
 You must have [setup the environment](./setup) before creating a new project.

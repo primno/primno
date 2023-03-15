@@ -1,9 +1,10 @@
 ---
 sidebar_position: 1
+title: Setup environment
 description: Install required tools and setup the environment.
 ---
 
-# Setup
+# Setup environment
 
 :::info
 Make sure you have read the [introduction](../intro.md) and [getting started overview](index.mdx) before starting this chapter.

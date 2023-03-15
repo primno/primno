@@ -1,9 +1,10 @@
 ---
 sidebar_position: 3
+title: Deploy to Power Apps
 description: Link the project to Power Apps environment and deploy it.
 ---
 
-# Deploy
+# Deploy to Power Apps
 
 In this part, we will deploy the project to a Power Apps environment.
 
