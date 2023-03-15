@@ -1,28 +1,25 @@
 {
   "compilerOptions": {
-    "noImplicitAny": true,
     "noEmitOnError": false,
     "target": "ES2020",
-    "module": "CommonJS",
+    "module": "ESNext",
     "moduleResolution": "Node",
     "esModuleInterop": true,
+    // "isolatedModules": true,
+    "forceConsistentCasingInFileNames": true,
     "strict": true,
-    "strictNullChecks": true,
-    "alwaysStrict": true,
     "experimentalDecorators": true,
-    "outDir": "build",
     "lib": [
       "es2020",
       "es2020.promise",
-      "es2020.bigint",
       "es2020.string",
       "dom"
     ],
-    "declaration": true,
-    "emitDeclarationOnly": true,
+    "outDir": "build",
+    "declaration": true
   },
-  "compileOnSave": true,
   "include": [
-    "src"
+    "src",
+    "rollup.config.ts"
   ]
 }
