@@ -1,7 +1,8 @@
 ---
+title: Upload a web-resource to Power Apps and register events
 sidebar_position: 3
-title: Deploy to Power Apps
-description: Link the project to Power Apps environment and deploy it.
+description: Link your project to Power Apps environment and deploy it to a solution. Register events to be able to use them in your Power Apps.
+sidebar_label: Deploy to Power Apps
 ---
 
 # Deploy to Power Apps

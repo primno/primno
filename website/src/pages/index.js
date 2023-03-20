@@ -10,7 +10,7 @@ export default function Home() {
   return (
     <Layout
       title={siteConfig.tagline}
-      description="Front-end framework for Model-Driven Apps of Power Apps and Dynamics 365. Provides a component-based architecture and development tools.">
+      description="Front-end framework for Model-Driven Apps of Power Apps and Dynamics 365. Provides a component-based architecture and development tools to customize faster.">
       <HomepageHeader />
       <main>
         <HomepageFeatures />

@@ -1,7 +1,8 @@
 ---
 sidebar_position: 2
-title: Create a new project
-description: Create a new project and understand its structure.
+title: Create easily your first Primno project with Primno CLI
+description: Create a new project with CLI, understand the structure of a project.
+sidebar_label: Create a new project
 ---
 
 # Create a new project
