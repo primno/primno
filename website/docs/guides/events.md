@@ -1,9 +1,11 @@
 ---
+title: Easily subscribe to Power Apps events with decorators
 sidebar_position: 4
-description: Subscribe to Power Apps events in a component.
+description: Subscribe to Power Apps events in your component by using decorators (MnOnFormLoad, MnOnColumnChange, etc.)
+sidebar_label: Events
 ---
 
-# Events
+# Subscribe to Power Apps events
 
 Power Apps provides a lot of events that can be subscribed to. For example, when a form is loaded or when a column value is changed.
 

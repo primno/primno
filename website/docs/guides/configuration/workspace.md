@@ -1,8 +1,10 @@
 ---
+title: Setup workspace configuration of Primno
 sidebar_position: 1
-description: Workspace configuration of Primno.
+description: Setup the build, deploy, and serve configuration of your project. Link the entry points to the web resources of your solution.
+sidebar_label: Workspace
 ---
-# Workspace
+# Workspace configuration of Primno
 
 The workspace configuration is stored in the `primno.json` file. It contains the following properties:
 

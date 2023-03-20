@@ -1,6 +1,8 @@
 ---
+title: Connect to Dataverse / D365 environment with connection string
 sidebar_position: 2
-description: Environment of Power Apps to deploy to.
+description: Setup your environment by setting the connection string of Dataverse to easily deploy your JS web-resource to Power Apps.
+sidebar_label: Environment
 ---
 
 # Environment

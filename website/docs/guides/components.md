@@ -1,7 +1,8 @@
 ---
-title: Components
+title: Build reusable customizations with components
 sidebar_position: 2
-description: Building your application with small reusable components.
+description: Building your application with small reusable components. Each component is a independent unit of code that provide a specific functionality.
+sidebar_label: Components
 ---
 
 # Components

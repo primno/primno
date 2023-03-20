@@ -87,7 +87,7 @@ const config = {
         disableSwitch: false
       },
 
-      metadata: [{name: 'keywords', content: 'primno, framework, power-apps, dynamics, d365, model-driven, front-end, typescript, javascript'}],
+      metadata: [],
 
       announcementBar: {
         id: 'beta',
@@ -124,7 +124,7 @@ const config = {
       docs: {
         sidebar: {
           // autoCollapseCategories: true,
-          hideable: true
+          hideable: true,
         }
       },
 

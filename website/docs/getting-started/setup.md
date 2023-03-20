@@ -1,7 +1,8 @@
 ---
 sidebar_position: 1
-title: Setup environment
-description: Install required tools and setup the environment.
+title: Setup your Primno project by installing VSCode, NodeJS and Primno CLI
+description: Install required tools (VSCode, NodeJS, Primno CLI). Customize a account form and a contact grid to test your first project.
+sidebar_label: Setup environment
 ---
 
 # Setup environment

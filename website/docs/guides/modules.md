@@ -1,6 +1,8 @@
 ---
+title: Organize the structure of your JS web-resource with modules
 sidebar_position: 3
-description: Organize the structure of your application with modules.
+description: Modules are containers that can components, service providers and related code.
+sidebar_label: Modules
 ---
 
 # Modules

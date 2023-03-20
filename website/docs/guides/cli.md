@@ -1,10 +1,11 @@
 ---
-title: Command-Line Interface
+title: Command-Line Interface (CLI) to manage projects of Primno
 sidebar_position: 6
-description: Tool of Primno to manage your project from a terminal.
+description: Create a new Power Apps project, deploy it to Power Apps, run the developer mode, build it, minify it, and more with a command-line interface.
+sidebar_label: CLI
 ---
 
-# CLI
+# Command-Line Interface (CLI)
 
 CLI is the command-line interface tool of Primno to manage your project from a terminal.
 It provides a set of commands to create a new project, run the developer mode, build the project, and more.
