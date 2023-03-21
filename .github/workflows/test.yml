@@ -30,8 +30,9 @@ jobs:
         with:
           node-version: '18.x'
           
-      - name: Install Dependencies, Build, Test and make bundle
+      - name: Install, Build and Test
         run: |
           npm ci
           npm run build
+          npm run lint
           npm run test
