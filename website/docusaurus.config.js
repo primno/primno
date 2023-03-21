@@ -7,7 +7,7 @@ const darkCodeTheme = require('prism-react-renderer/themes/vsDark');
 /** @type {import('@docusaurus/types').Config} */
 const config = {
   title: 'Primno',
-  tagline: 'Front-end framework for Model-Driven Apps of Power Apps and Dynamics 365',
+  tagline: 'Front-end framework for Model-Driven Apps (Power Apps / Dynamics 365)',
   url: 'https://primno.io',
   baseUrl: '/',
   onBrokenLinks: 'throw',
@@ -68,6 +68,7 @@ const config = {
           editUrl:
             'https://github.com/primno/primno/tree/main/website/',
         },
+        blog: false,
         theme: {
           customCss: [
             require.resolve('./src/css/custom.css'),
