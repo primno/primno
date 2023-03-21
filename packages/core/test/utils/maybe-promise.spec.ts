@@ -1,4 +1,3 @@
-import { expect } from "chai";
 import { isPromise, MaybePromise } from "../../src/utils";
 
 describe("Utils MaybePromise", () => {
@@ -11,8 +10,9 @@ describe("Utils MaybePromise", () => {
                 return "ko"
         })
         .done();
-        expect(isPromise(result));
-        expect((await result) == "ok");
+        
+        expect(isPromise(result)).toBe(true);
+        expect((await result)).toBe("ok");
     });
 
     it("must return promise 2", async () => {
@@ -25,8 +25,8 @@ describe("Utils MaybePromise", () => {
         })
         .done();
         
-        expect(isPromise(result)).to.be.true;
-        expect(await result).to.be.equal("ok");
+        expect(isPromise(result)).toBe(true);
+        expect(await result).toBe("ok");
     });
 
     it("must not return promise", () => {
@@ -39,8 +39,8 @@ describe("Utils MaybePromise", () => {
         })
         .done();
 
-        expect(isPromise(result)).to.be.false;
-        expect(result).to.be.equal("ok");
+        expect(isPromise(result)).toBe(false);
+        expect(result).toBe("ok");
     });
 
     it("must throw sync 1", () => {
@@ -54,10 +54,10 @@ describe("Utils MaybePromise", () => {
         .catch((e) => except = e)
         .done();
 
-        expect(except).to.be.not.null;
-        expect(except).to.be.equal("error1");
-        expect(result).to.be.undefined;
-        expect(value).to.be.equal("updated");
+        expect(except).not.toBe(null);
+        expect(except).toBe("error1");
+        expect(result).toBe(undefined);
+        expect(value).toBe("updated");
     });
 
     it("must throw async 1", async (): Promise<void> => {
@@ -71,9 +71,9 @@ describe("Utils MaybePromise", () => {
         .catch((e) => { except = e; })
         .done()
         .then((result) => {
-            expect(except).to.be.not.null;
-            expect(except).to.be.equal("error1");
-            expect(result).to.be.undefined;
+            expect(except).not.toBe(null);
+            expect(except).toBe("error1");
+            expect(result).toBe(undefined);
         });
     });
 })

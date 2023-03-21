@@ -1,28 +1,27 @@
-import { expect } from "chai";
 import { isNullOrEmpty, isObject } from "../../src/utils/common";
 
 describe("Utils common", () => {
     describe("isNullOrEmpty", () => {
         it("must return true if null or empty", () => {
-            expect(isNullOrEmpty(<any>null)).true;
-            expect(isNullOrEmpty(<any>undefined)).true;
-            expect(isNullOrEmpty("")).true;
+            expect(isNullOrEmpty(<any>null)).toBe(true);
+            expect(isNullOrEmpty(<any>undefined)).toBe(true);
+            expect(isNullOrEmpty("")).toBe(true);
         });
 
         it("must return false if not null or empty", () => {
-            expect(isNullOrEmpty("Text")).false;
+            expect(isNullOrEmpty("Text")).toBe(false);
         })
     });
 
     describe("isObject", () => {
         it("must return true if object", () => {
-            expect(isObject({})).true;
+            expect(isObject({})).toBe(true);
         });
 
         it("must return false if not object", () => {
-            expect(isObject(true)).false;
-            expect(isObject(10)).false;
-            expect(isObject(null)).false;
+            expect(isObject(true)).toBe(false);
+            expect(isObject(10)).toBe(false);
+            expect(isObject(null)).toBe(false);
         });
     });
 
