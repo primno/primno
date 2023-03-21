@@ -1,4 +1,3 @@
-import { expect } from "chai";
 import { XrmMockGenerator } from "xrm-mock";
 import { getFormContext } from "../../src/utils";
 
@@ -26,18 +25,18 @@ describe("Utils dataverse", () => {
     // });
 
     describe("getFormContext", () => {
-        before("Initialize Xrm Mock", () => {
+        beforeAll(() => {
             XrmMockGenerator.initialise();
         });
 
         it("must return form context when form context is given", () => {
             const formCtx = XrmMockGenerator.getFormContext();
-            expect(getFormContext(formCtx as any)).equal(formCtx);
+            expect(getFormContext(formCtx as any)).toBe(formCtx);
         });
 
         it("must return null when form context is not given", () => {
-            expect(getFormContext(null as any)).null;
-            expect(getFormContext(undefined as any)).null;
+            expect(getFormContext(null as any)).toBeNull();
+            expect(getFormContext(undefined as any)).toBeNull();
         });
     });
 })
