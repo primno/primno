@@ -19,7 +19,7 @@ const external: string[] = [
 
 const plugins = [
     nodeResolve(),
-    typescript({ module: "esnext", exclude: "rollup.config.ts" }),
+    typescript({ module: "esnext", compilerOptions: { rootDir: "./src" } }),
     terser(),
 ];
 
