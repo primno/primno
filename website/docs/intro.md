@@ -1,5 +1,5 @@
 ---
-title: Introduction to Primno, the modern Typescript framework for Power Apps
+title: Introduction to Primno, a client-side framework for Power Apps / D365
 sidebar_position: 1
 sidebar_label: Introduction
 description: Learn the basics of Primno, a framework to build scalable Javascript code for Power Apps.
