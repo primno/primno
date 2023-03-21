@@ -7,11 +7,11 @@ sidebar_label: Deploy to Power Apps
 
 # Deploy to Power Apps
 
-In this part, we will deploy the project to a Power Apps environment.
+In this part, we will deploy the project to your Power Apps environment with a connection string.
 
 ## Configuration
 
-Before deploying the project, you need to configure it to link it to your environment and solution.
+Before deploying the project, you need to link it to your environment and solution.
 
 ### Environment
 
