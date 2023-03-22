@@ -12,7 +12,7 @@ const config = {
   baseUrl: '/',
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'throw',
-  favicon: 'img/favicon.png',
+  favicon: 'img/favicon.ico',
 
   // GitHub pages deployment config.
   // If you aren't using GitHub pages, you don't need these.
@@ -67,6 +67,7 @@ const config = {
           // Remove this to remove the "edit this page" links.
           editUrl:
             'https://github.com/primno/primno/tree/main/website/',
+          showLastUpdateTime: true
         },
         blog: false,
         theme: {
@@ -168,6 +169,8 @@ const config = {
         ],
         copyright: `Copyright © ${new Date().getFullYear()} Primno.`,
       },
+
+      image: 'img/primno-card.jpg',
 
       prism: {
         theme: lightCodeTheme,
