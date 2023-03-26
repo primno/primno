@@ -86,7 +86,7 @@ export class ContactComponent {
 }
 ```
 
-To learn more see [Components](/docs/guides/components) and [Events](/docs/guides/events).
+To learn more see [Components](./guides/components.md) and [Events](./guides/events.md).
 
 ### Dependency injection
 
@@ -123,7 +123,7 @@ export class MyComponent {
 }
 ```
 
-To learn more about the dependency injection system, see [Dependency Injection](/docs/guides/dependency-injection).
+To learn more about the dependency injection system, see [Dependency Injection](./guides/dependency-injection.md).
 
 ### Primno CLI
 
@@ -139,8 +139,8 @@ Example of the CLI commands:
 | `mn deploy` | Deploy the project to Power Apps.                      |
 | `mn watch`  | Watch the project for changes and build.               |
 
-To learn more about the Primno CLI, see [CLI](/docs/guides/cli).
+To learn more about the Primno CLI, see [CLI](./guides/cli.md).
 
 ## Next steps
 
-You can now create your first project by following the [Getting Started](/docs/getting-started) guide.
+You can now create your first project by following the [Getting Started](./getting-started/index.mdx) guide.

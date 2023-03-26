@@ -10,6 +10,10 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    
+    defaults:
+      run:
+        working-directory: website
 
     steps:
       - uses: actions/checkout@v3
@@ -19,9 +23,7 @@ jobs:
         with:
           node-version: 18
 
-      - name: Install
-        run: npm ci
-        
-      - name: Build
-        run: npm run build
-        working-directory: website
+      - name: Install and build
+        run: |
+          npm install
+          npm run build

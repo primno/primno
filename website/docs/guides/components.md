@@ -10,15 +10,15 @@ sidebar_label: Components
 Components are the key concept in Primno, they are the building blocks of an application.
 Each component is a independent unit of code that provide a specific functionality.
 
-They can be [composed](#sub-component) of other components and reused, like Lego blocks. They can be packaged in [modules](modules.md) to improve application structure and be shared between projects.
+They can be [composed](#sub-component) of other components and reused, like Lego blocks. They can be packaged in [modules](./modules.md) to improve application structure and be shared between projects.
 
 Components can subscribe to [events](#events) emitted by Power Apps to perform wanted actions.
 
-When you create a component, you must add it to a [module](modules) to be able to use it.
+When you create a component, you must add it to a [module](./modules.md) to be able to use it.
 
 ## Metadata
 
-In Primno, a component is a class using the [`@MnComponent`](../api-reference/functions/MnComponent) decorator.
+In Primno, a component is a class using the [`@MnComponent`](../api-reference/functions/MnComponent.md) decorator.
 This decorator provides metadata that Primno use to know where the component can be used and how to instantiate it.
 
 ```ts title="Simple account component"
@@ -56,14 +56,14 @@ They are 2 types of scope:
 Each page type have its own component tree.
 You can't compose a component with a `record` scope in a component with a `list` scope, and vice versa.
 
-To use both in the same web resource, you need to create 2 components, one for each page type and add them as bootstrap components in the root [module](modules). See [getting started](../getting-started) for an example.
+To use both in the same web resource, you need to create 2 components, one for each page type and add them as bootstrap components in the root [module](modules). See [getting started](../getting-started/index.mdx) for an example.
 
 #### Record
 
 Below is the list of the available properties for a component with a `record` scope.
 
 :::info
-To learn more, see [RecordScope](../api-reference/interfaces/RecordScope).
+To learn more, see [RecordScope](../api-reference/interfaces/RecordScope.md).
 :::
 
 | Property | Description | Example |
@@ -95,7 +95,7 @@ export class MyComponent {
 Below is the list of the available properties for a component with a List scope.
 
 :::info
-To learn more, see [ListScope](../api-reference/interfaces/ListScope).
+To learn more, see [ListScope](../api-reference/interfaces/ListScope.md).
 :::
 
 | Property | Description | Example |
@@ -108,9 +108,9 @@ To learn more, see [ListScope](../api-reference/interfaces/ListScope).
 A component can have his own providers.
 When providers are defined in a component, they are instantiated by the injector and are available only in this component and his sub-components.
 
-If the associated [module](modules.md) defines the same providers, then the one of the component will be used in priority.
+If the associated [module](./modules.md) defines the same providers, then the one of the component will be used in priority.
 
-To learn more about providers, see [Dependency injection](dependency-injection).
+To learn more about providers, see [Dependency injection](./dependency-injection.md).
 
 ```ts title="Component with providers"
 export abstract class CatService {
@@ -277,7 +277,7 @@ export class MyComponent {
 }
 ```
 
-See [Events](events) to learn more.
+See [Events](events.md) to learn more.
 
 ## Sub-component
 

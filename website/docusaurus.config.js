@@ -13,6 +13,7 @@ const config = {
   baseUrl: '/',
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'throw',
+  onDuplicateRoutes: 'throw',
   favicon: 'img/favicon.ico',
 
   // GitHub pages deployment config.
@@ -45,13 +46,16 @@ const config = {
       // },
       {
         entryPoints: ['../packages/core/src/primno-api.ts'],
+        tsconfig: '../packages/core/tsconfig.json',
         out: 'api-reference',
         sidebar: {
           categoryLabel: 'API Reference',
-          position: 5,
-          fullNames: true,
+          position: 5
         },
-        tsconfig: '../packages/core/tsconfig.json',
+        frontmatter: {
+          pagination_prev: null,
+          pagination_next: null
+        },
         watch: process.env.TYPEDOC_WATCH ?? false,
       },
     ],

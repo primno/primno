@@ -32,7 +32,7 @@ mn new <name>
 
 The `name` is the name of the project. It will be used as the name of the folder that will contain the project.
 
-This command creates a new example project, which is explained in detail in [getting started](../getting-started/).
+This command creates a new example project, which is explained in detail in [getting started](../getting-started/index.mdx).
 
 ### start
 

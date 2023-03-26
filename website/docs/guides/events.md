@@ -28,7 +28,7 @@ Eg: [MnOnColumnChange](../api-reference/functions/MnOnColumnChange.md).
 
 ## Types
 
-They are 2 types of events that are only available in components that target the same type of page (see [Scope](./components#scope)).
+They are 2 types of events that are only available in components that target the same type of page (see [Scope](./components.md#scope)).
 
 | Type | Description
 | --- | --- |
@@ -40,7 +40,7 @@ They are 2 types of events that are only available in components that target the
 Some events require a target to be subscribed.
 A target can be a column, control or command name. For example, `MnOnColumnChange` requires a column name, whereas `MnOnFormLoad` doesn't.
 
-The target is specified in the decorator as a string argument or function that returns a string from the component configuration. See [Component configuration](./components#configuration).
+The target is specified in the decorator as a string argument or function that returns a string from the component configuration. See [Component configuration](./components.md#configuration).
 
 :::tip
 Use the [`ConfigOf`](../api-reference/types/ConfigOf.md) type to get the type of the configuration of a component.

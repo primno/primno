@@ -15,7 +15,7 @@ Every entry point (web resource uploaded to Power Apps) is a root module that wi
 
 ## Metadata
 
-A module is a class using the [`@MnModule`](../api-reference/functions/MnModule) decorator.
+A module is a class using the [`@MnModule`](../api-reference/functions/MnModule.md) decorator.
 This decorator provides metadata that Primno uses to organize the application structure.
 
 ```ts title="A module that will start MyComponent"
@@ -31,7 +31,7 @@ export class MyModule {}
 | Property | Description |
 | --- | --- |
 | `declarations` | Components that are available in this module. They can be added as children of other components of this module. A component can be declared in only one module. |
-| `providers` | Services injected as dependencies. They can be injected into the whole application. See [dependency injection](dependency-injection). |
+| `providers` | Services injected as dependencies. They can be injected into the whole application. See [dependency injection](./dependency-injection.md). |
 | `exports` | Components that will be available to modules that import this module. Only exported components can be added as children in the components of the importing module. |
 | `imports` | Modules that will be imported. Exported components from the imported modules will be available to the components of this module. |
 | `bootstrap` | Components that will be instantiated when the module is bootstrapped. Unlike Angular, all modules can define `bootstrap`, sub-modules included. |

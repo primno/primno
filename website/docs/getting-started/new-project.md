@@ -8,7 +8,7 @@ sidebar_label: Create a new project
 # Create a new project
 
 :::info
-You must have [setup the environment](./setup) before creating a new project.
+You must have [setup the environment](./setup.md) before creating a new project.
 :::
 
 To create a new project, execute the following command in your working directory:
