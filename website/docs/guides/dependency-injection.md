@@ -59,7 +59,7 @@ Dependency injection system is split into 2 parts:
 Providers are classes or values that can be injected into consumers.
 A provider can be a service, factory, repository, helper, etc.
 
-Providers are registered in the dependency injection system using the `providers` array of a [component](components) or a [module](modules).
+Providers are registered in the dependency injection system using the `providers` array of a [component](./components.md) or a [module](./modules.md).
 Primno have a resolving priority when it comes to finding a provider. The resolving priority is explained in the [resolving priority](#resolving-priority) section.
 
 Register a provider is done with a token. Its a unique identifier for the provider that can be a class, string, or symbol.
@@ -94,7 +94,7 @@ export class MyService {}
 ```
 
 Next, register the provider in the dependency injection system.
-You can do it by adding the provider to the `providers` array of a [component](components) or [module](modules).
+You can do it by adding the provider to the `providers` array of a [component](./components.md) or [module](./modules.md).
 
 If the class identifier and the provided class is the same, you can just add the class to the `providers` array.
 
@@ -174,7 +174,7 @@ class DiComponent {
 }
 ```
 
-If the dependency uses a specific token or declared in a property, you must use the [`@Inject()`](../api-reference/functions/Inject) decorator.
+If the dependency uses a specific token or declared in a property, you must use the [`@Inject()`](../api-reference/functions/Inject.md) decorator.
 
 ```ts title="Constructor injection with @Inject()"
 @MnComponent(

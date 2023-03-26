@@ -30,7 +30,7 @@ If you are using an online sandbox environment, you can quickly setup your `prim
 ]
 ```
 
-If you are using an other environment type, or if you want to use a different authentication method, see [connection string](/docs/guides/configuration/environment#connection-string) page for more information.
+If you are using an other environment type, or if you want to use a different authentication method, see [connection string](../guides/configuration/environment.md#connection-string) page for more information.
 
 ### Solution
 
@@ -87,7 +87,7 @@ The JS web resource must be added to the `account` form to be usable and the `on
 
 The column change event handler of the `name` and `telephone1` columns don't need to be added because Primno will add them automatically at runtime.
 
-To find out more about the events automatically subscribed by Primno see [Events](/docs/guides/events) page.
+To find out more about the events automatically subscribed by Primno see [Events](../guides/events.md) page.
 
 To register the `onload` event handler, the function name to call is `mn_app.onFormLoad`.
 

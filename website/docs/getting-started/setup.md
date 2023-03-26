@@ -8,7 +8,7 @@ sidebar_label: Setup environment
 # Setup environment
 
 :::info
-Make sure you have read the [introduction](../intro.md) and [getting started overview](index.mdx) before starting this chapter.
+Make sure you have read the [introduction](../intro.md) and [getting started overview](./index.mdx) before starting this chapter.
 :::
 
 ## Pre-requisites
