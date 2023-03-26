@@ -1,9 +1,6 @@
 # Node.js
 node_modules/
 
-# VSCode
-.vscode/
-
 # TypeScript cache
 *.tsbuildinfo
 
