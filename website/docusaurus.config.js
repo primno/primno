@@ -140,7 +140,7 @@ const config = {
         apiKey: 'c459bbf988e47056342bdb8ee17eafd2',
         indexName: 'primno',
         contextualSearch: true,
-        searchParameters: {},
+        searchPagePath: false,
       },
 
       footer: {
