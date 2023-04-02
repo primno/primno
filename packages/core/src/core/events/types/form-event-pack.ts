@@ -12,13 +12,15 @@ import {
     StageChangeEventType,
     StageSelectedEventType,
     TabStateEventType,
-    GridLoadEventType
+    GridLoadEventType,
+    PostSaveEventType
 } from "./form-event-type";
 
 export const formEventPack: EventType[] = [
     new FormLoadEventType(),
     new DataLoadEventType(),
     new SaveEventType(),
+    new PostSaveEventType(),
     new ColumnChangeEventType(),
     new PreSearchEventType(),
     new LookupTagClickEventType(),

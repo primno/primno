@@ -81,6 +81,22 @@ export class SaveEventType extends FormEventType<SaveEventArg> {
     }
 }
 
+export class PostSaveEventType extends FormEventType<SaveEventArg> {
+    constructor() {
+        super(EventTypes.PostSave, false);
+    }
+
+    public subscribe(selectedControl: Control, controlName?: string): void {
+        const formCtx = getFormContext(selectedControl as Xrm.Events.EventContext) as Xrm.FormContext;
+        formCtx.data.entity.addOnPostSave(this.eventHandler.bind(this, controlName));
+    }
+
+    public unsubscribe(selectedControl: Control, controlName?: string): void {
+        const formCtx = getFormContext(selectedControl as Xrm.Events.EventContext) as Xrm.FormContext;
+        formCtx.data.entity.removeOnPostSave(this.eventHandler.bind(this, controlName));
+    }
+}
+
 export class ColumnChangeEventType extends FormEventType {
     constructor() {
         super(EventTypes.ColumnChange, true);

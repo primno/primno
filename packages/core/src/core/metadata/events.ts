@@ -457,7 +457,7 @@ export function MnOnPreStageChange() {
  * export class NotifyOnBPFStatusChangeComponent {
  *    @MnOnProcessStatusChange()
  *    onProcessStatusChange(eventArg: FormEventArg) {
- *       eventArg.formContext.ui.setFormNotification("Business process flow status changed", "INFO", "BPFStatusChange");
+ *       eventArg.formCtx.ui.setFormNotification("Business process flow status changed", "INFO", "BPFStatusChange");
  *    }
  * }
  * ```
@@ -511,6 +511,40 @@ export function MnOnSave() {
 }
 
 /**
+ * Decorator that marks a method as an event handler for post save event.
+ * 
+ * This event is fired after the save event.
+ * 
+ * @remarks
+ * Only available for the record page.
+ * 
+ * Automatically registered at runtime.
+ * 
+ * For more information, see [Microsoft Client API Reference](https://learn.microsoft.com/en-us/power-apps/developer/model-driven-apps/clientapi/reference/events/postsave)
+ * 
+ * @example Notify on form that the record was saved
+ * ```ts
+ * @MnComponent({
+ *    scope: {
+ *     pageType: "record"
+ *    }
+ * })
+ * export class NotifySavedComponent {
+ *    @MnOnPostSave()
+ *    onPostSave(eventArg: FormEventArg) {
+ *      eventArg.formCtx.ui.setFormNotification("Record saved", "INFO", "RecordSaved");
+ *    }
+ * }
+ * ```
+ * @category Event
+ */
+export function MnOnPostSave() {
+    return makeEventDecorator({
+        type: EventTypes.PostSave
+    });
+}
+
+/**
  * Decorator that marks a method as an event handler for stage changed.
  * 
  * This event is fired when the stage of a business process flow changed.
@@ -530,7 +564,7 @@ export function MnOnSave() {
  * export class NotifyOnBPFStageChangeComponent {
  *    @MnOnStageChange()
  *    onStageChange(eventArg: FormEventArg) {
- *       eventArg.formContext.ui.setFormNotification("Business process flow stage changed", "INFO", "BPFStageChange");
+ *       eventArg.formCtx.ui.setFormNotification("Business process flow stage changed", "INFO", "BPFStageChange");
  *   }
  * }
  * ```
@@ -562,7 +596,7 @@ export function MnOnStageChange() {
  * export class NotifyOnBPFStageSelectedComponent {
  *    @MnOnStageSelected()
  *    onStageSelected(eventArg: FormEventArg) {
- *       eventArg.formContext.ui.setFormNotification("Business process flow stage selected", "INFO", "BPFStageSelected");
+ *       eventArg.formCtx.ui.setFormNotification("Business process flow stage selected", "INFO", "BPFStageSelected");
  *   }
  * }
  * ```
@@ -598,7 +632,7 @@ export function MnOnStageSelected() {
  * export class NotifyOnTabStateChangeComponent {
  *    @MnOnTabStateChange("tab_name")
  *    onTabStateChange(eventArg: FormEventArg) {
- *       eventArg.formContext.ui.setFormNotification("Tab state changed", "INFO", "TabStateChange");
+ *       eventArg.formCtx.ui.setFormNotification("Tab state changed", "INFO", "TabStateChange");
  *    }
  * }
  * ```
