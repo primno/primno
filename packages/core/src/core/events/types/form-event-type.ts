@@ -21,7 +21,8 @@ export abstract class FormEventType<TEventArg extends FormEventArg = FormEventAr
         return {
             eventCtx: args.selectedControl,
             formCtx: getFormContext(args.primaryControl as Xrm.Events.EventContext) as Xrm.FormContext,
-            type: this.name
+            type: this.name,
+            extraArgs: args.args
         } as TEventArg;
     }
 

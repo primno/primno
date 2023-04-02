@@ -21,9 +21,12 @@ export interface EventArg {
      * Event type. Eg: "FormLoad", "ColumnChange", etc.
      */
     type: string;
-}
 
-//export type EventHandler<TEventArg extends EventArg = EventArg> = (event: TEventArg) => unknown;
+    /**
+     * Extra arguments.
+     */
+    extraArgs: unknown[];
+}
 
 /**
  * Internal event handler called when a specific event is triggered.
@@ -79,7 +82,6 @@ export type EventHandler = (targetName?: string, ...args: unknown[]) => unknown;
  */
 export interface CommandBarEventArg extends EventArg {
     selectedControl: Control;
-    extraArgs: unknown[];
 }
 
 /**
