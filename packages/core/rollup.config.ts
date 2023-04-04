@@ -17,13 +17,18 @@ const external: string[] = [
     ...Object.keys("peerDependencies" in pkg ? pkg.peerDependencies as Record<string, unknown> : {}),
 ];
 
+const watchMode = process.env.ROLLUP_WATCH === "true";
+
 const plugins = [
     nodeResolve(),
-    typescript({ module: "esnext", compilerOptions: { rootDir: "./src" } }),
-    terser(),
+    typescript({ module: "esnext", compilerOptions: { rootDir: "./src" } })
 ];
 
-const sourcemap = false;
+if (!watchMode) {
+    plugins.push(terser());
+}
+
+const sourcemap = watchMode ? "inline" : false;
 
 interface IgnoredWarning {
     code: string;
