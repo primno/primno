@@ -13,7 +13,10 @@ import {
     StageSelectedEventType,
     TabStateEventType,
     GridLoadEventType,
-    PostSaveEventType
+    PostSaveEventType,
+    GridSaveEventType,
+    GridRecordSelectEventType,
+    GridChangeEventType
 } from "./form-event-type";
 
 export const formEventPack: EventType[] = [
@@ -30,5 +33,8 @@ export const formEventPack: EventType[] = [
     new PreProcessStatusChangeEventType(),
     new PreStageChangeEventType(),
     new StageSelectedEventType(),
-    new GridLoadEventType()
+    new GridLoadEventType(),
+    new GridSaveEventType(),
+    new GridRecordSelectEventType(),
+    new GridChangeEventType()
 ];

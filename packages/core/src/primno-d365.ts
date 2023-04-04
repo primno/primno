@@ -65,58 +65,126 @@ export function onEvent(
 }
 
 /**
- * onLoad event handler. Must be called by Dynamics 365 on form loading.
- * @param eventCtx 
- * @returns 
+ * Generic form event handler.
+ * @param control Primary control
+ * @param eventTypeName Event type name
+ * @param targetName Target name. If undefined, the event is not related to a target/control.
+ * @param args Optional args
  */
-// TODO: Handler must be added by EventType
-export function onFormLoad(control: Xrm.Events.EventContext, ...args: unknown[]): CanBePromise<unknown> {
-    return onEvent(EventTypes.FormLoad, undefined, control, control, ...args);
+export function onFormEvent(
+    control: Xrm.Events.EventContext,
+    eventTypeName: string,
+    targetName: string | undefined,
+    ...args: unknown[]
+): CanBePromise<unknown> {
+    return onEvent(eventTypeName, targetName, control, control, ...args);
 }
+
+/**
+ * Generic command event handler.
+ * @param selectedControl Selected control
+ * @param primaryControl Primary control
+ * @param eventTypeName Event type name
+ * @param targetName Target name
+ * @param args Optional args
+ */
+export function onCommandEvent(
+    selectedControl: Control,
+    primaryControl: Control,
+    eventTypeName: string,
+    targetName: string,
+    ...args: unknown[]
+): CanBePromise<unknown> {
+    return onEvent(eventTypeName, targetName, selectedControl, primaryControl, ...args);
+}
+
+/* Form events */
+
+/**
+ * "onFormLoad" event handler. Must be called by Dynamics 365 on form loading.
+ * @param control Primary control
+ * @param args Optional args
+ */
+// TODO: External function must be added by EventType
+export function onFormLoad(control: Xrm.Events.EventContext, ...args: unknown[]): CanBePromise<unknown> {
+    return onFormEvent(control, EventTypes.FormLoad, undefined, ...args);
+}
+
+/**
+ * "onGridSave" event handler.
+ * @param control Primary control
+ * @param targetName Target name
+ * @param args Optional args
+ */
+export function onGridSave(control: Xrm.Events.EventContext, targetName: string, ...args: unknown[]): CanBePromise<unknown> {
+    return onFormEvent(control, EventTypes.GridSave, targetName, ...args);
+}
+
+/**
+ * "onGridRecordSelect" event handler.
+ * @param control Primary control
+ * @param targetName Target name
+ * @param args Optional args
+ */
+export function onGridRecordSelect(control: Xrm.Events.EventContext, targetName: string, ...args: unknown[]): CanBePromise<unknown> {
+    return onFormEvent(control, EventTypes.GridRecordSelect, targetName, ...args);
+}
+
+/**
+ * "onGridChange" event handler.
+ * @param control Primary control
+ * @param targetName Target name
+ * @param args Optional args
+ */
+export function onGridChange(control: Xrm.Events.EventContext, targetName: string, ...args: unknown[]): CanBePromise<unknown> {
+    return onFormEvent(control, EventTypes.GridChange, targetName, ...args);
+}
+
+/* Command events */
 
 /**
  * "onCommandInvoke" event handler. Must be called by Dynamics 365 when a button on the command bar is pressed. 
  * @param commandId Command name
  * @param selectedControl Selected control
  * @param primaryControl Primary control
- * @param args Optionnal args
- * @returns 
+ * @param args Optional args
  */
 export function onCommandInvoke(
-    commandId: string,
     selectedControl: Control,
     primaryControl: Control,
+    commandId: string,
     ...args: unknown[]): CanBePromise<unknown> {
-    return onEvent(EventTypes.CommandInvoke, commandId, selectedControl, primaryControl, ...args);
+    return onCommandEvent(selectedControl, primaryControl, EventTypes.CommandInvoke, commandId, ...args);
 }
 
 /**
  * "onPopulateQuery" event handler. 
- * @param buttonName 
- * @param selectedControl 
- * @param args 
- * @returns 
+ * @param commandId Command name
+ * @param selectedControl Selected control
+ * @param primaryControl Primary control
+ * @param args Optional args
  */
 export function onPopulateQuery(
-    commandId: string,
     selectedControl: Control,
     primaryControl: Control,
+    commandId: string,
     ...args: unknown[]): CanBePromise<unknown> {
-    return onEvent(EventTypes.PopulateQuery, commandId, selectedControl, primaryControl, ...args);
+    return onCommandEvent(selectedControl, primaryControl, EventTypes.PopulateQuery, commandId, ...args);
 }
 
 /**
  * "onEnableRule" event handler. Must be called by Dynamics 365 when a js button enable rule is triggered. 
- * @param enableRuleName 
- * @param selectedControl 
- * @param args 
- * @returns 
+ * @param enableRuleName Enable rule name
+ * @param selectedControl Selected control
+ * @param primaryControl Primary control
+ * @param args Optional args
+ * @returns true if the rule is enabled, false otherwise
  */
 export function onEnableRule(
-    enableRuleName: string,
     selectedControl: Control,
     primaryControl: Control,
+    enableRuleName: string,
     ...args: unknown[]
 ): CanBePromise<boolean> {
-    return onEvent(EventTypes.EnableRule, enableRuleName, selectedControl, primaryControl, ...args) as CanBePromise<boolean>;
+    return onCommandEvent(selectedControl, primaryControl, EventTypes.EnableRule, enableRuleName, ...args) as CanBePromise<boolean>;
 }

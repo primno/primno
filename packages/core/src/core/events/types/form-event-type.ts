@@ -147,6 +147,42 @@ export class GridLoadEventType extends FormEventType {
     }
 }
 
+export class GridSaveEventType extends FormEventType {
+    constructor() {
+        super(EventTypes.GridSave, true);
+    }
+
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
+    public subscribe(selectedControl: Control, controlName?: string): void {}
+
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
+    public unsubscribe(selectedControl: Control, controlName?: string): void {}
+}
+
+export class GridRecordSelectEventType extends FormEventType {
+    constructor() {
+        super(EventTypes.GridRecordSelect, true);
+    }
+
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
+    public subscribe(selectedControl: Control, controlName?: string): void {}
+
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
+    public unsubscribe(selectedControl: Control, controlName?: string): void {}
+}
+
+export class GridChangeEventType extends FormEventType {
+    constructor() {
+        super(EventTypes.GridChange, true);
+    }
+
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
+    public subscribe(selectedControl: Control, controlName?: string): void {}
+
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
+    public unsubscribe(selectedControl: Control, controlName?: string): void {}
+}
+
 export class PreSearchEventType extends FormEventType {
     constructor() {
         super(EventTypes.PreSearch, true);

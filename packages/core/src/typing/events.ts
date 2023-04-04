@@ -150,6 +150,9 @@ export enum EventTypes {
     IframeLoaded = "IframeLoaded",
     EnableRule = "EnableRule",
     GridLoad = "GridLoad",
+    GridSave = "GridSave",
+    GridChange = "GridChange",
+    GridRecordSelect = "GridRecordSelect",
     PopulateQuery = "PopulateQuery"
 }
 

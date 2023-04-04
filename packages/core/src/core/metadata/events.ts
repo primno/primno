@@ -234,6 +234,66 @@ export function MnOnGridLoad(controlName: ValueOrConfigPropertyMapper<string>) {
 }
 
 /**
+ * Decorator that marks a method as an event handler for grid save event.
+ * 
+ * This event is fired when a grid control is saved.
+ * 
+ * @remarks
+ * Only available for the record page.
+ * 
+ * Must be manually registered.
+ * Register `onGridSave` with the target grid control name as additional parameter.
+ * 
+ * For more information, see [Microsoft Client API Reference](https://learn.microsoft.com/en-us/power-apps/developer/model-driven-apps/clientapi/reference/events/grid-onsave)
+ * 
+ * @category Event
+ * @param controlName Name of the grid control or callback function that returns the name of the grid control from the component configuration.
+ */
+export function MnOnGridSave(controlName: ValueOrConfigPropertyMapper<string>) {
+    return makeEventDecorator({ type: EventTypes.GridSave, target: controlName });
+}
+
+/**
+ * Decorator that marks a method as an event handler for grid save event.
+ * 
+ * This event is fired when a grid row is selected in a editable grid.
+ * 
+ * @remarks
+ * Only available for the record page.
+ * 
+ * Must be manually registered.
+ * Register `onGridRecordSelect` with the target grid control name as additional parameter.
+ * 
+ * For more information, see [Microsoft Client API Reference](https://learn.microsoft.com/en-us/power-apps/developer/model-driven-apps/clientapi/reference/events/grid-onrecordselect)
+ * 
+ * @category Event
+ * @param controlName Name of the grid control or callback function that returns the name of the grid control from the component configuration.
+ */
+export function MnOnGridRecordSelect(controlName: ValueOrConfigPropertyMapper<string>) {
+    return makeEventDecorator({ type: EventTypes.GridRecordSelect, target: controlName });
+}
+
+/**
+ * Decorator that marks a method as an event handler for grid change event.
+ * 
+ * This event is fired when a cell in a editable grid control is changed.
+ * 
+ * @remarks
+ * Only available for the record page.
+ * 
+ * Must be manually registered.
+ * Register `onGridChange` with the target grid control name as additional parameter.
+ * 
+ * For more information, see [Microsoft Client API Reference](https://learn.microsoft.com/en-us/power-apps/developer/model-driven-apps/clientapi/reference/events/grid-onchange)
+ * 
+ * @category Event
+ * @param controlName Name of the grid control or callback function that returns the name of the grid control from the component configuration.
+ */
+export function MnOnGridChange(controlName: ValueOrConfigPropertyMapper<string>) {
+    return makeEventDecorator({ type: EventTypes.GridChange, target: controlName });
+}
+
+/**
  * @deprecated Use getContentWindow() on a iframe control instead.
  * @ignore
  * */
