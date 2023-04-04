@@ -163,7 +163,8 @@ Decorator | Trigger | Type | Manual registration | External function |
 [`@MnOnFormLoad`](../api-reference/functions/MnOnFormLoad.md) | Form is loaded. | Record | Yes | `onFormLoad` |
 [`@MnOnDataLoad`](../api-reference/functions/MnOnDataLoad.md) | Form data is loaded | Record | No | - |
 [`@MnOnColumnChange`](../api-reference/functions/MnOnColumnChange.md) | Column value is changed. | Record | No | - |
-[`@MnOnSave`](../api-reference/functions/MnOnSave.md) | Form is saved. | Record | No | - |
+[`@MnOnSave`](../api-reference/functions/MnOnSave.md) | Form is saving. | Record | No | - |
+[`@MnOnPostSave`](../api-reference/functions/MnOnPostSave.md) | Form is saved. | Record | No | - |
 [`@MnOnCommandInvoke`](../api-reference/functions/MnOnCommandInvoke.md) | Command is invoked by a button on command-bar. | Record & List | Yes | `onCommandInvoke` |
 [`@MnOnEnableRule`](../api-reference/functions/MnOnEnableRule.md) | Enable rule is evaluated on the command-bar. | Record & List | Yes | `onEnableRule` |
 [`@MnOnGridLoad`](../api-reference/functions/MnOnGridLoad.md) | Grid is loaded. | Record | Yes | - |
