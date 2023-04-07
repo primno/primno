@@ -83,7 +83,7 @@ export class ComponentActivator<T extends Component> implements SubComponent<T> 
         }
 
         if (!this.inScope) {
-            debug(`The component ${this.componentType.name} is not in the scope of the context and will not be enable`);
+            debug(`The component ${this.componentType.name} is not in the scope context and will not be enabled.`);
             return;
         }
 

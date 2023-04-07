@@ -222,8 +222,8 @@ export function MnOnFormLoad() {
  * })
  * export class NotifyGridLoadedComponent {
  *   @MnOnGridLoad("mysubgrid")
- *   onGridLoad(eventArg: CommandBarEventArg) {
- *      Xrm.Navigation.openAlertDialog({ text: "Grid loaded" });
+ *   onGridLoad(eventArg: FormEventArg) {
+ *      eventArg.formCtx.ui.setFormNotification("Grid loaded", "INFO", "gridLoaded");
  *   }
  * }
  * ```
@@ -247,6 +247,24 @@ export function MnOnGridLoad(controlName: ValueOrConfigPropertyMapper<string>) {
  * For more information, see [Microsoft Client API Reference](https://learn.microsoft.com/en-us/power-apps/developer/model-driven-apps/clientapi/reference/events/grid-onsave)
  * 
  * @category Event
+ * @example Show columns changed in a contact sub-grid of an account record
+ * ```ts
+ * @MnComponent({
+ *  scope: {
+ *   pageType: "record",
+ *   entityName: "account"
+ * })
+ * export class ShowChangedColumnComponent {
+ *    @MnOnGridSave("subgrid_contacts")
+ *    onGridLoad(eventArg: FormEventArg) {
+ *       const attributesChanged = eventArg.formCtx.data.entity.attributes.get()
+ *          .filter(attr => attr.getIsDirty())
+ *          .map(attr => attr.getName());
+ * 
+ *       eventArg.formCtx.ui.setFormNotification(`Grid saved. Columns changed: ${attributesChanged.join(", ")}`, "INFO", "gridSaved");
+ *    }
+ * }
+ * ```
  * @param controlName Name of the grid control or callback function that returns the name of the grid control from the component configuration.
  */
 export function MnOnGridSave(controlName: ValueOrConfigPropertyMapper<string>) {
@@ -254,9 +272,9 @@ export function MnOnGridSave(controlName: ValueOrConfigPropertyMapper<string>) {
 }
 
 /**
- * Decorator that marks a method as an event handler for grid save event.
+ * Decorator that marks a method as an event handler for grid record select event.
  * 
- * This event is fired when a grid row is selected in a editable grid.
+ * This event is fired when one grid row is selected in a editable grid. It is not fired when the users select multiple rows.
  * 
  * @remarks
  * Only available for the record page.
@@ -267,6 +285,22 @@ export function MnOnGridSave(controlName: ValueOrConfigPropertyMapper<string>) {
  * For more information, see [Microsoft Client API Reference](https://learn.microsoft.com/en-us/power-apps/developer/model-driven-apps/clientapi/reference/events/grid-onrecordselect)
  * 
  * @category Event
+ * @example Show the phone number of the selected contact in a sub-grid of an account form
+ * ```ts
+ * @MnComponent({
+ *  scope: {
+ *    pageType: "record",
+ *    entityName: "account"
+ * })
+ * export class MyComponent {
+ *    @MnOnGridRecordSelect("subgrid_contacts")
+ *    onGridRecordSelect(eventArg: FormEventArg) {
+ *       const telephoneAttr = eventArg.formCtx.data.entity.attributes.get("telephone1");
+ *       const telephone = telephoneAttr.getValue();
+ *       Xrm.Navigation.openAlertDialog({ text: `Selected telephone number: ${telephone}` });
+ *    }
+ * }
+ * ```
  * @param controlName Name of the grid control or callback function that returns the name of the grid control from the component configuration.
  */
 export function MnOnGridRecordSelect(controlName: ValueOrConfigPropertyMapper<string>) {
@@ -276,7 +310,7 @@ export function MnOnGridRecordSelect(controlName: ValueOrConfigPropertyMapper<st
 /**
  * Decorator that marks a method as an event handler for grid change event.
  * 
- * This event is fired when a cell in a editable grid control is changed.
+ * This event is fired when a cell in an editable grid control is changed.
  * 
  * @remarks
  * Only available for the record page.
@@ -287,6 +321,23 @@ export function MnOnGridRecordSelect(controlName: ValueOrConfigPropertyMapper<st
  * For more information, see [Microsoft Client API Reference](https://learn.microsoft.com/en-us/power-apps/developer/model-driven-apps/clientapi/reference/events/grid-onchange)
  * 
  * @category Event
+ * @example Show the changed cell in a contact sub-grid of an account form
+ * ```ts
+ * @MnComponent({
+ *    scope: {
+ *       pageType: "record",
+ *       entityName: "account"
+ * })
+ * export class ShowChangedCellComponent {
+ *    @MnOnGridChange("subgrid_contacts")
+ *    onGridChange(eventArg: FormEventArg) {
+ *       const cellChanged = eventArg.formCtx.data.entity.attributes.get()
+ *          .find(attr => attr.getIsDirty());
+ * 
+ *       eventArg.formCtx.ui.setFormNotification(`Cell value changed. Column changed: ${cellChanged?.getName()}`, "INFO", "gridChanged");
+ *    }
+* }
+ * ```
  * @param controlName Name of the grid control or callback function that returns the name of the grid control from the component configuration.
  */
 export function MnOnGridChange(controlName: ValueOrConfigPropertyMapper<string>) {
