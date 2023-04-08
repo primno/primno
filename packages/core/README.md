@@ -3,6 +3,7 @@
 [![npm](https://img.shields.io/npm/v/@primno/core.svg)](https://www.npmjs.com/package/@primno/core)
 [![npm](https://img.shields.io/npm/l/@primno/core.svg)](https://github.com/primno/primno/blob/main/LICENSE)
 ![build](https://img.shields.io/github/actions/workflow/status/primno/primno/test.yml)
+![node-current](https://img.shields.io/node/v/@primno/core)
 
 This package contains the core functionality of Primno:
 - [Component](https://primno.io/docs/guides/components)
