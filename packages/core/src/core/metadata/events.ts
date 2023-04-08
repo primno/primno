@@ -42,7 +42,7 @@ function makeEventDecorator(eventConfig: EventConfig) {
  * @MnComponent({
  *    scope: {
  *      pageType: "record",
- *      entityName: "contact"
+ *      table: "contact"
  * })
  * export class PhoneCallComponent {
  *   @MnOnCommandInvoke("call")
@@ -80,7 +80,7 @@ export function MnOnCommandInvoke(commandName: ValueOrConfigPropertyMapper<strin
  * @MnComponent({
  *   scope: {
  *    pageType: "record",
- *   entityName: "account"
+ *    table: "account"
  * })
  * export class MyComponent {
  *  @MnOnDataLoad()
@@ -114,7 +114,7 @@ export function MnOnDataLoad() {
  * @MnComponent({
  *  scope: {
  *   pageType: "record",
- *  entityName: "contact"
+ *   table: "contact"
  * })
  * export class PhoneCallComponent {
  *    @MnOnEnableRule("callEnableRules")
@@ -150,7 +150,7 @@ export function MnOnEnableRule(name: ValueOrConfigPropertyMapper<string>) {
  * @MnComponent({
  *  scope: {
  *     pageType: "record",
- *     entityName: "contact"
+ *     table: "contact"
  * })
  * export class MyComponent {
  *    @MnOnColumnChange("firstname")
@@ -185,7 +185,7 @@ export function MnOnColumnChange(columnName: ValueOrConfigPropertyMapper<string>
  * @MnComponent({
  *    scope: {
  *       pageType: "record",
- *       entityName: "account"
+ *       table: "account"
  *   }
  * })
  * export class MyComponent {
@@ -217,8 +217,8 @@ export function MnOnFormLoad() {
  * ```ts
  * @MnComponent({
  *   scope: {
- *    pageType: "record",
- *    entityName: "account"
+ *      pageType: "record",
+ *      table: "account"
  * })
  * export class NotifyGridLoadedComponent {
  *   @MnOnGridLoad("mysubgrid")
@@ -251,8 +251,8 @@ export function MnOnGridLoad(controlName: ValueOrConfigPropertyMapper<string>) {
  * ```ts
  * @MnComponent({
  *  scope: {
- *   pageType: "record",
- *   entityName: "account"
+ *     pageType: "record",
+ *     table: "account"
  * })
  * export class ShowChangedColumnComponent {
  *    @MnOnGridSave("subgrid_contacts")
@@ -290,7 +290,7 @@ export function MnOnGridSave(controlName: ValueOrConfigPropertyMapper<string>) {
  * @MnComponent({
  *  scope: {
  *    pageType: "record",
- *    entityName: "account"
+ *    table: "account"
  * })
  * export class MyComponent {
  *    @MnOnGridRecordSelect("subgrid_contacts")
@@ -326,7 +326,8 @@ export function MnOnGridRecordSelect(controlName: ValueOrConfigPropertyMapper<st
  * @MnComponent({
  *    scope: {
  *       pageType: "record",
- *       entityName: "account"
+ *       table: "account"
+ *    }
  * })
  * export class ShowChangedCellComponent {
  *    @MnOnGridChange("subgrid_contacts")
@@ -408,7 +409,7 @@ export function MnOnIframeLoaded(controlName: ValueOrConfigPropertyMapper<string
  * @MnComponent({
  *   scope: {
  *    pageType: "record",
- *    entityName: "account"
+ *    table: "account"
  * })
  * export class PreventSaveOfContactStartingWithAComponent {
  *   @MnOnLookupTagClick("primarycontactid")
@@ -468,7 +469,7 @@ export function MnOnPopulateQuery(name: ValueOrConfigPropertyMapper<string>) {
  * @MnComponent({
  *  scope: {
  *   pageType: "record",
- *   entityName: "opportunity"
+ *   table: "opportunity"
  * })
  * export class ConfirmBPFTerminationComponent {
  *    @MnOnPreProcessStatusChange()
@@ -558,7 +559,7 @@ export function MnOnPreSearch(controlName: ValueOrConfigPropertyMapper<string>) 
  * @MnComponent({
  *    scope: {
  *       pageType: "record",
- *       entityName: "opportunity"
+ *       table: "opportunity"
  * })
  * export class ConfirmBPFStageChangeComponent {
  *    @MnOnPreStageChange()
@@ -598,7 +599,7 @@ export function MnOnPreStageChange() {
  * @MnComponent({
  *   scope: {
  *     pageType: "record",
- *     entityName: "opportunity"
+ *     table: "opportunity"
  *   }
  * })
  * export class NotifyOnBPFStatusChangeComponent {
@@ -706,7 +707,7 @@ export function MnOnPostSave() {
  * @MnComponent({
  *    scope: {
  *       pageType: "record",
- *       entityName: "opportunity"
+ *       table: "opportunity"
  * })
  * export class NotifyOnBPFStageChangeComponent {
  *    @MnOnStageChange()
@@ -737,7 +738,7 @@ export function MnOnStageChange() {
  * @MnComponent({
  *    scope: {
  *       pageType: "record",
- *       entityName: "opportunity"
+ *       table: "opportunity"
  *    }
  * })
  * export class NotifyOnBPFStageSelectedComponent {
@@ -773,7 +774,7 @@ export function MnOnStageSelected() {
  * @MnComponent({
  *    scope: {
  *       pageType: "record",
- *       entityName: "contact"
+ *       table: "contact"
  *    }
  * })
  * export class NotifyOnTabStateChangeComponent {

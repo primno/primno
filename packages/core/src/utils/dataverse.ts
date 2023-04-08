@@ -44,16 +44,16 @@ export async function getAppId(): Promise<string> {
 }
 
 /**
- * Gets the entity name of the current page.
- * @returns Entity name
+ * Gets the table name of the current page.
+ * @returns Table name
  */
-export function getPageEntityName() {
+export function getPageTableName() {
     const pageContext = Xrm.Utility.getPageContext();
     return pageContext.input.entityName;
 }
 
 /**
- * Gets the page type (entityrecord or entitylist).
+ * Gets the page type (record or list).
  */
 export function getPageType(): PageType {
     switch (Xrm.Utility.getPageContext().input.pageType) {
@@ -64,10 +64,10 @@ export function getPageType(): PageType {
 }
 
 /**
- * Gets the name of the entity from the given control.
+ * Gets the name of the table from the given control.
  * @param control 
  */
-export function getEntityName(control: Control): string { 
+export function getTableName(control: Control): string { 
     switch (getControlType(control)) {
         case "form": {
             const formCtx = getFormContext(control as Xrm.Events.EventContext);
@@ -80,7 +80,7 @@ export function getEntityName(control: Control): string {
         case "grid": {
             return (control as Xrm.Controls.GridControl).getEntityName();
         }
-        default: throw new Error("Unable to get entity name from context. The context must be form or grid");
+        default: throw new Error("Unable to get table name from context. The context must be form or grid");
     }
 }
 

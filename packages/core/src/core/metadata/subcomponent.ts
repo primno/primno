@@ -76,7 +76,7 @@ export type SubComponentConfig<T extends ComponentConstructor = ComponentConstru
  * @MnComponent({
  *    scope: {
  *       pageType: "record",
- *       entityName: "contact"
+ *       table: "contact"
  *    }
  * })
  * export class AppComponent {
