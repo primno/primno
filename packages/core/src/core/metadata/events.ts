@@ -357,6 +357,23 @@ export function MnOnGridChange(controlName: ValueOrConfigPropertyMapper<string>)
  * For more information, see [Microsoft Client API Reference](https://learn.microsoft.com/en-us/power-apps/developer/model-driven-apps/clientapi/reference/events/onoutputchange)
  * 
  * @category Event
+ * @example Show the output value of a control
+ * ```ts
+ * @MnComponent({
+ *    scope: {
+ *       pageType: "record",
+ *       table: "account"
+ *    }
+ * })
+ * export class ShowOutputValueComponent {
+ *    @MnOnOutputChange("myControl")
+ *    onOutputChange(eventArg: FormEventArg) {
+ *       const control = eventArg.formCtx.getControl("myControl");
+ *       const outputValue = control.getOutputs();
+ *       Xrm.Navigation.openAlertDialog({ text: `Output value changed: ${JSON.stringify(outputValue)}` });
+ *    }
+ * }
+ * ```
   * @param controlName Name of the control or callback function that returns the name of the control from the component configuration.
  */
 export function MnOnOutputChange(controlName: ValueOrConfigPropertyMapper<string>) {

@@ -181,3 +181,4 @@ Decorator | Trigger | Type | Manual registration | External function |
 [`@MnOnStageChange`](../api-reference/functions/MnOnStageChange.md) | Stage of BPF is changed. | Record | No | - |
 [`@MnOnStageSelected`](../api-reference/functions/MnOnStageSelected.md) | Stage of BPF is selected. | Record | No | - |
 [`@MnOnTabStateChange`](../api-reference/functions/MnOnTabStateChange.md) | Tab state is changed. | Record | No | - |
+[`@MnOnOutputChange`](../api-reference/functions/MnOnOutputChange.md) | Output of a control changed. | Record | No | - |
