@@ -183,6 +183,24 @@ export class GridChangeEventType extends FormEventType {
     public unsubscribe(selectedControl: Control, controlName?: string): void {}
 }
 
+export class OutputChangeEventType extends FormEventType {
+    constructor() {
+        super(EventTypes.OutputChange, true);
+    }
+
+    public subscribe(selectedControl: Control, controlName?: string): void {
+        const formCtx = getFormContext(selectedControl as Xrm.Events.EventContext) as Xrm.FormContext;
+        const control = formCtx.getControl<Xrm.Controls.StandardControl>(controlName as string);
+        control.addOnOutputChange(this.eventHandler.bind(this, controlName));
+    }
+
+    public unsubscribe(selectedControl: Control, controlName?: string): void {
+        const formCtx = getFormContext(selectedControl as Xrm.Events.EventContext) as Xrm.FormContext;
+        const control = formCtx.getControl<Xrm.Controls.StandardControl>(controlName as string);
+        control.removeOnOutputChange(this.eventHandler.bind(this, controlName));
+    }
+}
+
 export class PreSearchEventType extends FormEventType {
     constructor() {
         super(EventTypes.PreSearch, true);

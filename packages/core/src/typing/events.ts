@@ -152,6 +152,7 @@ export enum EventTypes {
     GridLoad = "GridLoad",
     GridSave = "GridSave",
     GridChange = "GridChange",
+    OutputChange = "OutputChange",
     GridRecordSelect = "GridRecordSelect",
     PopulateQuery = "PopulateQuery"
 }

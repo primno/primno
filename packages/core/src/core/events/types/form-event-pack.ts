@@ -16,7 +16,8 @@ import {
     PostSaveEventType,
     GridSaveEventType,
     GridRecordSelectEventType,
-    GridChangeEventType
+    GridChangeEventType,
+    OutputChangeEventType
 } from "./form-event-type";
 
 export const formEventPack: EventType[] = [
@@ -36,5 +37,6 @@ export const formEventPack: EventType[] = [
     new GridLoadEventType(),
     new GridSaveEventType(),
     new GridRecordSelectEventType(),
-    new GridChangeEventType()
+    new GridChangeEventType(),
+    new OutputChangeEventType()
 ];

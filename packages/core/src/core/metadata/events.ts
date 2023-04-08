@@ -345,6 +345,25 @@ export function MnOnGridChange(controlName: ValueOrConfigPropertyMapper<string>)
 }
 
 /**
+ * Decorator that marks a method as an event handler for an output change event.
+ * 
+ * This event is fired when the output value of a control is changed. Call `getOutputs()` on the control to get the output value.
+ * 
+ * @remarks
+ * Only available for the record page.
+ * 
+ * Automatically registered at runtime.
+ * 
+ * For more information, see [Microsoft Client API Reference](https://learn.microsoft.com/en-us/power-apps/developer/model-driven-apps/clientapi/reference/events/onoutputchange)
+ * 
+ * @category Event
+  * @param controlName Name of the control or callback function that returns the name of the control from the component configuration.
+ */
+export function MnOnOutputChange(controlName: ValueOrConfigPropertyMapper<string>) {
+    return makeEventDecorator({ type: EventTypes.OutputChange, target: controlName });
+}
+
+/**
  * @deprecated Use getContentWindow() on a iframe control instead.
  * @ignore
  * */
