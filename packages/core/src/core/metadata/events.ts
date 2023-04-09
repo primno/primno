@@ -1,6 +1,7 @@
 import { EventTypes } from "../../typing";
 import { ValueOrConfigPropertyMapper } from "../../typing/component";
 import { MetadataDecoratorHelper } from "../reflection/decorator-helper";
+import { MetadataKeys } from "./key";
 
 /**
  * Event configuration.
@@ -19,8 +20,12 @@ export interface EventConfig {
  */
 function makeEventDecorator(eventConfig: EventConfig) {
     return function (target: any, key: any, descriptor: PropertyDescriptor) {
-        const primnoTarget = new MetadataDecoratorHelper(target, key);
-        primnoTarget.setMetadata("event", eventConfig);
+        const helper = new MetadataDecoratorHelper(target, key);
+        const events = [
+            ...helper.getMetadata(MetadataKeys.events) ?? [],
+            eventConfig
+        ];
+        helper.setMetadata(MetadataKeys.events, events);
     }
 }
 

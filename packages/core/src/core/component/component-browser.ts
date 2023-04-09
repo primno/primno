@@ -1,5 +1,6 @@
 import { ComponentOrComponentConstructor, Event } from "../../typing";
 import { EventConfig, SubComponentConfig } from "../metadata";
+import { MetadataKeys } from "../metadata/key";
 import { PropertyMetadata } from "../reflection/property";
 
 /**
@@ -34,7 +35,7 @@ export class ComponentBrowser {
 
     private resolveConfig(input: any | undefined): any | undefined {
         const propMetadata = new PropertyMetadata(this.componentType, "config");
-        const configOrMapper = propMetadata.getMetadata("config");
+        const configOrMapper = propMetadata.getMetadata(MetadataKeys.config);
 
         switch (typeof configOrMapper) {
             case "function":
@@ -127,9 +128,9 @@ export class ComponentBrowser {
     /** Gets sub components of this component */
     public get subComponents(): ComponentBrowser[] {
         return PropertyMetadata.getPropertiesMetadata(this.componentType)
-            .filter(p => p.hasMetadata("subcomponent"))
+            .filter(p => p.hasMetadata(MetadataKeys.subComponent))
             .map(p => {
-                const cfg = p.getMetadata<SubComponentConfig>("subcomponent");
+                const cfg = p.getMetadata<SubComponentConfig>(MetadataKeys.subComponent);
                 const subComp = new ComponentBrowser(
                     cfg.component,
                     this.resolveSubComponentInput((cfg as any).input)
@@ -143,14 +144,14 @@ export class ComponentBrowser {
     /** Gets events of this component */
     public get events(): EventMetadata[] {
         return PropertyMetadata.getPropertiesMetadata(this.componentType)
-            .filter(p => p.hasMetadata("event"))
-            .map(p => {
-                const e = p.getMetadata<EventConfig>("event");
-                return {
+            .filter(p => p.hasMetadata(MetadataKeys.events))
+            .flatMap(p => {
+                const events = p.getMetadata<EventConfig[]>(MetadataKeys.events);
+                return events.map(e => ({
                     type: e.type,
                     targetName: this.resolveEventTargetName(e.target),
                     keyName: p.propertyKey
-                };
+                }));
             });
     }
 

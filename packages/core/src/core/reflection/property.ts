@@ -10,7 +10,12 @@ export class PropertyMetadata implements MetadataAccessor {
         return this._propertyKey;
     }
 
-    public constructor(target: ConstructorOrObject, name: string /*| symbol*/) {
+    public constructor(
+        /** Constructor or object */
+        target: ConstructorOrObject,
+        /** Property name */
+        name: string /*| symbol*/
+    ) {
         this.storage = new MetadataStorage(resolveStorage(target), "property");
         this._propertyKey = name;
     }

@@ -2,6 +2,7 @@ import { DecoratorTarget } from "inversify/lib/annotation/decorator_utils";
 import { ComponentConstructor, InputMapper, InputOf } from "../../typing";
 import { Input } from "../component/interface";
 import { MetadataDecoratorHelper } from "../reflection/decorator-helper";
+import { MetadataKeys } from "./key";
 
 /**
  * Sub component configuration without input.
@@ -139,6 +140,6 @@ export type SubComponentConfig<T extends ComponentConstructor = ComponentConstru
 export function MnSubComponent<T extends ComponentConstructor>(config: SubComponentConfig<T>) {
     return function (target: DecoratorTarget, targetKey?: string | symbol, indexOrPropertyDescriptor?: number | TypedPropertyDescriptor<unknown>) {  
         const primnoTarget = new MetadataDecoratorHelper(target, targetKey, indexOrPropertyDescriptor);
-        primnoTarget.setMetadata("subcomponent", config);
+        primnoTarget.setMetadata(MetadataKeys.subComponent, config);
     };
 }

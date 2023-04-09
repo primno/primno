@@ -4,6 +4,7 @@ import { Injectable } from "../di/injectable";
 import { MetadataDecoratorHelper } from "../reflection/decorator-helper";
 import { ModuleConfig } from "./module";
 import { Provider } from "./provider";
+import { MetadataKeys } from "./key";
 
 /**
  * Component configuration of {@link MnComponent}.
@@ -72,6 +73,6 @@ export function MnComponent<T extends Constructor>(config: ComponentConfig) {
         decorate(Injectable(), target);
 
         const decoratorTarget = new MetadataDecoratorHelper(target);
-        decoratorTarget.setMetadata("component", config);
+        decoratorTarget.setMetadata(MetadataKeys.component, config);
     }
 }

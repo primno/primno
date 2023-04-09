@@ -1,6 +1,7 @@
 import { ConstructorOrObject, ModuleConstructor, ComponentConstructor, Component } from "../../typing";
 import { ClassMetadata } from "../reflection/class";
 import { ComponentConfigInternal } from "./component";
+import { MetadataKeys } from "./key";
 import { ModuleConfig } from "./module";
 
 function isConstructorOrObject(value: ConstructorOrObject) {
@@ -34,7 +35,7 @@ export function getModuleConfig(module: ModuleConstructor) {
     }
 
     const classMetadata = new ClassMetadata(module);
-    return classMetadata.getMetadata("module") as ModuleConfig;
+    return classMetadata.getMetadata(MetadataKeys.module) as ModuleConfig;
 }
 
 export function getComponentConfig(componentType: ComponentConstructor) {
@@ -43,7 +44,7 @@ export function getComponentConfig(componentType: ComponentConstructor) {
     }
 
     const classMetadata = new ClassMetadata(componentType);
-    return classMetadata.getMetadata("component") as ComponentConfigInternal;
+    return classMetadata.getMetadata(MetadataKeys.component) as ComponentConfigInternal;
 }
 
 export function isComponent(componentType: ComponentConstructor | Component) {
@@ -52,7 +53,7 @@ export function isComponent(componentType: ComponentConstructor | Component) {
     }
 
     const classMetadata = new ClassMetadata(componentType);
-    return classMetadata.hasMetadata("component");
+    return classMetadata.hasMetadata(MetadataKeys.component);
 }
 
 export function isModule(moduleType: ModuleConstructor) {
@@ -61,5 +62,5 @@ export function isModule(moduleType: ModuleConstructor) {
     }
 
     const classMetadata = new ClassMetadata(moduleType);
-    return classMetadata.hasMetadata("module");
+    return classMetadata.hasMetadata(MetadataKeys.module);
 }
