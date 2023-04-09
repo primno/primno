@@ -42,7 +42,7 @@ export function error(message: string) {
  * Show an error message
  * @param message Message
  */
-export function throwError(message: string) {
+export function throwError(message: string): never {
     console.error(message);
     throw new Error(message);
 }

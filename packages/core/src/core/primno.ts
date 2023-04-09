@@ -31,7 +31,7 @@ export class Primno {
      * Trigger an event.
      * @param event Event.
      * @param selectedControl Associated execution context.
-     * @param primaryControl Optionnal primary control. Must be set to undefined if there are other args.
+     * @param primaryControl Optional primary control. Must be set to undefined if there are other args.
      * @param args Additional optional arguments that will be passed to the event handler.
      */
     public triggerEvent(event: Event, selectedControl: Control, primaryControl: Control | undefined, ...args: unknown[]): CanBePromise<unknown> {
@@ -48,8 +48,8 @@ export class Primno {
             .then((context) => context.triggerEvent(event, extArgs))
             .catch((except) => {
                 notifyCriticalError(
-                    `An error was occured on ${event.type} event:\r\n${except.message}`,
-                    `Exception: ${except.name} => ${except.message}\r\n Stack trace: ${except.stack}`
+                    `An error was occurred on ${event.type} event:\r\n${except.message}`,
+                    `${except.message}\r\nStack trace: ${except.stack}`
                 );
             })
             .done();

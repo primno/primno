@@ -23,6 +23,8 @@ export class ComponentBrowser {
     private _keyName: string | undefined;
     private _defaultEnabled: boolean | undefined;
     private _componentType: ComponentOrComponentConstructor;
+    private _hasStaticConfig = true;
+    private _hasInput = false;
 
     public constructor(componentType: ComponentOrComponentConstructor, input?: any) {
         this._componentType = componentType;
@@ -35,9 +37,13 @@ export class ComponentBrowser {
         const configOrMapper = propMetadata.getMetadata("config");
 
         switch (typeof configOrMapper) {
-            case "function": return configOrMapper(input);
-            case "object": return configOrMapper;
-            case "undefined": return undefined;
+            case "function":
+                this._hasStaticConfig = false;
+                return configOrMapper(input);
+            case "object":
+                return configOrMapper;
+            case "undefined":
+                return undefined;
             default: throw new Error(`Invalid component config type: ${typeof configOrMapper}`);
         }
     }
@@ -49,7 +55,7 @@ export class ComponentBrowser {
                     return valueOrValueMapper(this.config);
                 }
                 else {
-                    throw new Error("Config required");
+                    throw new Error(`Unable to resolve event target name. Config missing for ${this.componentType.name}`);
                 }
             }
             default:
@@ -60,11 +66,11 @@ export class ComponentBrowser {
     private resolveSubComponentInput(input: any) {
         switch (typeof input) {
             case "function": {
-                if (this.config) {
+                if (this.config != null) {
                     return input(this.config);
                 }
                 else {
-                    throw new Error(`Config required in ${this.componentType.constructor.name}`);
+                    throw new Error(`Unable to resolve sub-component input. Config missing for ${this.componentType.name}`);
                 }
             }
             case "object": return input;
@@ -78,9 +84,22 @@ export class ComponentBrowser {
         return this._input;
     }
 
+    /**
+     * Indicates if the component has an input.
+     */
+    public get hasInput(): boolean {
+        // TODO: Check if the input is set
+        throw new Error("Not implemented.");
+    }
+
     /** Config value of the component */
     public get config(): any | undefined {
         return this._config;
+    }
+
+    /** Indicates if the config is static or resolved from the input */
+    public get hasStaticConfig(): boolean {
+        return this._hasStaticConfig;
     }
 
     /** Name of the component type (Eg: AppComponent) */
@@ -93,14 +112,14 @@ export class ComponentBrowser {
         return this._componentType;
     }
 
-    /** Gets the property name of this subcomponent.
-     * Only available if this component is a subcomponent in the component tree */
+    /** Gets the property name of this sub-component.
+     * Only available if this component is a sub-component in the component tree */
     public get keyName(): string | undefined {
         return this._keyName;
     }
 
-    /** Gets the default state of this subcomponent.
-     * Only available if this component is a subcomponent in the component tree */
+    /** Gets the default state of this sub-component.
+     * Only available if this component is a sub-component in the component tree */
     public get defaultEnabled(): boolean | undefined {
         return this._defaultEnabled;
     }
@@ -111,7 +130,10 @@ export class ComponentBrowser {
             .filter(p => p.hasMetadata("subcomponent"))
             .map(p => {
                 const cfg = p.getMetadata<SubComponentConfig>("subcomponent");
-                const subComp = new ComponentBrowser(cfg.component, this.resolveSubComponentInput((cfg as any).input));
+                const subComp = new ComponentBrowser(
+                    cfg.component,
+                    this.resolveSubComponentInput((cfg as any).input)
+                );
                 subComp._keyName = p.propertyKey;
                 subComp._defaultEnabled = cfg.enabled ?? true;
                 return subComp;

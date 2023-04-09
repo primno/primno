@@ -37,17 +37,17 @@ export class ComponentContainer<T extends ComponentConstructor = ComponentConstr
     protected bindComponent(componentType: ComponentConstructor) {
         const config = getComponentConfig(componentType) as ComponentConfigInternal;
 
-        if (!config.moduleConfig) {
+        if (config.moduleConfig == null) {
             throwError(`The component ${componentType.name} is not declared in a module`);
         }
 
         // Bind sub components of current module
-        config.moduleConfig?.declarations
+        config.moduleConfig.declarations
             ?.filter(c => c !== componentType) // Except itself
             .forEach(c => this._container.bindComponent(c));
         
         // Bind sub components of imported modules
-        config.moduleConfig?.imports
+        config.moduleConfig.imports
             ?.flatMap(m => getModuleConfig(m)?.exports)
             .filter(c => c)
             .forEach(c => this._container.bindComponent(c!));

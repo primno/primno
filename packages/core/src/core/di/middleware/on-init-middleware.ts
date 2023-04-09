@@ -44,6 +44,6 @@ export class OnInitMiddleWare implements Middleware {
     }
 
     onError(errorMsg: string): void {
-        throw new Error(`An error was occured in OnInitMiddleware: ${errorMsg}`);
+        throw new Error(`An error was occurred in OnInitMiddleware: ${errorMsg}`);
     }
 }

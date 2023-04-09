@@ -23,17 +23,17 @@ import { Container, Middleware } from "./container";
 
         this._container = new Container();
         this.bindModule(moduleType);
-        this.applyMiddlewares();
+        this.applyMiddleware();
 
         components.forEach(c => this._container.bindComponent(c));
     }
 
     /**
-     * Middlewares will be executed left to right.
-     * @param middlewares Middlewares
+     * Middleware will be executed left to right.
+     * @param middleware Middleware
      */
-    public applyMiddlewares(...middlewares: Middleware[]) {
-        this._container.addMiddlewares(...middlewares);
+    public applyMiddleware(...middleware: Middleware[]) {
+        this._container.addMiddleware(...middleware);
     }
 
     private bindModule(moduleType: ModuleConstructor) {
