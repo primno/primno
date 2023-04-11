@@ -2,7 +2,7 @@ import { EventType, ExternalArgs, Event, Control } from "../../typing";
 import { debug, verbose } from "../../utils";
 import { Primno } from "../primno";
 import { EventTypeRegister } from "./event-type-register";
-import { cmdBarEventPack, formEventPack } from "./types";
+import { eventTypesInstances } from "./types/pack";
 
 /**
  * Initialize events types.
@@ -10,9 +10,8 @@ import { cmdBarEventPack, formEventPack } from "./types";
  * @param primno 
  */
 export function initEventTypes(eventTypeRegister: EventTypeRegister, primno: Primno): void {
-    formEventPack.forEach(et => eventTypeRegister.registerEventType(et));
-    cmdBarEventPack.forEach(et => eventTypeRegister.registerEventType(et));
-
+    eventTypesInstances.forEach(et => eventTypeRegister.register(et));
+    
     eventTypeRegister.eventTypes.forEach(et => et.init(createCallback(et, primno)));
 }
 

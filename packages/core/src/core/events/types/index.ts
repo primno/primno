@@ -1,2 +1,2 @@
-export * from './form-event-pack';
-export * from './cmdbar-event-pack';
+export * from './form';
+export * from './command-bar';
