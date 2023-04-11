@@ -2,6 +2,7 @@ import { DecoratorTarget } from "inversify/lib/annotation/decorator_utils";
 import { Component, ConfigOrConfigMapper } from "../../typing";
 import { Inject } from "../di";
 import { MetadataDecoratorHelper } from "../reflection/decorator-helper";
+import { MetadataKeys } from "./key";
 
 /**
  * Decorator that mark the property as component config.
@@ -68,6 +69,6 @@ import { MetadataDecoratorHelper } from "../reflection/decorator-helper";
         Inject("config")(target, targetKey, indexOrPropertyDescriptor);
 
         const primnoTarget = new MetadataDecoratorHelper(target, targetKey, indexOrPropertyDescriptor);
-        primnoTarget.setMetadata("config", config);
+        primnoTarget.setMetadata(MetadataKeys.config, config);
     }
 }

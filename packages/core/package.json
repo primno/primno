@@ -14,7 +14,8 @@
     "d365-esm": "dist/primno-d365.esm.js"
   },
   "files": [
-    "dist"
+    "dist",
+    "test"
   ],
   "devDependencies": {
     "inversify": "^6.0.1",

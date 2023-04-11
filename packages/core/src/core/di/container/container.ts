@@ -57,7 +57,7 @@ export class Container {
         if (parentContainer) {
             parentContainer.children.push(this);
             this.invContainer = parentContainer.invContainer.createChild();
-            this.addMiddlewares(...parentContainer.middlewares.filter(m => m.inherit));
+            this.addMiddleware(...parentContainer.middlewares.filter(m => m.inherit));
         }
         else {
             this.invContainer = new InvContainer({ autoBindInjectable: false });
@@ -68,11 +68,11 @@ export class Container {
      * Middlewares will be executed left to right.
      * @param middlewares Middleware
      */
-    public addMiddlewares(...middlewares: Middleware[]) {
+    public addMiddleware(...middlewares: Middleware[]) {
         this.middlewares.push(...middlewares);
 
         const inheritMiddlewares = middlewares.filter(m => m.inherit);
-        this.children.forEach(c => c.addMiddlewares(...inheritMiddlewares));
+        this.children.forEach(c => c.addMiddleware(...inheritMiddlewares));
 
         const invMiddlewares = this.middlewares.map(m => convertToInvMiddleware(m, this));
         // Reverse because Inversify execute right to left

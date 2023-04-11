@@ -1,5 +1,5 @@
 import { EventType, ControlType, ExternalArgs, Event, Control, ComponentConstructor, PageType } from "../../typing";
-import { debug, getControlType } from "../../utils";
+import { debug, getControlType, throwError } from "../../utils";
 import { EventEnv } from "../events/event-env";
 import { EsmLoader } from "../esm/esm-loader";
 import { RootContainer } from "../di/container";
@@ -7,11 +7,11 @@ import { OnInitMiddleWare } from "../di/middleware/on-init-middleware";
 import { SubComponentMiddleware } from "../di/middleware/subcomponent-middleware";
 import { ComponentActivator } from "../component/component-activator";
 import { ComponentBrowser } from "../component/component-browser";
-import { D365EventSubscriber } from "../events/d365-event-subscriber";
+import { PowerAppsEventSubscriber } from "../events/power-apps-event-subscriber";
 import { ComponentLifeCycle } from "../component/component-lifecycle";
 import { getBootstrapComponents } from "../../utils/module";
-import { getComponentConfig } from "../metadata/helper";
 import { getScopeFromControl } from "../../utils/scope";
+import { ComponentIntegrityChecker } from "./component-integrity-checker";
 
 /**
  * Define all actions that could be done in the context of the execution (provided by D365).
@@ -21,7 +21,7 @@ import { getScopeFromControl } from "../../utils/scope";
 export class Context {
     //TODO: Change !
     public controlType: ControlType;
-    private d365EventSubscriber: D365EventSubscriber;
+    private d365EventSubscriber: PowerAppsEventSubscriber;
     private componentLifeCycle: ComponentLifeCycle;
 
     public static async new(
@@ -39,19 +39,30 @@ export class Context {
         private esmLoader: EsmLoader,
         initialExtArgs: ExternalArgs) {
         this.controlType = getControlType(initialExtArgs.selectedControl) as ControlType;
-        this.d365EventSubscriber = new D365EventSubscriber(eventEnv.eventTypeRegister, initialExtArgs.primaryControl as Control);
+        this.d365EventSubscriber = new PowerAppsEventSubscriber(eventEnv.eventTypeRegister, initialExtArgs.primaryControl as Control);
         this.componentLifeCycle = new ComponentLifeCycle(eventEnv.eventRegister);
     }
 
-    // TODO: Move and improve
-    private hasEventIntegrityError(cb: ComponentBrowser): boolean {
-        const hasError = cb.events.some(e => {
-            const eventType = this.eventEnv.eventTypeRegister.getEventType(e.type);
-            const componentMetadata = getComponentConfig(cb.componentType as ComponentConstructor);
-            return !eventType?.supportedPageType.includes(componentMetadata?.scope.pageType as PageType);
-        });
+    private checkIntegrity(bootstrapComponents: ComponentConstructor[]) {
+        const integrityChecker = new ComponentIntegrityChecker(this.eventEnv.eventTypeRegister);
 
-        return hasError || cb.subComponents.some(c => this.hasEventIntegrityError(c));
+        const errorsByBc = bootstrapComponents
+            .map(c => ({
+                bootstrap: c.name,
+                errors: integrityChecker.check(c).errors
+            }))
+            .filter(bc => bc.errors.length > 0);
+        
+        if (errorsByBc.length !== 0) {
+            const errorMessage = errorsByBc
+            .map(bc => {
+                const errors = bc.errors.map(e => ` - ${e.component.name}: ${e.message}`).join("\r\n");
+                return `Bootstrap component: ${bc.bootstrap}\r\n${errors}`;
+            })
+            .join("\r\n");
+        
+            throwError(errorMessage);
+        }
     }
 
     /**
@@ -66,27 +77,22 @@ export class Context {
             const module = esmBrowser.module;
 
             const bootstrapComponents = getBootstrapComponents(module);
-            // TODO: Ensure that the bootstrap components doesn't have input.
-            const boostrapCBs = bootstrapComponents.map(c => new ComponentBrowser(c));
-
-            // Check events integrity
-            if (boostrapCBs.some(c => this.hasEventIntegrityError(c))) {
-                throw new Error(`One or more components have unauthorized events (Wrong page type)`);
-            }
+            this.checkIntegrity(bootstrapComponents);
 
             const contextScope = await getScopeFromControl(extArgs.primaryControl as Control);
 
             // Init DI
             const rootContainer = new RootContainer(module);
-            rootContainer.applyMiddlewares(
+            rootContainer.applyMiddleware(
                 new OnInitMiddleWare(this.componentLifeCycle),
                 new SubComponentMiddleware(this.componentLifeCycle, contextScope)
             );
 
             // Subscribe to D365 events
-            boostrapCBs.forEach(cb => cb.allEvents.forEach(e => this.d365EventSubscriber.subscribe(e)));
+            const bootstrapCBs = bootstrapComponents.map(c => new ComponentBrowser(c));
+            bootstrapCBs.forEach(cb => cb.allEvents.forEach(e => this.d365EventSubscriber.subscribe(e)));
 
-            // Create and enable the boostrap components
+            // Create and enable the bootstrap components
             bootstrapComponents.forEach(c => {
                 const componentActivator = new ComponentActivator(
                     c,
@@ -98,7 +104,7 @@ export class Context {
             });
         }
         catch (except: any) {
-            throw new Error(`Initialization error - ${except.message}. Exception: ${except.name}. Stack trace: ${except.stack}`);
+            throw new Error(`Initialization error:\r\n${except.message}.\r\n\r\nStack trace:\r\n${except.stack}`);
         }
     }
 
@@ -125,7 +131,12 @@ export class Context {
      * @returns 
      */
     public triggerEvent(event: Event, extArgs: ExternalArgs): unknown {
-        const eventType = this.eventEnv.eventTypeRegister.getEventType(event.type) as EventType;
+        const eventType = this.eventEnv.eventTypeRegister.getEventType(event.type);
+
+        if (eventType == null) {
+            throwError(`No event listener or event type ${event.type}`)
+        }
+
         this.checkEventType(eventType, event);
 
         debug(`Event ${event.type} triggered with target name ${event.targetName}`);

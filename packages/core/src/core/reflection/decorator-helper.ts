@@ -4,7 +4,7 @@ import { ParameterMetadata } from "./parameter";
 import { PropertyMetadata } from "./property";
 
 /**
- * Cible de décorateur
+ * Helper class to access metadata from a decorator.
  */
  export class MetadataDecoratorHelper implements MetadataAccessor {
     private storage: MetadataAccessor;

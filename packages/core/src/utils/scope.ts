@@ -1,6 +1,6 @@
 import { Control, Scope, ControlType, FormScopeConfig, AppScopeConfig } from "../typing";
 import { isSameId, isNullOrEmpty } from "./common";
-import { getEntityName, getPageType, getAppId, getControlType, getFormContext } from "./dataverse";
+import { getTableName, getPageType, getAppId, getControlType, getFormContext } from "./dataverse";
 
 /**
  * Gets the scope of a control.
@@ -8,11 +8,11 @@ import { getEntityName, getPageType, getAppId, getControlType, getFormContext } 
  * TODO: Move to utils ?
  */
 export async function getScopeFromControl(control: Control): Promise<Scope> {
-    const entityName = getEntityName(control);
+    const tableName = getTableName(control);
 
         const scope: Scope = {
             pageType: getPageType(),
-            table: entityName,
+            table: tableName,
             app: {
                 id: await getAppId()
             }
@@ -55,7 +55,7 @@ function toArray<T>(elementOrArray: T | T[]) {
     return ([] as T[]).concat(elementOrArray);
 }
 
-function isSameEntityName(first?: string | string[], second?: string | string[]) {
+function isSameTableName(first?: string | string[], second?: string | string[]) {
     if (second == null) {
         // Second null = all entities
         return true;
@@ -84,7 +84,7 @@ function isSameEntityName(first?: string | string[], second?: string | string[])
             assertions.push(isSameForm(first.form, (second as any).form));
             
             if (second.pageType === "record") {
-                assertions.push(isSameEntityName(first.table, second.table));
+                assertions.push(isSameTableName(first.table, second.table));
             }
             
             break;
@@ -92,7 +92,7 @@ function isSameEntityName(first?: string | string[], second?: string | string[])
             // Only list in second scope allowed
             assertions.push(first.pageType === second.pageType);
 
-            assertions.push(isSameEntityName(first.table, second.table));
+            assertions.push(isSameTableName(first.table, second.table));
 
             break;
     }

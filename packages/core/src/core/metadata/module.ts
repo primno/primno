@@ -4,6 +4,7 @@ import { Injectable } from "../di/injectable";
 import { ClassMetadata } from "../reflection/class";
 import { MetadataDecoratorHelper } from "../reflection/decorator-helper";
 import { Provider } from "./provider";
+import { MetadataKeys } from "./key";
 
 /**
  * Module configuration of {@link MnModule}.
@@ -72,18 +73,18 @@ export function MnModule<T>(moduleConfig: ModuleConfig) {
         decorate(Injectable(), target);
 
         const metadataDecorator = new MetadataDecoratorHelper(target);
-        const previousMetadata = metadataDecorator.getMetadata("module") ?? {};
-        metadataDecorator.setMetadata("module", { ...previousMetadata, ...moduleConfig });
+        const previousMetadata = metadataDecorator.getMetadata(MetadataKeys.module) ?? {};
+        metadataDecorator.setMetadata(MetadataKeys.module, { ...previousMetadata, ...moduleConfig });
 
         // Set moduleConfig to all components
         moduleConfig.declarations?.forEach(c => {
             const componentMetadata = new ClassMetadata(c);
-            const metadata = componentMetadata.getMetadata("component");
+            const metadata = componentMetadata.getMetadata(MetadataKeys.component);
             if (!metadata) {
                 throw new Error(`Declared component ${c} is not a component`);
             }
             metadata.moduleConfig = moduleConfig;
-            componentMetadata.setMetadata("component", metadata);
+            componentMetadata.setMetadata(MetadataKeys.component, metadata);
         });
     }
 }

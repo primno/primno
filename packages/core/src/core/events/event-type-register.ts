@@ -15,9 +15,9 @@ export class EventTypeRegister {
      * @param eventType Event type
      * @returns
      */
-    public registerEventType(eventType: EventType): void {
+    public register(eventType: EventType): void {
         if (this._eventTypes.some(et => et.name == eventType.name)) {
-            return; // Allready registered
+            return; // Already registered
         }
 
         this._eventTypes.push(eventType);
