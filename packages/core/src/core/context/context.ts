@@ -7,7 +7,7 @@ import { OnInitMiddleWare } from "../di/middleware/on-init-middleware";
 import { SubComponentMiddleware } from "../di/middleware/subcomponent-middleware";
 import { ComponentActivator } from "../component/component-activator";
 import { ComponentBrowser } from "../component/component-browser";
-import { D365EventSubscriber } from "../events/d365-event-subscriber";
+import { PowerAppsEventSubscriber } from "../events/power-apps-event-subscriber";
 import { ComponentLifeCycle } from "../component/component-lifecycle";
 import { getBootstrapComponents } from "../../utils/module";
 import { getScopeFromControl } from "../../utils/scope";
@@ -21,7 +21,7 @@ import { ComponentIntegrityChecker } from "./component-integrity-checker";
 export class Context {
     //TODO: Change !
     public controlType: ControlType;
-    private d365EventSubscriber: D365EventSubscriber;
+    private d365EventSubscriber: PowerAppsEventSubscriber;
     private componentLifeCycle: ComponentLifeCycle;
 
     public static async new(
@@ -39,7 +39,7 @@ export class Context {
         private esmLoader: EsmLoader,
         initialExtArgs: ExternalArgs) {
         this.controlType = getControlType(initialExtArgs.selectedControl) as ControlType;
-        this.d365EventSubscriber = new D365EventSubscriber(eventEnv.eventTypeRegister, initialExtArgs.primaryControl as Control);
+        this.d365EventSubscriber = new PowerAppsEventSubscriber(eventEnv.eventTypeRegister, initialExtArgs.primaryControl as Control);
         this.componentLifeCycle = new ComponentLifeCycle(eventEnv.eventRegister);
     }
 

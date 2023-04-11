@@ -1,29 +1,21 @@
-import { Control, ControlType, Event } from "../../typing";
-import { debug, error, getControlType, verbose } from "../../utils";
+import { Control, Event } from "../../typing";
+import { debug, error, verbose } from "../../utils";
 import { EventTypeRegister } from "./event-type-register";
 
 /**
- * Subscribe to D365 events in runtime.
+ * Subscribe to Power Apps events at runtime.
  * Ensure that only one subscribe is done.
  */
-export class D365EventSubscriber {
+export class PowerAppsEventSubscriber {
     public constructor(
         private eventTypeRegister: EventTypeRegister,
         private primaryControl: Control
-    ) {
-        const controlType = getControlType(primaryControl);
-        if (controlType == null) {
-            throw new Error("Control type of primary control can't be resolved")
-        }
-        
-        this.controlType = controlType;
-    }
+    ) {}
 
     private events: Event[] = [];
-    private controlType: ControlType;
 
     /**
-     * Subscribe an event to D365 if possible.
+     * Subscribe an event to Power Apps if possible.
      * @param event Event to subscribe.
      * @returns
      */
@@ -31,22 +23,22 @@ export class D365EventSubscriber {
         const eventType = this.eventTypeRegister.getEventType(event.type);
 
         if (eventType == null) {
-            throw new Error(`Event type ${event.type} unknow`);
+            throw new Error(`Event type ${event.type} unknown`);
         }
 
         if (!eventType.subscribable) {
-            error(`${event.type} can't be subscribe to D365 at runtime with this control type`);
+            verbose(`${event.type} can't be subscribed at runtime. Event ignored`);
             return;
         }
         
         if (!this.events.find(e => e.type === event.type && e.targetName === event.targetName)) {
-            debug(`Subscribe to D365 ${event.type} event with target name ${event.targetName}`);
+            debug(`Subscribe to ${event.type} event at runtime with target name ${event.targetName}`);
             try {
                 eventType.subscribe(this.primaryControl, event.targetName);
                 this.events.push(event);
             }
             catch (except: any) {
-                error(except.message);
+                error(`Unable to subscribe the ${event.type} event at runtime with target name ${event.targetName}: ${except.message}`);
             }
         }
         else {
@@ -54,7 +46,7 @@ export class D365EventSubscriber {
         }
     }
 
-    public unsubscribe(event: Event) {
-        throw new Error("Not implemented");
-    }
+    // public unsubscribe(event: Event) {
+    //     throw new Error("Not implemented");
+    // }
 }
