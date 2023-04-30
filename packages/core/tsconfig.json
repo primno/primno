@@ -15,8 +15,9 @@
       "es2020.string",
       "dom"
     ],
-    "outDir": "build",
-    "declaration": true
+    "declarationDir": ".",
+    "declaration": true,
+    "emitDeclarationOnly": true,
   },
   "exclude": ["node_modules", "build", "dist", "test"]
 }
