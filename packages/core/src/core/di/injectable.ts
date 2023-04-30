@@ -15,13 +15,15 @@ interface InjectableOptions {
 /**
  * Decorator that marks a class providable as a dependency.
  * 
- * @example Mark `MyService` as a dependency.
+ * Use the `providedIn` option to provide the dependency in the root injector.
+ * 
+ * @example Mark `MyService` as a dependency in a component.
  * ```ts
  * @Injectable()
  * class MyService {
- *   doSomething() {
- *     console.log("Hello World!");
- *   }
+ *    doSomething() {
+ *      console.log("Hello World!");
+ *    }
  * }
  * 
  * @MnComponent({
@@ -37,11 +39,31 @@ interface InjectableOptions {
  *     myService.doSomething();
  *   }
  * }
+ * ```
  * 
+ * @example Mark `MyService` as a dependency and provide it in the root injector.
+ * ```ts
+ * @Injectable({
+ *    providedIn: "root"
+ * })
+ * class MyService {
+ *    doSomething() {
+ *       console.log("Hello World!");
+ * }
+ * 
+ * @MnComponent({
+ *    scope: {
+ *       pageType: "record"
+ *    }
+ * })
+ * export class MyComponent {
+ *    constructor(myService: MyService) {
+ *       myService.doSomething();
+ *    }
+ * }
  * ```
  * 
  * @category Dependency Injection
- * @returns 
  */
 export function Injectable<T extends Constructor>(options?: InjectableOptions) {
     return function (target: T) {
