@@ -1,0 +1,14 @@
+{
+    "compilerOptions": {
+      "noEmitOnError": false,
+      "target": "ES2020",
+      "module": "ESNext",
+      "moduleResolution": "Node",
+      "esModuleInterop": true,
+      "strict": true,
+      "sourceMap": true,
+      "skipLibCheck": true,
+      "forceConsistentCasingInFileNames": true
+    },
+    "exclude": ["node_modules", "build"]
+  }
