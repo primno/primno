@@ -9,6 +9,14 @@ export function debug(message: any): void {
 }
 
 /**
+ * Log a warning message
+ * @param message Message
+ */
+export function warning(message: string): void {
+    console.warn(message);
+}
+
+/**
  * Log a verbose message
  * @param message Message
  */

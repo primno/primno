@@ -14,7 +14,7 @@ export class ImportModuleResolver implements EsmResolver {
             }
 
             return esm;
-        } catch (except) {
+        } catch (except: any) {
             throw new Error(
                 `Web resource ${this.config.uri} can't be loaded. ` +
                 `Make sure that the 'mn start' command is running and that you have accept the certificate in your browser.`);

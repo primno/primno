@@ -1,4 +1,16 @@
-import { injectable } from "inversify";
+import { decorate, injectable } from "inversify";
+import { Constructor } from "../../typing";
+import { addProvider } from "./container/root-provider";
+
+/**
+ * Options for the `Injectable` decorator.
+ */
+interface InjectableOptions {
+    /**
+     * Determines where the dependency is provided.
+     */
+    providedIn?: "root";
+}
 
 /**
  * Decorator that marks a class providable as a dependency.
@@ -13,12 +25,12 @@ import { injectable } from "inversify";
  * }
  * 
  * @MnComponent({
- *   scope: {
- *     pageType: "record"
- *     },
- *     providers: [
+ *    scope: {
+ *       pageType: "record"
+ *    },
+ *    providers: [
  *       MyService
- *   ]
+ *    ]
  * })
  * export class MyComponent {
  *   constructor(myService: MyService) {
@@ -31,6 +43,12 @@ import { injectable } from "inversify";
  * @category Dependency Injection
  * @returns 
  */
-export function Injectable() {
-    return injectable();
+export function Injectable<T extends Constructor>(options?: InjectableOptions) {
+    return function (target: T) {
+        decorate(injectable(), target);
+
+        if (options?.providedIn === "root") {
+            addProvider(target);
+        }
+    }
 }

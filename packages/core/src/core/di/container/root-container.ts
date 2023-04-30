@@ -3,6 +3,7 @@ import { getBootstrapComponents } from "../../../utils/module";
 import { getBindFromProvider } from "../../../utils/provider";
 import { getModuleConfig, isModule } from "../../metadata/helper";
 import { Container, Middleware } from "./container";
+import { getProviders } from "./root-provider";
 
 /**
  * Create the root module container.
@@ -26,6 +27,7 @@ import { Container, Middleware } from "./container";
         this.applyMiddleware();
 
         components.forEach(c => this._container.bindComponent(c));
+        getProviders().forEach(p => this._container.bindClass(p, p));
     }
 
     /**
