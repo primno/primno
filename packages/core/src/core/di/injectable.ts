@@ -49,6 +49,7 @@ interface InjectableOptions {
  * class MyService {
  *    doSomething() {
  *       console.log("Hello World!");
+ *    }
  * }
  * 
  * @MnComponent({
