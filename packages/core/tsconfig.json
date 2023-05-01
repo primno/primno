@@ -15,11 +15,9 @@
       "es2020.string",
       "dom"
     ],
-    "outDir": "build",
-    "declaration": true
+    "declarationDir": ".",
+    "declaration": true,
+    "emitDeclarationOnly": true,
   },
-  "include": [
-    "src",
-    "rollup.config.ts"
-  ]
+  "exclude": ["node_modules", "build", "dist", "test"]
 }

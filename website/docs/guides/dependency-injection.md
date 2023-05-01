@@ -121,6 +121,28 @@ If the class identifier and the provided class is different, you must use the `u
 export class MyComponent {}
 ```
 
+You can also mark a class as a dependency and at the same time provide it in the root injector with the `Injectable()` decorator.
+The class will be automatically injected in the root injector and will be available for all components.
+Because this method enable Tree-shaking, it is the recommended way to provide a dependency when the provided class is also the class identifier.
+The Tree-shaking is a process that removes unused code from the final bundle.
+
+```ts title="my.service.ts"
+@Injectable({
+    providedIn: "root" // Provide the class in the root injector.
+})
+export class MyService {}
+
+@MnComponent({
+    /* ... */
+    // No need to add the provider in the `providers` array of this component or in the associated module
+})
+export class MyComponent {
+    constructor(myService: MyService) {
+        // The class will be injected automatically
+    }
+}
+```
+
 ### Value provider
 
 Provides a value, such as a string, number, or function by using the `useValue` property.

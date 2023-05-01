@@ -11,7 +11,7 @@ export function resolveStorage(target: ConstructorOrObject): any {
 export class MetadataStorage {
     private metadataKey: string;
 
-    public constructor(private storage: any, shelf: string) {
+    public constructor(private storage: any, shelf = "default") {
         this.metadataKey = `primno:metadata-${shelf}`
     }
 

@@ -2,6 +2,7 @@ import { Container as InvContainer, interfaces as InvInterfaces } from "inversif
 import { ComponentConstructor } from "../../../typing/component";
 import { isComponent } from "../../metadata/helper";
 import { Bind } from "./bind";
+import { warning } from "../../../utils";
 
 export interface Middleware {
     /**
@@ -12,7 +13,7 @@ export interface Middleware {
     /**
      * Called before the construction of an instance.
      */
-    onPreConstruct(identifier: any, key?: string | symbol | number): void;
+    onPreConstruct(identifier: any, container: Container, key?: string | symbol | number): void;
 
     /**
      * Called after the construction of an instance.
@@ -33,7 +34,7 @@ function convertToInvMiddleware(middleware: Middleware, container: Container): I
             let instance;
 
             try {
-                middleware.onPreConstruct(args.serviceIdentifier, args.key);
+                middleware.onPreConstruct(args.serviceIdentifier, container, args.key);
                 instance = planAndResolve(args);
                 instance = middleware.onPostConstruct(instance, container);
             }
@@ -51,13 +52,13 @@ function convertToInvMiddleware(middleware: Middleware, container: Container): I
 export class Container {
     protected children: Container[] = [];
     protected invContainer: InvContainer;
-    protected middlewares: Middleware[] = [];
+    protected middleware: Middleware[] = [];
 
     public constructor(parentContainer?: Container) {
         if (parentContainer) {
             parentContainer.children.push(this);
             this.invContainer = parentContainer.invContainer.createChild();
-            this.addMiddleware(...parentContainer.middlewares.filter(m => m.inherit));
+            this.addMiddleware(...parentContainer.middleware.filter(m => m.inherit));
         }
         else {
             this.invContainer = new InvContainer({ autoBindInjectable: false });
@@ -65,18 +66,18 @@ export class Container {
     }
 
     /**
-     * Middlewares will be executed left to right.
-     * @param middlewares Middleware
+     * Middleware will be executed left to right.
+     * @param middleware Middleware
      */
-    public addMiddleware(...middlewares: Middleware[]) {
-        this.middlewares.push(...middlewares);
+    public addMiddleware(...middleware: Middleware[]) {
+        this.middleware.push(...middleware);
 
-        const inheritMiddlewares = middlewares.filter(m => m.inherit);
-        this.children.forEach(c => c.addMiddleware(...inheritMiddlewares));
+        const inheritMiddleware = middleware.filter(m => m.inherit);
+        this.children.forEach(c => c.addMiddleware(...inheritMiddleware));
 
-        const invMiddlewares = this.middlewares.map(m => convertToInvMiddleware(m, this));
+        const invMiddleware = this.middleware.map(m => convertToInvMiddleware(m, this));
         // Reverse because Inversify execute right to left
-        this.invContainer.applyMiddleware(...invMiddlewares.reverse());
+        this.invContainer.applyMiddleware(...invMiddleware.reverse());
     }
 
     public bind(bind: Bind) {
@@ -99,6 +100,11 @@ export class Container {
     }
 
     public bindClass(provider: any, value: any) {
+        if (this.isBound(provider)) {
+            warning(`Class provider ${provider} is already bound.`);
+            return;
+        }
+
         this.invContainer
             .bind(provider)
             .to(value)
@@ -106,6 +112,11 @@ export class Container {
     }
 
     public bindConstantValue(provider: any, value: any) {
+        if (this.isBound(provider)) {
+            warning(`Constant provider ${provider} is already bound.`);
+            return;
+        }
+
         this.invContainer
             .bind(provider)
             .toConstantValue(value)
@@ -114,6 +125,11 @@ export class Container {
     }
 
     public bindDynamicValue(provider: any, dynValResolver: (target: any) => any) {
+        if (this.isBound(provider)) {
+            warning(`Dynamics value provider ${provider} is already bound.`);
+            return;
+        }
+
         this.invContainer
             .bind(provider)
             .toDynamicValue(dynValResolver)
@@ -122,6 +138,10 @@ export class Container {
 
     public createChild(): Container {
         return new Container(this);
+    }
+
+    public isBound(serviceIdentifier: any): boolean {
+        return this.invContainer.isCurrentBound(serviceIdentifier);
     }
 
     public get(serviceIdentifier: any) {
