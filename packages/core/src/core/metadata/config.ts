@@ -1,8 +1,9 @@
 import { DecoratorTarget } from "inversify/lib/annotation/decorator_utils";
-import { Component, ConfigOrConfigMapper } from "../../typing";
+import { ConfigOrConfigMapper } from "../../typing";
 import { Inject } from "../di";
 import { MetadataDecoratorHelper } from "../reflection/decorator-helper";
 import { MetadataKeys } from "./key";
+import { Config } from "../component/interface";
 
 /**
  * Decorator that mark the property as component config.
@@ -63,7 +64,7 @@ import { MetadataKeys } from "./key";
  * @category Component
  * @param config Configuration values or a function that returns the configuration values from the input.
  */
- export function MnConfig<TComp extends Component = Component>(config: ConfigOrConfigMapper<TComp>) {
+ export function MnConfig<TComp extends Config = Config>(config: ConfigOrConfigMapper<TComp>) {
     // TODO: Make decorator helper
     return function (target: DecoratorTarget, targetKey?: string | symbol, indexOrPropertyDescriptor?: number | TypedPropertyDescriptor<unknown>) {
         Inject("config")(target, targetKey, indexOrPropertyDescriptor);

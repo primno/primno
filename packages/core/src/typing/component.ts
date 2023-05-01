@@ -61,7 +61,7 @@ export type InputOrInputMapper<T extends Constructor, TInstance extends Instance
  * Gets config type from a component by extracting the `config` property type.
  * Can be used in conjunction with the {@link @MnSubComponent} decorator
  * to obtain the config type of the current component
- * when resolve the input of the sub-component from the config of the parent component.
+ * when resolving the sub-component input from the config of the parent component.
  * @category Component
  */
 export type ConfigOf<TComponent extends Component> = TComponent extends Config ? Readonly<TComponent["config"]> : never;
@@ -70,13 +70,13 @@ export type ConfigOf<TComponent extends Component> = TComponent extends Config ?
  * Function that resolve the config from the input of the component.
  * @category Component
 */
-export type ConfigMapperFromInput<T extends Component> = (i: InputOf<T>) => ConfigOf<T>;
+export type ConfigMapperFromInput<T extends Config> = (i: InputOf<T>) => ConfigOf<T>;
 
 /**
  * Configuration value or callback to resolve the config from the input property of the component.
  * @category Component
  */
-export type ConfigOrConfigMapper<TInstance extends Component> = ConfigOf<TInstance> | ConfigMapperFromInput<TInstance>;
+export type ConfigOrConfigMapper<TInstance extends Config> = ConfigOf<TInstance> | ConfigMapperFromInput<TInstance>;
 
 // ---
 
