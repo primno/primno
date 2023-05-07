@@ -1,7 +1,7 @@
 ---
 title: Setup workspace configuration of Primno
 sidebar_position: 1
-description: Setup the build, deploy, and serve configuration of your project. Link the entry points to the web resources of your solution.
+description: Setup the build, deploy, and start the dev mode of your project. Link your workspace to a web resource of your solution.
 sidebar_label: Workspace
 ---
 # Workspace configuration of Primno
@@ -13,7 +13,6 @@ Property | Description | Default value
 `name` | Name of the project. | Name of the folder that contains the project.
 `version` | Version of the project. | `1.0.0`
 `sourceRoot` | Path of the source code. | `src`
-`entryPointDir` | Path of the entry points. | `entry-point`
 `distDir` | Path of the output files. | `dist`
 `build` | [Build configuration](#build) | -
 `deploy` | [Deploy configuration](#deploy) | -
@@ -27,7 +26,17 @@ The build configuration contains the following properties:
 
 Property | Description
 --- | ---
-`entryPoints` | List of entry points to build. If not specified, all entry points will be built.
+`moduleNameTemplate` | [Format of prefix](#module-name-template) of an external function. Used when [subscribing](../events.md#manual-registration) to an event.
+
+### Module name template
+
+The module name template is a string that will be used to generate the name of the prefix of an external function (called by Power Apps). It can contain the following placeholders:
+
+Placeholder | Description
+--- | ---
+`{{projectName}}` | Name of the project.
+
+The default module name template is `mn_{{projectName}}`.
 
 ## Deploy
 
@@ -37,10 +46,9 @@ The deploy configuration contains the following properties:
 
 Property | Description
 --- | ---
-`entryPoints` | List of entry points to deploy. If not specified, all entry points will be deployed.
 `environment` | Environment name to deploy to. Must be defined in the `primno.env.json` file.
 `solutionUniqueName` | Unique name of the solution to deploy to.
-`webResourceNameTemplate` | [Template of the name of the web resource](#web-resource-name-template) for each entry point.
+`webResourceNameTemplate` | [Template of the name of the web resource](#web-resource-name-template) of the entry point.
 
 ### Web resource name template
 
@@ -50,9 +58,8 @@ Placeholder | Description
 --- | ---
 `{{editorName}}` | Editor prefix (without the _).
 `{{projectName}}` | Name of the project.
-`{{entryPoint}}` | Name of the entry point.
 
-The default web resource name template is `{{editorName}}_/{{projectName}}/js/{{entryPoint}}.js`.
+The default web resource name template is `{{editorName}}_/js/{{projectName}}.js`.
 
 ## Serve
 

@@ -95,17 +95,19 @@ On a form, you must register to the `form load` event.
 To register manually an event, you must call the `External function` of the event (see [events list](#events-list)) with the following format:
 
 ```
-mn_<entry point>.<external function>
+mn_<project name>.<external function>
 ```
 
 Where:
-- `<entry point>` is the name of the entry point.
+- `<project name>` is the name of the project.
 - `<external function>` is the name of the external function of the event.
 
-Example for a form load event in the `main` entry point:
+The `mn_<project name>` prefix can be customized in the `primno.json` file (see [Workspace](./configuration/workspace.md)).
+
+Example for a form load event:
 
 ```ts
-mn_main.onFormLoad
+mn_myproject.onFormLoad
 ```
 
 :::tip

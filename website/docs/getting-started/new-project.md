@@ -19,16 +19,10 @@ mn new myproject
 
 This command will create a new project in the current folder with the name "myproject".
 
-Then enter in the project folder:
+Then, open the project in Visual Studio Code:
 
 ```bash
-cd myproject
-```
-
-Open the project in Visual Studio Code:
-
-```bash
-code .
+code myproject
 ```
 
 You will see the following files and folders:
@@ -38,18 +32,19 @@ myproject
 ├── node_modules
 ├── src # Source code directory
 │   ├── list # List (home-grid, sub-grid and associated-grid) components
-│   │   ├── contact.component.ts # Component that say hello when a button is clicked on a contact grid
+│   │   ├── contact # Contact component and its sub-components
+│   │   │   └── contact.component.ts # Component that say hello when a button is clicked on a contact grid
 │   │   └── list.module.ts # Main module of the components tree of page type "list"
-│   ├── record # Record (form) components
+│   ├── record # Record (main form, quick create form) components
 │   │   ├── account # Account component and its sub-components
-│   │   │   ├── account.component.ts # Component that runs when on account form
-│   │   │   └── notify-column-change.component.ts # Sub-component of AccountComponent
-│   │   └── record.module.ts # Main module of the components tree of page type "record"
-│   └── entry-point # Entry points for Power Apps (JS web-resources)
-│       └── main.ts # Main entry point with its main module. Load list and record modules
+│   │   │   ├── account.component.ts # Component that runs when on account form.
+│   │   │   └── notify-column-change # Sub-component of AccountComponent
+│   │   │       └── notify-column-change.component.ts # Notify the user when a column value is changed
+│   │   └── record.module.ts # Main module of the components tree of page type "list"
+│   └── app.entry.ts # Entry point for Power Apps. Contains the main module that load list and record modules.
 ├── package.json
-├── primno.config.json # Primno configuration file
-├── primno.env.json # Primno environment configuration file
+├── primno.config.json # Configuration file of Primno CLI.
+├── primno.env.json # Connection string of your PowerApps / Dynamics 365 environment.
 ├── README.md
 ├── .gitignore
 └── tsconfig.json
