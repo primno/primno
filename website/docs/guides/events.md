@@ -22,18 +22,29 @@ public onFormLoad(eventArg: FormEventArgs) {
 
 :::important
 Each event decorator has a dedicated documentation page that provides explanations and usage examples.
+See the [full events list](#events-list).
 
 Eg: [MnOnColumnChange](../api-reference/functions/MnOnColumnChange.md).
 :::
 
-## Types
+## Page type
 
-They are 2 types of events that are only available in components that target the same type of page (see [Scope](./components.md#scope)).
+The page type define the main source of the event:
 
-| Type | Description
+| Page type | Description
 | --- | --- |
 | Record | Fired on a form (principal form, quick create form). |
 | List | Fired on a home-grid, sub-grid or associated grid. |
+
+A event can be available on one or both page types. For example, the `form load` event is only available on a record page when the `enable rule` (command-bar) event is available on both record and list pages. See the [full events list](#events-list).
+
+A component defines its page type using the [Scope](./components.md#scope) property of its `MnComponent` decorator.
+
+:::caution
+A component targeting the "List" page type cannot subscribe to a "Record" event and vice versa.
+:::
+
+The page type defined the execution context of the event handler, a record event performs operations on a form ([form context](https://learn.microsoft.com/en-us/power-apps/developer/model-driven-apps/clientapi/clientapi-form-context)) when a list event performs operations on a grid ([grid context](https://learn.microsoft.com/en-us/power-apps/developer/model-driven-apps/clientapi/clientapi-grid-context)).
 
 ## Target
 
@@ -114,22 +125,34 @@ mn_myproject.onFormLoad
 The command `mn build`, `mn deploy` and `mn start` show the prefix to use and an example for the `form load` event.
 :::
 
-### Record events
+### Form
+
+To register a form event, use the Form Designer of Power Apps. See: [Use form designer](https://learn.microsoft.com/en-us/power-apps/maker/model-driven-apps/form-designer-overview).
 
 :::caution
 To register events on a form, the function must be called with the `Pass execution context as first parameter` option checked.
 :::
 
-You can add optionals argument, they will be passed to the event handler.
-Some events require the target name in optionals arguments. Eg: `@MnOnGridRecordSelect`, `@MnOnGridChange` and `@MnOnGridSave`. See the associated decorator documentation for more information.
+You can add optionals argument, they will be passed to the event handler in the `extraArgs` property.
+Some events require the target name in optionals arguments.
+Eg: [`@MnOnGridRecordSelect`](../api-reference/functions/MnOnGridRecordSelect.md), [`@MnOnGridChange`](../api-reference/functions/MnOnGridChange.md) and [`@MnOnGridSave`](../api-reference/functions/MnOnGridSave.md).
+See the associated decorator documentation for more information.
 
-### List events
+#### Example
 
-To register events on a grid, the function must be called with the following arguments:
+Registration of the `form load` event for the `myproject` project using Power Apps editor:
 
-:::caution
-Order is important.
-:::
+![Register a form event](/img/guides/events/form-registration.png)
+
+Two optionals arguments are passed to the event handler: `first arg` and `second arg`.
+
+### Command bar
+
+The registration of events of the command-bar can be done with:
+- Command Designer of Power Apps. See: [Use command designer](https://learn.microsoft.com/en-us/power-apps/maker/model-driven-apps/use-command-designer).
+- Ribbon Workbench. See [Ribbon Workbench documentation](https://ribbonworkbench.uservoice.com/)
+
+To register events of the command-bar (Eg: [`@MnOnCommandInvoke`](../api-reference/functions/MnOnCommandInvoke.md), [`@MnOnEnableRule`](../api-reference/functions/MnOnEnableRule.md)) the function must be called with the following arguments:
 
 | Parameter | Value |
 | --- | --- |
@@ -137,7 +160,22 @@ Order is important.
 | PrimaryControl | - |
 | String parameter | `<target name>` |
 
-You can add optionals argument after `PrimaryControl`, they will be passed to the event handler.
+:::caution
+Order is important.
+:::
+
+You can add optionals argument after `String parameter`, they will be passed to the event handler in the `extraArgs` property.
+
+#### Example
+
+With Command Designer of Power Apps:
+
+![Register a command bar event with Command Designer of Power Apps](/img/guides/events/command-bar-registration-command-designer.png "Register a command bar event with Command Designer of Power Apps")
+
+With Ribbon Workbench:
+
+![Register a command bar event with Ribbon Workbench](/img/guides/events/command-bar-registration-ribbon-workbench.png "Register a command bar event with Ribbon Workbench")
+
 
 ## Event handler
 
@@ -152,7 +190,7 @@ This table lists all the events that can be subscribed to with Primno.
 :::tip
 - **Decorator**: The decorator to use to subscribe to the event.
 - **Trigger**: The event that will trigger the handler.
-- **Type**: The type of the event (see [Types](#types)).
+- **Page type**: The page type of the event (see [Types](#page-type)).
 - **Manual registration**: Whether the event must be manually registered or not. See [Manual registration](#manual-registration).
 - **External function**: The event handler function to call from Power Apps during registration. It must be prefixed with a prefix. See [Manual registration](#manual-registration).
 :::
@@ -161,7 +199,7 @@ This table lists all the events that can be subscribed to with Primno.
 Open the decorator link to see the full documentation of the event with usage examples.
 :::
 
-Decorator | Trigger | Type | Manual registration | External function |
+Decorator | Trigger | Page type | Manual registration | External function |
 | --- | --- | --- | --- | --- |
 [`@MnOnFormLoad`](../api-reference/functions/MnOnFormLoad.md) | Form is loaded. | Record | Yes | `onFormLoad` |
 [`@MnOnDataLoad`](../api-reference/functions/MnOnDataLoad.md) | Form data is loaded | Record | No | - |

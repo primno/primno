@@ -192,7 +192,7 @@ export class MyComponent implements Config {
     config: {
         name: string;
     } = {
-        name: "Don\'t set a value here"
+        name: "Do NOT set a value here !"
     }
 }
 ```
@@ -215,10 +215,11 @@ export class MyComponent implements Config {
 Or, the value can be set by the input with a callback:
 
 :::tip
-Add the generic type to the decorator to have the input type in the callback.
+Add the component type to the decorator to enable the discovery of the input type in the callback.
 ```ts
 @MnConfig<MyComponent>(input => ({
     // ...
+    someProperty: input./* Discovery enabled */
 })
 ```
 :::
