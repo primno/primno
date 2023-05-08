@@ -42,9 +42,9 @@ The `start` command starts the developer mode.
 mn start
 ```
 
-This command deploy a special version of Primno that will load the entry points from your local machine. That means that you can edit the code and see the changes immediately after refreshing the page.
+This command deploy a special version of Primno that will load the entry point from your local machine. That means that you can edit the code and see the changes immediately after refreshing the page.
 
-The loading of entry points is done by starting a local web server. The port of the web server is 12357 by default.
+The loading of the entry point is done by starting a local web server. The port of the web server is 12357 by default.
 
 :::important
 If you use the self-signed certificate (enabled by default), you will need to accept it in your browser.
@@ -52,13 +52,11 @@ If you use the self-signed certificate (enabled by default), you will need to ac
 
 ### build
 
-The `build` command create a JS bundle for each entry points. The files are created in the `dist` folder.
+The `build` command create a JS bundle from the entry point. The file is created in the `dist` folder.
 
 ```bash
-mn build [options] [entry point]
+mn build [options]
 ```
-
-The `entry point` is the name of the entry point that you want build. If not specified, it will build all entry points.
 
 #### Options
 
@@ -73,16 +71,12 @@ The `watch` command watch for changes in the source code.
 Files are built in development mode. That means that the JS bundle is not minified and the source map is generated.
 
 ```bash
-mn watch [entry point]
+mn watch
 ```
-
-The `entry point` is the name of the entry point that you want build. If not specified, it will build all entry points.
 
 ### deploy
 
-The `deploy` command deploy the project to Power Apps as web resources.
-
-It will deploy all entry points of the project.
+The `deploy` command deploy the entry point of the project to Power Apps as a web resource.
 
 ```bash
 mn deploy [options]
