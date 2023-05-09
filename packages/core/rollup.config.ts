@@ -28,7 +28,7 @@ if (!watchMode) {
     plugins.push(terser());
 }
 
-const sourcemap = watchMode ? "inline" : false;
+const sourcemap = watchMode;
 
 interface IgnoredWarning {
     code: string;
