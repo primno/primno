@@ -1,7 +1,7 @@
 ---
 title: Use dependency injection to write loosely coupled code
 sidebar_position: 5
-description: Decouple your code from its dependencies. Write flexible and easily testable code. Primno will automatically instantiate the dependencies and pass it to your components.
+description: Decouple your code from its dependencies. Primno will automatically instantiate the dependencies and pass it to your components.
 sidebar_label: Dependency injection
 ---
 
