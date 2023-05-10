@@ -3,6 +3,10 @@ import { hasMethod } from "./common";
 
 /** Indicates whether the form is a Uci form */
 export function isUci(): boolean {
+    if ((Xrm as any).Internal?.isUci()) {
+        return true;
+    }
+
     const globalContext = Xrm.Utility.getGlobalContext();
     return globalContext.getCurrentAppUrl() !== globalContext.getClientUrl();
 }
