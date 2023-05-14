@@ -3,7 +3,7 @@
   "repository": "github:primno/primno",
   "author": "Xavier Monin",
   "description": "Front-end framework for Model-Driven Apps of Power Apps and Dynamics 365.",
-  "version": "0.7.0",
+  "version": "0.8.0",
   "main": "dist/primno.cjs.js",
   "module": "dist/primno.esm.js",
   "types": "dist/primno-api.d.ts",
