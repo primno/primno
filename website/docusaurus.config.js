@@ -74,7 +74,10 @@ const config = {
             'https://github.com/primno/primno/tree/main/website/',
           showLastUpdateTime: true
         },
-        blog: false,
+        blog: {
+          path: 'blog',
+          showReadingTime: true,
+        },
         theme: {
           customCss: [
             require.resolve('./src/css/custom.css'),
@@ -118,6 +121,11 @@ const config = {
             to: '/docs/api-reference',
             position: 'left',
             label: 'API',
+          },
+          {
+            to: 'blog',
+            label: 'Blog',
+            position: 'left'
           },
           {
             href: 'https://github.com/primno/primno',
