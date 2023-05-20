@@ -1,37 +1,39 @@
 ---
-title: How to hide a command bar button
-description: How to hide a command bar button depending on visible tab or field value in Dynamics 365.
+title: How to show/hide a command bar button based on a form state in Dynamics 365
+description: How to show/hide a command bar button depending on visible tab or field value in Dynamics 365.
 slug: hide-button-command-bar
 authors: [Xavier Monin]
 tags: [event, command-bar, tutorial]
 hide_table_of_contents: false
 ---
 
-You can easily hide a button from of the command-bar depending on an external condition. For example, you can hide a button and display it only when a tab is visible or when a field has a specific value.
+Learn how to hide a button in the command-bar based on a form state such as field value or tab visibility. By customizing the button's visibility, you can provide a more dynamic and tailored user experience in your application.
 
-You will need a component of type `record` and subscribe to the event `onEnableRule`. This event is used by the command-bar to determine if the button is enabled or not.
+Let's get started!
 
 <!--truncate-->
 
 ## Prerequisites
 
-You need to have an existing Primno workspace. See [Getting started](../docs/getting-started) to create your first workspace if you don't have one.
+Before you begin, make sure you have an existing Primno workspace. If you don't have one, follow the [Getting started](../docs/getting-started) guide to create your first workspace.
 
 ## Create a component
 
-The first step is to create a component of type `record` with the command below.
+The first step is to create a component of type `record`. Run the following command to generate the component:
 
 ```bash
 mn generate component hide-button
 ```
 
-## Register the enable rule
+## Registering the Enable Rule
 
-We need to subscribe to the events `onEnableRule` to indicate to the command-bar if the button is enabled or not.
+To indicate whether the button is enabled or not, we need to subscribe to the `onEnableRule` event of the command-bar. However, Primno does not automatically register the command-bar events in Dynamics, so we have to do it manually. To learn how to register a command bar event for Primno, refer to the [Command Bar Registration](../docs/guides/events#command-bar) documentation.
 
-The event of enable rule is not automatically registered by Primno in Dynamics, so we need to register it manually. See [Command bar registration](../docs/guides/events#command-bar) for more information.
-
-To register the enable rule in Dynamics, we need create a new enable rule on your button with Ribbon Workbench and set these parameters:
+To register the enable rule in Dynamics, follow these steps:
+1. Use Ribbon Workbench to create a new enable rule on your button.
+2. Add your web resource (format: `<editorPrefix>_/js/<projectName>.js`) in the enable rule.
+3. Add the function call (format: `mn_<projectName>.onEnableRule`)
+4. Set the following parameters:
 
 | Parameter | Value |
 | --- | --- |
@@ -39,13 +41,11 @@ To register the enable rule in Dynamics, we need create a new enable rule on you
 | PrimaryControl | - |
 | String parameter | `hideButton` |
 
-`hideButton` will be the name of our enable rule.
-
-We also need others events, like `onTabChange` or `onFieldChange`, depending on your needs. You don't need to register these events, they are automatically registered by Primno.
+Here, `hideButton` will be the name of our enable rule.
 
 ## Component code
 
-We will use the decorator `@MnOnEnableRule` to subscribe to the event "onEnableRule" of the button.
+In the component code, we will use the `@MnOnEnableRule` decorator to subscribe to the event "onEnableRule" of the button.
 
 ```ts
 import { MnComponent, MnOnTabChange, MnOnEnableRule, CommandBarEventArg } from '@primno/core';
@@ -56,8 +56,7 @@ import { MnComponent, MnOnTabChange, MnOnEnableRule, CommandBarEventArg } from '
   }
 })
 class HideButtonComponent {
-  // Hide the button by default
-  private showButton = false;
+  private showButton = false; // Hide the button by default
 
   @MnOnEnableRule("hideButton")
   onEnableRule(eventArg: CommandBarEventArg) {
@@ -66,16 +65,18 @@ class HideButtonComponent {
 }
 ```
 
-Now, we need to subscribe to a specific event (field, tab, ..) to hide or display the button.
-We need to call `refreshRibbon()` in the event handler to refresh the command-bar. That forces the command-bar to re-evaluate the enable rules.
+To hide or display the button based on specific events (e.g., field change, tab change), you need to subscribe to those events and call `refreshRibbon()` in the event handler.
+This will refresh the command-bar and re-evaluate the enable rules.
 
-You will find below some examples.
+You don't need to manually register these events in Dynamics. Primno will automatically register them at runtime for you.
 
-### Show button on tab change
+Here are a few examples:
 
-If you want to show the button only when a tab is visible, subscribe to the event `onTabChange` and change the value of `showButton` when the tab is visible.
+### Showing the Button on Tab Change
 
-Add the following code to your component.
+If you want to show the button only when a tab is visible, subscribe to the `onTabChange` event and update the `showButton` value accordingly. Don't forget to call `refreshRibbon()` to refresh the command-bar.
+
+Add the following code in your component.
 ```ts
 @MnOnTabChange("tabName")
 onTabChange(eventArg: FormEventArg) {
@@ -85,16 +86,92 @@ onTabChange(eventArg: FormEventArg) {
 }
 ```
 
-### Hide button on field change
+### Hiding the Button on Field Change
 
-To hide the button when a field has a specific value, subscribe to the event `onFieldChange` and change the value of `showButton` depending on the value of the field.
+To hide the button when a specific field has a certain value, subscribe to the `onFieldChange` event and update the  `showButton` value based on the field's value.
 
-Add the following code to your component.
+Add the following code in your component.
 ```ts
 @MnOnFieldChange("fieldname")
 onFieldChange(eventArg: FormEventArg) {
   const fieldNameAttr = eventArg.formCtx.data.entity.attributes.get("fieldname");
   this.showButton = fieldNameAttr.getValue() !== "value";
   formCtx.ui.refreshRibbon();
+}
+```
+
+## Reusing the component
+
+To reuse the component in others forms or tables, you need to set a input and a config property in the component.
+
+Example for a component that shows a button only when a tab is visible:
+
+```ts title="hide-button/hide-button.component.ts"
+import { MnComponent, MnOnTabChange, MnInput, MnOnEnableRule, CommandBarEventArg, Input, Config } from '@primno/core';
+
+/**
+ * Describe the input property of the HideButtonComponent.
+ */
+interface HideButtonOptions {
+  tabName: string;
+  enableRuleName: string;
+}
+
+@MnComponent({
+  scope: {
+    page: "record"
+  }
+})
+class HideButtonComponent implements Input, Config {
+  /**
+   * The input property is used to pass data to the component.
+   */
+  @MnInput()
+  input!: HideButtonOptions;
+
+  /**
+   * The config property is used to configure the component.
+   * Here, it used the input property.
+   */
+  @MnConfig(i => i)
+  config!: HideButtonOptions;
+
+  private showButton = false; // Hide the button by default
+
+  @MnOnEnableRule(c => c.enableRuleName)
+  onEnableRule(eventArg: CommandBarEventArg) {
+    return this.showButton;
+  }
+
+  @MnOnTabChange(c => c.tabName)
+  onTabChange(eventArg: FormEventArg) {
+    const tab = eventArg.formCtx.ui.tabs.get(this.config.tabName);
+    this.showButton = tab.getDisplayState() === "expanded";
+    formCtx.ui.refreshRibbon();
+  }
+}
+```
+
+Example of usage in a parent component:
+
+```ts title="account.component.ts"
+import { MnComponent, MnSubComponent, SubComponent } from '@primno/core';
+import { HideButtonComponent } from './hide-button/hide-button.component';
+
+@MnComponent({
+  scope: {
+    page: "record"
+    table: "account"
+  }
+})
+class AccountComponent {
+  @MnSubComponent({
+    component: HideButtonComponent,
+    input: {
+      tabName: "general",
+      enableRuleName: "hideButton"
+    }
+  })
+  public hideButton!: SubComponent<HideButtonComponent>;
 }
 ```
