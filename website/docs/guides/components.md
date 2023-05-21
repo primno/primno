@@ -278,7 +278,7 @@ export class MyComponent {
 }
 ```
 
-See [Events](events.md) to learn more.
+See [Events](events/index.mdx) to learn more.
 
 ## Sub-component
 
@@ -339,7 +339,7 @@ Disable a sub-component will destroy it and its children recursively.
 mySubComponent.disable();
 ```
 
-When a component is deactivated it is destroyed and the subscribed [events](events.md) are automatically unsubscribed.
+When a component is deactivated it is destroyed and the subscribed [events](events/index.mdx) are automatically unsubscribed.
 
 ### Transmit data
 

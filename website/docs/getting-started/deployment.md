@@ -89,7 +89,7 @@ The JS web resource must be added to the `account` form to be usable and the `on
 
 The column change event handler of the `name` and `telephone1` columns don't need to be added because Primno will add them automatically at runtime.
 
-To find out more about the events automatically subscribed by Primno see [Events](../guides/events.md) page.
+To find out more about the events automatically subscribed by Primno see [Events](../guides/events/events-list.md) page.
 
 To register the `onload` event handler, the function name to call is `mn_myproject.onFormLoad`.
 

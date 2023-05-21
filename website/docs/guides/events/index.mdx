@@ -1,0 +1,102 @@
+---
+title: Easily subscribe to Power Apps events with decorators
+sidebar_position: 4
+description: Subscribe to Power Apps events in your component by using decorators (MnOnFormLoad, MnOnColumnChange, etc.)
+sidebar_label: Events
+---
+import DocCardList from '@theme/DocCardList';
+
+# Subscribe to Power Apps events
+
+Power Apps provides a lot of events that can be subscribed to. For example, when a form is loaded, when a column value is changed or when a command-bar button is clicked.
+
+With Primno, a Power Apps event can be subscribed using decorators in a component. It must be associated with a method that will be the event handler called when the event occurs.
+
+Each events decorator is prefixed with `MnOn` and the event name is in pascal case. For example, the `Form load` event is associated with the `@MnOnFormLoad()` decorator.
+
+```ts title="Subscribe to the form load event."
+@MnOnFormLoad()
+public onFormLoad(eventArg: FormEventArgs) {
+    // Do something
+}
+```
+
+:::important
+Each event decorator has a dedicated documentation page that provides explanations and usage examples.
+See the [full events list](events-list.md).
+
+Eg: [MnOnColumnChange](../../api-reference/functions/MnOnColumnChange.md).
+:::
+
+## Page type
+
+The page type define the main source of the event:
+
+| Page type | Description
+| --- | --- |
+| Record | Fired on a form (principal form, quick create form). |
+| List | Fired on a home-grid, sub-grid or associated grid. |
+
+A event can be available on one or both page types. For example, the `form load` event is only available on a record page when the `enable rule` (command-bar) event is available on both record and list pages. See the [full events list](events-list.md).
+
+A component defines its page type using the [Scope](../components.md#scope) property of its `MnComponent` decorator.
+
+:::caution
+A component targeting the "List" page type cannot subscribe to a "Record" event and vice versa.
+:::
+
+The page type defined the execution context of the [event handler](#event-handler), a record event performs operations on a form ([form context](https://learn.microsoft.com/en-us/power-apps/developer/model-driven-apps/clientapi/clientapi-form-context)) when a list event performs operations on a grid ([grid context](https://learn.microsoft.com/en-us/power-apps/developer/model-driven-apps/clientapi/clientapi-grid-context)).
+
+## Event handler
+
+The event handler is a component method that will be called when the event occurs.
+
+It's argument depends on the event that occurred. For example, the `column change` event will contain the context of the form on which it is executed, whereas the `command invoke` event will contain the context of the associated grid control or form.
+
+## Target
+
+Some events require a target to be subscribed.
+A target can be a column, control or command name. For example, `MnOnColumnChange` requires a column name, whereas `MnOnFormLoad` doesn't.
+
+The target is specified in the decorator as a string argument or function that returns a string from the component configuration. See [Component configuration](../components.md#configuration).
+
+:::tip
+Use the [`ConfigOf`](../../api-reference/types/ConfigOf.md) type to get the type of the component configuration.
+:::
+
+Example:
+
+```ts
+@MnComponent({
+    scope: {
+        pageType: "record",
+        table: 'account'
+    }
+})
+export class MyComponent {
+    @MnConfig({
+        column: 'name'
+    })
+    config: {
+        column: string;
+    };
+
+    /**
+     * Subscribe to the column change event of the hard-coded column 'accountnumber'.
+     */
+    @MnOnColumnChange('accountnumber')
+    public onAccountNumberChange(eventArg: FormEventArgs) {
+        // Do something
+    }
+
+    /**
+     * Subscribe to the column change event of the column specified in the configuration, here 'name'.
+     */
+    @MnOnColumnChange((cfg: ConfigOf<NotificationComponent>) => cfg.notificationColumn)
+    public onColumnChange(eventArg: FormEventArgs) {
+        // Do something
+    }
+}
+```
+
+<DocCardList />

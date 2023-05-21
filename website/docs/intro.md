@@ -86,7 +86,7 @@ export class ContactComponent {
 }
 ```
 
-To learn more see [Components](./guides/components.md) and [Events](./guides/events.md).
+To learn more see [Components](./guides/components.md) and [Events](./guides/events/index.mdx).
 
 ### Dependency injection
 

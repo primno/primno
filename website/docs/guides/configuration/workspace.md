@@ -26,7 +26,7 @@ The build configuration contains the following properties:
 
 Property | Description
 --- | ---
-`moduleNameTemplate` | [Format of prefix](#module-name-template) of an external function. Used when [subscribing](../events.md#manual-registration) to an event.
+`moduleNameTemplate` | [Format of prefix](#module-name-template) of an external function. Used when [registering](../events/manual-registration.md) an event.
 
 ### Module name template
 
